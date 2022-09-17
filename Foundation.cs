@@ -6,7 +6,7 @@ namespace Foundation {
         public static Foundation Shared {
             get {
                 if (shared == null) {
-                    GameObject container = new GameObject("Container");
+                    GameObject container = new GameObject("Foundation Container");
                     shared = container.AddComponent<Foundation>();
                     container.hideFlags = HideFlags.HideAndDontSave;
                 }

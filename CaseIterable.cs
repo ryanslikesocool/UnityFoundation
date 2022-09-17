@@ -1,7 +1,5 @@
-/*
 namespace Foundation {
-    public interface CaseIterable {
-        public static CaseIterable[] allCases { get; }
+    public interface CaseIterable<Value> {
+        public static Value[] allCases { get; }
     }
 }
-*/

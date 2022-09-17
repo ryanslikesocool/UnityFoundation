@@ -1,16 +1,15 @@
 using System;
 
-/*
+
 namespace Foundation {
     [Serializable]
     public struct Hasher {
-        public void Combine<H>(H value) where H : Hashable {
+        private HashCode hashCode;
 
+        public void Combine<H>(H value) {
+            hashCode.Add(value);
         }
 
-        public int Finalize() {
-
-        }
+        public int Finalize() => hashCode.ToHashCode();
     }
 }
-*/
