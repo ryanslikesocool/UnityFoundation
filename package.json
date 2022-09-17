@@ -1,14 +1,15 @@
 {
-  "name": "com.developedwithlove.somepackage",
-  "displayName": "Some Package",
+  "name": "com.developedwithlove.foundation",
+  "displayName": "Foundation",
   "version": "1.0.0",
-  "unity": "2020.3",
+  "unity": "2021.3",
   "description": "Some package description",
-  "documentationUrl": "https://github.com/ryanslikesocool/PackageURL",
+  "documentationUrl": "https://github.com/ryanslikesocool/Foundation",
   "author": {
     "name": "Ryan Boyer",
     "email": "ryanjboyer@gmail.com",
     "url": "http://ryanjboyer.com/"
   },
-  "license": "MIT"
+  "license": "MIT",
+  "type": "library"
 }
