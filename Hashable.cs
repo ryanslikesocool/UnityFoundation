@@ -1,8 +1,7 @@
 namespace Foundation {
     public interface Hashable {
-        public int GetHashCode();
+        //public int GetHashCode();
 
-        /*
         public void Hash(ref Hasher hasher);
 
         public int hashValue {
@@ -12,6 +11,5 @@ namespace Foundation {
                 return hasher.Finalize();
             }
         }
-        */
     }
 }
