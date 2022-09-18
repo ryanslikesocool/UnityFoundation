@@ -2,10 +2,17 @@ using System;
 
 namespace Foundation {
     [Serializable]
+#if ODIN_INSPECTOR_3
+    [Sirenix.OdinInspector.InlineProperty]
+#endif
     public struct UUID : Hashable, IEquatable<UUID> {
         public static UUID Empty = new UUID(Guid.Empty);
 
-        public readonly Guid value;
+        [UnityEngine.SerializeField]
+#if ODIN_INSPECTOR_3
+        [Sirenix.OdinInspector.HideLabel]
+#endif
+        private readonly Guid value;
 
         public string uuidString => value.ToString();
 
