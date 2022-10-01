@@ -3,7 +3,7 @@
   "displayName": "Foundation",
   "version": "1.0.0",
   "unity": "2021.3",
-  "description": "Some package description",
+  "description": "Access essential data types and collections to define the base layer of functionality for your app.",
   "documentationUrl": "https://github.com/ryanslikesocool/Foundation",
   "author": {
     "name": "Ryan Boyer",
