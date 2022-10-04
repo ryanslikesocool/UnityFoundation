@@ -3,23 +3,37 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace Foundation {
-    public class NotificationCenter : MonoBehaviour {
-        private static NotificationCenter shared = null;
-        private static NotificationCenter Shared {
+    public partial class NotificationCenter {
+        private static NotificationCenter @default = null;
+
+        /// <summary>
+        /// The app’s default notification center.
+        /// </summary>
+        public static NotificationCenter Default {
             get {
-                if (shared == null) {
-                    shared = Foundation.Shared.gameObject.AddComponent<NotificationCenter>();
+                if (@default == null) {
+                    @default = new NotificationCenter();
                 }
-                return shared;
+                return @default;
             }
         }
 
         public delegate void Callback(Notification notification);
 
-        private static Dictionary<int, NotificationEvent> events = new Dictionary<int, NotificationEvent>();
-        private static Dictionary<int, List<Callback>> observers = new Dictionary<int, List<Callback>>();
+        private Dictionary<int, NotificationEvent> events = new Dictionary<int, NotificationEvent>();
+        private Dictionary<int, List<Callback>> observers = new Dictionary<int, List<Callback>>();
+    }
 
-        private class NotificationEvent {
+    // MARK: - Internal
+
+    public partial class NotificationCenter {
+        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
+        private static void Init() {
+            @default?.Clear();
+            @default = null;
+        }
+
+        private struct NotificationEvent {
             public event Callback eventDelegate;
 
             public void Invoke(Notification notification) {
@@ -27,77 +41,62 @@ namespace Foundation {
             }
         }
 
-        private void OnApplicationQuit() {
-            shared = null;
+        private int ValidateNotification(Notification.Name name) {
+            int nameHash = name.GetHashCode();
+            if (!events.ContainsKey(nameHash)) {
+                events.Add(nameHash, new NotificationEvent());
+                observers.Add(nameHash, new List<Callback>());
+            }
+            return nameHash;
+        }
+
+        private void Clear() {
+            events.Clear();
             foreach (int n in observers.Keys) {
                 observers[n].Clear();
             }
+            observers.Clear();
         }
-
-        #region Static
-
-        public static void Post(Notification.Name notification, object data) {
-            int hash = notification.GetHashCode();
-            ValidateNotification(hash);
-            Notification obj = new Notification(notification, data);
-            events[hash].Invoke(obj);
-        }
-
-        public static void AddObserver(Notification.Name notification, Callback action) {
-            int hash = notification.GetHashCode();
-            ValidateNotification(hash);
-
-            observers[hash].Add(action);
-            events[hash].eventDelegate += action;
-        }
-
-        public static void RemoveObserver(Notification.Name notification, Callback action) {
-            int hash = notification.GetHashCode();
-            ValidateNotification(hash);
-
-            observers[hash].Remove(action);
-            events[hash].eventDelegate -= action;
-        }
-
-        public static void RemoveAllObservers(Notification.Name notification) {
-            int hash = notification.GetHashCode();
-            ValidateNotification(hash);
-
-            foreach (Callback observer in observers[hash]) {
-                events[hash].eventDelegate -= observer;
-            }
-            observers[hash].Clear();
-        }
-
-        #endregion
-
-        #region Internal
-
-        private static void ValidateNotification(int notification) {
-            if (!events.ContainsKey(notification)) {
-                events.Add(notification, new NotificationEvent());
-                observers.Add(notification, new List<Callback>());
-            }
-        }
-
-        #endregion
     }
 
-    public class Notification : EventArgs {
-        public readonly Name name;
-        public readonly object data;
+    // MARK: - Post
 
-        public Notification(Name name, object data) {
-            this.name = name;
-            this.data = data;
+    public partial class NotificationCenter {
+        public void Post(Notification notification) {
+            int hash = ValidateNotification(notification.name);
+            events[hash].Invoke(notification);
         }
 
-        public class Name {
-            public readonly string value;
+        public void Post(Notification.Name name, object sender) {
+            int hash = ValidateNotification(name);
+            Notification notification = new Notification(name, sender, null);
+            events[hash].Invoke(notification);
+        }
 
-            public Name(string value) {
-                this.value = value;
-            }
+        public void Post(Notification.Name name, object sender, Dictionary<Hashable, object> userInfo) {
+            int hash = ValidateNotification(name);
+            Notification notification = new Notification(name, sender, userInfo);
+            events[hash].Invoke(notification);
+        }
+    }
+
+    // MARK: - Add Observer
+
+    public partial class NotificationCenter {
+        public void AddObserver(Notification.Name name, Callback block) {
+            int hash = ValidateNotification(name);
+            observers[hash].Add(block);
+            events[hash].eventDelegate += block;
+        }
+    }
+
+    // MARK: - Remove Observer
+
+    public partial class NotificationCenter {
+        public void RemoveObserver(Callback observer, Notification.Name name) {
+            int hash = ValidateNotification(name);
+            observers[hash].Remove(observer);
+            events[hash].eventDelegate -= observer;
         }
     }
 }
