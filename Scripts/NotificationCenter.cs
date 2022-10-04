@@ -73,7 +73,7 @@ namespace Foundation {
             events[hash].Invoke(notification);
         }
 
-        public void Post(Notification.Name name, object sender, Dictionary<Hashable, object> userInfo) {
+        public void Post(Notification.Name name, object sender, object userInfo) {
             int hash = ValidateNotification(name);
             Notification notification = new Notification(name, sender, userInfo);
             events[hash].Invoke(notification);

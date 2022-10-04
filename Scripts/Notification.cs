@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -5,7 +6,7 @@ namespace Foundation {
     public struct Notification : Hashable, CustomStringConvertible {
         public readonly Name name;
         public readonly object sender;
-        public readonly Dictionary<Hashable, object> userInfo;
+        public readonly object userInfo;
 
         public string description {
             get {
@@ -32,13 +33,7 @@ namespace Foundation {
             this.userInfo = null;
         }
 
-        public Notification(Name name, Dictionary<Hashable, object> userInfo) {
-            this.name = name;
-            this.sender = null;
-            this.userInfo = userInfo;
-        }
-
-        public Notification(Name name, object sender, Dictionary<Hashable, object> userInfo) {
+        public Notification(Name name, object sender, object userInfo) {
             this.name = name;
             this.sender = sender;
             this.userInfo = userInfo;
@@ -50,16 +45,24 @@ namespace Foundation {
             hasher.Combine(userInfo);
         }
 
-        public struct Name : Hashable {
+        public struct Name {
             public readonly string value;
 
             public Name(string value) {
                 this.value = value;
             }
 
-            public void Hash(ref Hasher hasher) {
-                hasher.Combine(value);
+            public override bool Equals(object obj) {
+                if (obj is Notification.Name other) {
+                    return value == other.value;
+                }
+                return false;
             }
+
+            public override int GetHashCode() => value.GetHashCode();
+
+            public static bool operator ==(Name lhs, Name rhs) => lhs.value == rhs.value;
+            public static bool operator !=(Name lhs, Name rhs) => lhs.value != rhs.value;
         }
     }
 }
