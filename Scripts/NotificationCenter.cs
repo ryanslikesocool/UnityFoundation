@@ -18,7 +18,7 @@ namespace Foundation {
             }
         }
 
-        public delegate void Callback(Notification notification);
+        public delegate void Callback(in Notification notification);
 
         private Dictionary<int, NotificationEvent> events = new Dictionary<int, NotificationEvent>();
         private Dictionary<int, List<Callback>> observers = new Dictionary<int, List<Callback>>();
@@ -33,15 +33,15 @@ namespace Foundation {
             @default = null;
         }
 
-        private struct NotificationEvent {
+        private class NotificationEvent {
             public event Callback eventDelegate;
 
-            public void Invoke(Notification notification) {
+            public void Invoke(in Notification notification) {
                 eventDelegate?.Invoke(notification);
             }
         }
 
-        private int ValidateNotification(Notification.Name name) {
+        private int ValidateNotification(in Notification.Name name) {
             int nameHash = name.GetHashCode();
             if (!events.ContainsKey(nameHash)) {
                 events.Add(nameHash, new NotificationEvent());
@@ -62,28 +62,26 @@ namespace Foundation {
     // MARK: - Post
 
     public partial class NotificationCenter {
-        public void Post(Notification notification) {
+        public void Post(in Notification notification) {
             int hash = ValidateNotification(notification.name);
             events[hash].Invoke(notification);
         }
 
-        public void Post(Notification.Name name, object sender) {
+        public void Post(in Notification.Name name, in object sender) {
             int hash = ValidateNotification(name);
-            Notification notification = new Notification(name, sender, null);
-            events[hash].Invoke(notification);
+            Post(new Notification(name, sender, null));
         }
 
-        public void Post(Notification.Name name, object sender, object userInfo) {
+        public void Post(in Notification.Name name, in object sender, in object data) {
             int hash = ValidateNotification(name);
-            Notification notification = new Notification(name, sender, userInfo);
-            events[hash].Invoke(notification);
+            Post(new Notification(name, sender, data));
         }
     }
 
     // MARK: - Add Observer
 
     public partial class NotificationCenter {
-        public void AddObserver(Notification.Name name, Callback block) {
+        public void AddObserver(in Notification.Name name, in Callback block) {
             int hash = ValidateNotification(name);
             observers[hash].Add(block);
             events[hash].eventDelegate += block;
@@ -93,7 +91,7 @@ namespace Foundation {
     // MARK: - Remove Observer
 
     public partial class NotificationCenter {
-        public void RemoveObserver(Callback observer, Notification.Name name) {
+        public void RemoveObserver(in Notification.Name name, in Callback observer) {
             int hash = ValidateNotification(name);
             observers[hash].Remove(observer);
             events[hash].eventDelegate -= observer;

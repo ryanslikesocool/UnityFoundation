@@ -20,17 +20,17 @@ namespace Foundation {
             value = new Guid(a, b, c, d, e, f, g, h, i, j, k);
         }
 
-        public UUID(byte[] bytes) {
+        public UUID(in byte[] bytes) {
             value = new Guid(bytes);
         }
 
-        public UUID(Guid value) {
+        public UUID(in Guid value) {
             this.value = value;
         }
 
         public static UUID Create() => new UUID(Guid.NewGuid());
 
-        public UUID(string uuidString) {
+        public UUID(in string uuidString) {
             value = new Guid(uuidString);
         }
 

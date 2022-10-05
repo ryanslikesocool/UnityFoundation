@@ -6,7 +6,7 @@ namespace Foundation {
     public struct Notification : Hashable, CustomStringConvertible {
         public readonly Name name;
         public readonly object sender;
-        public readonly object userInfo;
+        public readonly object data;
 
         public string description {
             get {
@@ -14,41 +14,41 @@ namespace Foundation {
                 if (sender != null) {
                     stringBuilder.AppendFormat(", sender = {0}", sender);
                 }
-                if (userInfo != null) {
-                    stringBuilder.AppendFormat(", userInfo = {0}", userInfo);
+                if (data != null) {
+                    stringBuilder.AppendFormat(", data = {0}", data);
                 }
                 return stringBuilder.ToString();
             }
         }
 
-        public Notification(Name name) {
+        public Notification(in Name name) {
             this.name = name;
             this.sender = null;
-            this.userInfo = null;
+            this.data = null;
         }
 
-        public Notification(Name name, object sender) {
+        public Notification(in Name name, in object sender) {
             this.name = name;
             this.sender = sender;
-            this.userInfo = null;
+            this.data = null;
         }
 
-        public Notification(Name name, object sender, object userInfo) {
+        public Notification(in Name name, in object sender, in object data) {
             this.name = name;
             this.sender = sender;
-            this.userInfo = userInfo;
+            this.data = data;
         }
 
         public void Hash(ref Hasher hasher) {
             hasher.Combine(name);
             hasher.Combine(sender);
-            hasher.Combine(userInfo);
+            hasher.Combine(data);
         }
 
         public struct Name {
             public readonly string value;
 
-            public Name(string value) {
+            public Name(in string value) {
                 this.value = value;
             }
 

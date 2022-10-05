@@ -10,22 +10,22 @@ namespace Foundation {
 
         public string description => $"Range<{typeof(Bound)}>({lowerBound.ToString()} ..< {upperBound.ToString()})";
 
-        public Range(Bound lowerBound, Bound upperBound) {
+        public Range(in Bound lowerBound, in Bound upperBound) {
             this.lowerBound = lowerBound;
             this.upperBound = upperBound;
         }
 
-        public bool Contains(Bound value) => (value.CompareTo(lowerBound) >= 0) && (value.CompareTo(upperBound) < 0);
+        public bool Contains(in Bound value) => (value.CompareTo(lowerBound) >= 0) && (value.CompareTo(upperBound) < 0);
 
-        public bool Contains(Range<Bound> other) => (other.lowerBound.CompareTo(lowerBound) >= 0) && (other.upperBound.CompareTo(upperBound) <= 0);
+        public bool Contains(in Range<Bound> other) => (other.lowerBound.CompareTo(lowerBound) >= 0) && (other.upperBound.CompareTo(upperBound) <= 0);
 
-        public bool Overlaps(Range<Bound> other) {
+        public bool Overlaps(in Range<Bound> other) {
             bool lower = Contains(other.lowerBound) || other.Contains(lowerBound);
             bool upper = Contains(other.upperBound) || other.Contains(upperBound);
             return lower || upper;
         }
 
-        public Range<Bound> ClampedTo(Range<Bound> other) {
+        public Range<Bound> ClampedTo(in Range<Bound> other) {
             Bound lower = lowerBound.CompareTo(other.lowerBound) >= 0 ? lowerBound : other.lowerBound;
             Bound upper = upperBound.CompareTo(other.upperBound) <= 0 ? upperBound : other.upperBound;
             return new Range<Bound>(lower, upper);

@@ -6,7 +6,7 @@ namespace Foundation {
     public struct Hasher {
         private HashCode hashCode;
 
-        public void Combine<H>(H value) {
+        public void Combine<H>(in H value) {
             hashCode.Add(value);
         }
 

@@ -17,11 +17,11 @@ namespace Foundation {
         public Func<Value, Value> willSet = null;
         public Action<Value> didSet = null;
 
-        public PropertyWrapper(Value initialValue) {
+        public PropertyWrapper(in Value initialValue) {
             this._wrappedValue = initialValue;
         }
 
-        public PropertyWrapper(Value initialValue, Func<Value, Value> willSet, Action<Value> didSet) {
+        public PropertyWrapper(in Value initialValue, in Func<Value, Value> willSet, in Action<Value> didSet) {
             this._wrappedValue = initialValue;
             this.willSet = willSet;
             this.didSet = didSet;
