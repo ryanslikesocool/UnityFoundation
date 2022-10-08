@@ -18,7 +18,7 @@ namespace Foundation {
             }
         }
 
-        public delegate void Callback(in Notification notification);
+        public delegate void Callback(Notification notification);
 
         private Dictionary<int, NotificationEvent> events = new Dictionary<int, NotificationEvent>();
         private Dictionary<int, List<Callback>> observers = new Dictionary<int, List<Callback>>();
