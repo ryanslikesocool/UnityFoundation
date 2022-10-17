@@ -38,5 +38,18 @@ namespace Foundation {
             }
             return result.ToArray();
         }
+
+        public static int FirstIndex<Element>(this Element[] collection, Func<Element, bool> body) {
+            for (int i = 0; i < collection.Length; i++) {
+                if (body(collection[i])) {
+                    return i;
+                }
+            }
+            return -1;
+        }
+
+        public static Element First<Element>(this Element[] collection) => collection[0];
+
+        public static Element Last<Element>(this Element[] collection) => collection[collection.Length - 1];
     }
 }

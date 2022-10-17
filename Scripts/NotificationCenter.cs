@@ -96,5 +96,12 @@ namespace Foundation {
             observers[hash].Remove(observer);
             events[hash].eventDelegate -= observer;
         }
+
+        public void RemoveAllObservers(in Notification.Name name) {
+            int hash = ValidateNotification(name);
+            foreach(Callback observer in  observers[hash]) {
+                events[hash].eventDelegate -= observer;
+            }
+        }
     }
 }
