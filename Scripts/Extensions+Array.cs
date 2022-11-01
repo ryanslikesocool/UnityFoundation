@@ -38,5 +38,12 @@ namespace Foundation {
             int index = UnityEngine.Random.Range(0, collection.Length);
             return collection[index];
         }
+
+        public static Element[] Fill<Element>(this Element[] collection, Element value) {
+            for (int i = 0; i < collection.Length; i++) {
+                collection[i] = value;
+            }
+            return collection;
+        }
     }
 }
