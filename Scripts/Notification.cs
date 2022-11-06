@@ -21,6 +21,8 @@ namespace Foundation {
             }
         }
 
+        public T ReadData<T>() => (T)data;
+
         public Notification(in Name name) {
             this.name = name;
             this.sender = null;
