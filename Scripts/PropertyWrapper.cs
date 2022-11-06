@@ -26,7 +26,9 @@ namespace Foundation {
         public PropertyWrapper(in Value initialValue, Func<Value, Value> willSet, Action<Value> didSet) {
             this._wrappedValue = initialValue;
             this.willSetFunction = (Value oldValue, ref Value newValue) => {
-                newValue = willSet(newValue);
+                if (willSet != null) {
+                    newValue = willSet(newValue);
+                }
             };
             this.didSetFunction = didSet;
         }
@@ -40,7 +42,7 @@ namespace Foundation {
         public PropertyWrapper(in Value initialValue, Action<Value, Value> willSet, Action<Value> didSet) {
             this._wrappedValue = initialValue;
             this.willSetFunction = (Value oldValue, ref Value newValue) => {
-                willSet(oldValue, newValue);
+                willSet?.Invoke(oldValue, newValue);
             };
             this.didSetFunction = didSet;
         }
