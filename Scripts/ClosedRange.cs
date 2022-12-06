@@ -2,7 +2,7 @@ using System;
 
 namespace Foundation {
     [Serializable]
-    public struct ClosedRange<Bound> : CustomStringConvertible where Bound : IComparable<Bound>, IEquatable<Bound> {
+    public readonly struct ClosedRange<Bound> : CustomStringConvertible where Bound : IComparable<Bound>, IEquatable<Bound> {
         public readonly Bound lowerBound;
         public readonly Bound upperBound;
 

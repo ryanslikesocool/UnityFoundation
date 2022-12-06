@@ -5,7 +5,7 @@ namespace Foundation {
 #if ODIN_INSPECTOR_3
     [Sirenix.OdinInspector.InlineProperty]
 #endif
-    public struct UUID : Hashable, IEquatable<UUID> {
+    public readonly struct UUID : Hashable, IEquatable<UUID> {
         public static UUID Empty = new UUID(Guid.Empty);
 
         [UnityEngine.SerializeField]

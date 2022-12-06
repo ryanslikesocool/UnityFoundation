@@ -47,7 +47,7 @@ namespace Foundation {
             hasher.Combine(data);
         }
 
-        public struct Name {
+        public readonly struct Name {
             public readonly string value;
 
             public Name(in string value) {
