@@ -1,4 +1,3 @@
-/*
 using System;
 
 namespace Foundation {
@@ -35,4 +34,3 @@ namespace Foundation {
         //public static Range<Bound> operator ..<(Bound lowerBound, Bound upperBound) => new Range(lowerBound, upperBound);
     }
 }
-*/
