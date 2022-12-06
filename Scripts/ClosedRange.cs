@@ -1,3 +1,4 @@
+/*
 using System;
 
 namespace Foundation {
@@ -34,3 +35,4 @@ namespace Foundation {
         //public static ClosedRange<Bound> operator ...(Bound lowerBound, Bound upperBound) => new ClosedRange(lowerBound, upperBound);
     }
 }
+*/

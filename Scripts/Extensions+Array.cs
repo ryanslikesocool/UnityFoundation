@@ -32,7 +32,7 @@ namespace Foundation {
 
         public static Element First<Element>(this Element[] collection) => collection[0];
 
-        public static Element Last<Element>(this Element[] collection) => collection[collection.Length - 1];
+        public static Element Last<Element>(this Element[] collection) => collection[^1];
 
         public static Element Random<Element>(this Element[] collection) {
             int index = UnityEngine.Random.Range(0, collection.Length);
