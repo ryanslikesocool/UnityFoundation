@@ -1,5 +1,4 @@
 using System;
-using UnityEngine;
 
 namespace Foundation {
     public static class Guard {
@@ -9,16 +8,26 @@ namespace Foundation {
             public GuardClauseException(string message, Exception inner) : base(message, inner) { }
         }
 
-        public static void NotNull(object value, string name) {
-            if (value != null) { return; }
+        public static void NotNull<Value>(in Value value, in string name) {
+            if (!value.Equals((Value)default)) { return; }
 
-            throw new GuardClauseException(string.Empty, new ArgumentNullException(name ?? nameof(value)));
+            throw new GuardClauseException("Was expecting a non-null object.", new ArgumentNullException(name ?? nameof(value)));
         }
 
-        public static void Require(Func<bool> predicate, string message) {
+        public static void Require(bool condition, in string message) {
+            if (condition) { return; }
+
+            throw new GuardClauseException(message);
+        }
+
+        public static void Require(Func<bool> predicate, in string message) {
             if (predicate()) { return; }
 
             throw new GuardClauseException(message);
+        }
+
+        public static void NotImplemented() {
+            throw new NotImplementedException();
         }
     }
 }

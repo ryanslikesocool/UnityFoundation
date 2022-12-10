@@ -20,5 +20,14 @@ namespace Foundation {
             }
             return true;
         }
+
+        public static Element First<Element>(this IEnumerable<Element> collection, Func<Element, bool> body) {
+            foreach (Element element in collection) {
+                if (body(element)) {
+                    return element;
+                }
+            }
+            return default;
+        }
     }
 }

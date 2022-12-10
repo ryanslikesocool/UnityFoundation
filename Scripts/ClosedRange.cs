@@ -1,6 +1,10 @@
 using System;
+using System.Collections;
 
 namespace Foundation {
+    /// <summary>
+    /// An interval from a lower bound up to, and including, an upper bound.
+    /// </summary>
     [Serializable]
     public readonly struct ClosedRange<Bound> : CustomStringConvertible where Bound : IComparable<Bound>, IEquatable<Bound> {
         public readonly Bound lowerBound;
@@ -32,5 +36,35 @@ namespace Foundation {
         }
 
         //public static ClosedRange<Bound> operator ...(Bound lowerBound, Bound upperBound) => new ClosedRange(lowerBound, upperBound);
+    }
+
+    public static partial class Extensions {
+        public static System.Range SystemRange(this ClosedRange<int> range) => new System.Range(new Index(range.lowerBound), new Index(range.upperBound + 1));
+
+        public static IEnumerator GetEnumerator(this ClosedRange<int> range) => new IntClosedRangeEnumerator(range);
+    }
+
+    internal class IntClosedRangeEnumerator : IEnumerator {
+        public ClosedRange<int> _range;
+
+        private int position;
+
+        public IntClosedRangeEnumerator(ClosedRange<int> range) {
+            _range = range;
+            position = range.lowerBound - 1;
+        }
+
+        public bool MoveNext() {
+            position++;
+            return (position <= _range.upperBound);
+        }
+
+        public void Reset() {
+            position = _range.lowerBound - 1;
+        }
+
+        object IEnumerator.Current => Current;
+
+        public int Current => position;
     }
 }

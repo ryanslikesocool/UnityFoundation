@@ -3,6 +3,8 @@ using System.Collections.Generic;
 
 namespace Foundation {
     public static partial class Extensions {
+        public static Range<int> Indices(this Array array) => new Range<int>(0, array.Length);
+
         public static Result[] Map<Element, Result>(this Element[] collection, Func<Element, Result> body) {
             Result[] result = new Result[collection.Length];
             for (int i = 0; i < collection.Length; i++) {
