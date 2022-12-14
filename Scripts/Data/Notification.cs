@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 
 namespace Foundation {
-    public struct Notification : Hashable, CustomStringConvertible {
+    public struct Notification : CustomStringConvertible { // Hashable
         public readonly Name name;
         public readonly object sender;
         public readonly object data;
@@ -41,11 +41,13 @@ namespace Foundation {
             this.data = data;
         }
 
+        /*
         public void Hash(ref Hasher hasher) {
             hasher.Combine(name);
             hasher.Combine(sender);
             hasher.Combine(data);
         }
+        */
 
         public readonly struct Name {
             public readonly string value;

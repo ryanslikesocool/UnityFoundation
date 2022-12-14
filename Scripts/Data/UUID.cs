@@ -1,11 +1,14 @@
 using System;
 
 namespace Foundation {
+    /// <summary>
+    /// A universally unique value to identify types, interfaces, and other items.
+    /// </summary>
     [Serializable]
 #if ODIN_INSPECTOR_3
     [Sirenix.OdinInspector.InlineProperty]
 #endif
-    public struct UUID : Hashable, IEquatable<UUID> {
+    public struct UUID : IEquatable<UUID> { //Hashable
         public static UUID Empty = new UUID(Guid.Empty);
 
         [UnityEngine.SerializeField, UnityEngine.HideInInspector]
@@ -33,6 +36,10 @@ namespace Foundation {
 
         public static UUID Create() => new UUID(Guid.NewGuid());
 
+        /// <summary>
+        /// Creates a <see cref="UUID"/> from a string representation.
+        /// </summary>
+        /// <param name="uuidString">The <see langword="string"/> representation of a <see cref="UUID"/>, such as <c>E621E1F8-C36C-495A-93FC-0C247A3E6E5F</c>.</param>
         public UUID(in string uuidString) {
             value = new Guid(uuidString).ToByteArray();
         }
@@ -47,13 +54,15 @@ namespace Foundation {
             }
         }
 
-        public override int GetHashCode() => ((Hashable)this).hashValue;
+        public override int GetHashCode() => value.GetHashCode();
 
         public static bool operator ==(UUID a, UUID b) => a.Equals(b);
         public static bool operator !=(UUID a, UUID b) => !a.Equals(b);
 
+        /*
         public void Hash(ref Hasher value) {
-            value.Combine(value);
+            value.Combine(this.value);
         }
+        */
     }
 }

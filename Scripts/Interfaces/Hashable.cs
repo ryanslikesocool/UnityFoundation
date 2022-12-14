@@ -1,3 +1,4 @@
+/*
 namespace Foundation {
     public interface Hashable {
         //public int GetHashCode();
@@ -13,3 +14,4 @@ namespace Foundation {
         }
     }
 }
+*/

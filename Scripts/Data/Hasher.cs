@@ -1,5 +1,5 @@
+/*
 using System;
-
 
 namespace Foundation {
     [Serializable]
@@ -13,3 +13,4 @@ namespace Foundation {
         public int Finalize() => hashCode.ToHashCode();
     }
 }
+*/
