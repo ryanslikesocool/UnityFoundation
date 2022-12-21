@@ -60,6 +60,19 @@ namespace Foundation {
             return new ClosedRange<Bound>(lower, upper);
         }
 
+        /// <summary>
+        /// Returns the given element clamped to this range.
+        /// </summary>
+        public Bound Clamping(in Bound element) {
+            if (element.CompareTo(lowerBound) < 0) {
+                return lowerBound;
+            } else if (element.CompareTo(upperBound) > 0) {
+                return upperBound;
+            } else {
+                return element;
+            }
+        }
+
         public bool Equals(ClosedRange<Bound> other) => lowerBound.Equals(other.lowerBound) && upperBound.Equals(other.upperBound);
         //public static ClosedRange<Bound> operator ...(Bound lowerBound, Bound upperBound) => new ClosedRange(lowerBound, upperBound);
     }

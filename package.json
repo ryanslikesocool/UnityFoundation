@@ -11,5 +11,8 @@
     "url": "http://ryanjboyer.com/"
   },
   "license": "MIT",
-  "type": "library"
+  "type": "library",
+  "dependencies": {
+    "com.unity.mathematics": "1.2.4"
+  }
 }
