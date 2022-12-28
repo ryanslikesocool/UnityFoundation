@@ -18,7 +18,7 @@ namespace Foundation {
             }
         }
 
-        [SerializeField] private bool persistent = true;
+        [SerializeField] private bool persistent = false;
 
         protected virtual void Awake() {
             if (_shared != null) {
