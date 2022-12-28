@@ -46,6 +46,34 @@ namespace Foundation {
             return result;
         }
 
+        public static Result[] CompactMap<Element, Result>(this Element[] collection, Func<Element, Result> body) where Result : class {
+            int count = 0;
+            Result[] result = new Result[collection.Length];
+            for (int i = 0; i < collection.Length; i++) {
+                Result newElement = body(collection[i]);
+
+                if (newElement != null) {
+                    result[count] = newElement;
+                    count++;
+                }
+            }
+            Array.Resize(ref result, count);
+            return result;
+        }
+
+        public static Element[] CompactMap<Element>(this Element[] collection) where Element : class {
+            int count = 0;
+            Element[] result = new Element[collection.Length];
+            for (int i = 0; i < collection.Length; i++) {
+                if (collection[i] != null) {
+                    result[count] = collection[i];
+                    count++;
+                }
+            }
+            Array.Resize(ref result, count);
+            return result;
+        }
+
         public static Element[] Filter<Element>(this Element[] collection, Func<Element, bool> body) {
             List<Element> result = new List<Element>(collection.Length);
             for (int i = 0; i < collection.Length; i++) {
@@ -61,6 +89,25 @@ namespace Foundation {
                 collection[i] = value;
             }
             return collection;
+        }
+
+        public static Element[] Appent<Element>(this Element[] collection, params Element[] other)
+            => Append(collection, other);
+
+        public static Element[] Append<Element>(this Element[] collection, Element[] other) {
+            int lowerBound = collection.Length;
+            int upperBound = collection.Length + other.Length;
+
+            Element[] result = new Element[upperBound];
+
+            for (int i = 0; i < lowerBound; i++) {
+                result[i] = collection[i];
+            }
+            for (int i = lowerBound; i < upperBound; i++) {
+                result[i] = other[i - lowerBound];
+            }
+
+            return result;
         }
     }
 }
