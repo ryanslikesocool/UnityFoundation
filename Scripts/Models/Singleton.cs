@@ -7,7 +7,7 @@ namespace Foundation {
         public static T Shared {
             get {
                 if (_shared == null) {
-                    _shared = GameObject.FindObjectOfType<T>();
+                    _shared = FindObjectOfType<T>();
                     if (_shared == null) {
                         GameObject singletonObject = new GameObject();
                         singletonObject.name = string.Format("Singleton<{0}>", typeof(T));
@@ -21,12 +21,12 @@ namespace Foundation {
         [SerializeField] private bool persistent = false;
 
         protected virtual void Awake() {
-            if (_shared != null) {
-                Destroy(gameObject);
+            if (_shared != null && _shared != this) {
+                Destroy(this);
                 return;
             }
 
-            _shared = this as T;//GetComponent<T>();
+            _shared = this as T;
 
             if (persistent) {
                 DontDestroyOnLoad(gameObject);
