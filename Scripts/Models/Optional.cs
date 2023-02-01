@@ -53,9 +53,6 @@ namespace Foundation {
 
         public static implicit operator System.Nullable<T>(Optional<T> value)
             => value.HasValue ? (T?)value.Value : null;
-
-        //public static explicit operator System.Nullable<T>(Optional<T> value)
-        //    => value.HasValue ? (T?)value.Value : null;
     }
 
 #if UNITY_EDITOR

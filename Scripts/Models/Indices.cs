@@ -23,11 +23,11 @@ namespace Foundation {
             this.direction = direction ?? (start < end ? Direction.Forwards : Direction.Backwards);
         }
 
-        public Indices(in Range<int> bounds) : this(bounds.lowerBound, bounds.upperBound - 1) { }
-
         public Indices(in System.Range bounds) : this(Range<int>.Create(bounds)) { }
 
-        public Indices(in ClosedRange<int> bounds) : this(bounds.lowerBound, bounds.upperBound) { }
+        public Indices(in Range<int> bounds) : this(bounds.lowerBound, bounds.upperBound) { }
+
+        public Indices(in ClosedRange<int> bounds) : this(bounds.lowerBound, bounds.upperBound + 1) { }
 
         public Indices DropFirst(int count = 1)
             => new Indices(
