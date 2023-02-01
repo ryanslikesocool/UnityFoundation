@@ -178,7 +178,7 @@ namespace Foundation {
             return collection;
         }
 
-        public static Element[] Remove<Element>(this Element[] collection, int index) {
+        public static Element[] RemoveAt<Element>(this Element[] collection, int index) {
             for (int i = index + 1; i < collection.Length; i++) {
                 collection[i - 1] = collection[i];
             }
@@ -187,10 +187,10 @@ namespace Foundation {
         }
 
         public static Element[] DropFirst<Element>(this Element[] collection)
-            => collection.Remove(0);
+            => collection.RemoveAt(0);
 
         public static Element[] DropLast<Element>(this Element[] collection)
-            => collection.Remove(collection.Length - 1);
+            => collection.RemoveAt(collection.Length - 1);
 
         public static Element[] ShallowCopy<Element>(this Element[] collection) where Element : struct {
             Element[] result = new Element[collection.Length];

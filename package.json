@@ -13,6 +13,6 @@
   "license": "MIT",
   "type": "library",
   "dependencies": {
-    "com.unity.mathematics": "1.2.4"
+    "com.unity.mathematics": "1.2.6"
   }
 }
