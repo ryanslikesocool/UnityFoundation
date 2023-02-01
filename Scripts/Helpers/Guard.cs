@@ -29,5 +29,16 @@ namespace Foundation {
         public static void NotImplemented() {
             throw new NotImplementedException();
         }
+
+        /// <summary>
+        /// Unwrap an optional.
+        /// </summary>
+        /// <param name="source">The value to unwrap.</param>
+        /// <param name="value">The unwrapped optional.  This may be <see langword="default"/>.</param>
+        /// <returns><see langword="true"/> if the <paramref name="value"/> is not <see langword="null"/>; <see langword="false"/> otherwise.</returns>
+        public static bool Let<Value>(Value? source, out Value value) where Value : struct {
+            value = source.GetValueOrDefault();
+            return source.HasValue;
+        }
     }
 }

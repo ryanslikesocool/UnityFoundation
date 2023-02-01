@@ -166,5 +166,30 @@ namespace Foundation {
             Array.Reverse(collection);
             return collection;
         }
+
+        public static Element[] Insert<Element>(this Element[] collection, Element newElement, int index) {
+            Array.Resize(ref collection, collection.Length + 1);
+
+            for (int i = collection.Length - 2; i >= index; i--) {
+                collection[i + 1] = collection[i];
+            }
+            collection[index] = newElement;
+
+            return collection;
+        }
+
+        public static Element[] Remove<Element>(this Element[] collection, int index) {
+            for (int i = index + 1; i < collection.Length; i++) {
+                collection[i - 1] = collection[i];
+            }
+            Array.Resize(ref collection, collection.Length - 1);
+            return collection;
+        }
+
+        public static Element[] DropFirst<Element>(this Element[] collection)
+            => collection.Remove(0);
+
+        public static Element[] DropLast<Element>(this Element[] collection)
+            => collection.Remove(collection.Length - 1);
     }
 }

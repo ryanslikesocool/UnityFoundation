@@ -79,31 +79,5 @@ namespace Foundation {
 
     public static partial class Extensions {
         public static System.Range ConvertToSystemRange(this ClosedRange<int> range) => new System.Range(new Index(range.lowerBound), new Index(range.upperBound + 1));
-
-        public static IEnumerator GetEnumerator(this ClosedRange<int> range) => new IntClosedRangeEnumerator(range);
-    }
-
-    internal class IntClosedRangeEnumerator : IEnumerator {
-        public ClosedRange<int> _range;
-
-        private int position;
-
-        public IntClosedRangeEnumerator(ClosedRange<int> range) {
-            _range = range;
-            position = range.lowerBound - 1;
-        }
-
-        public bool MoveNext() {
-            position++;
-            return (position <= _range.upperBound);
-        }
-
-        public void Reset() {
-            position = _range.lowerBound - 1;
-        }
-
-        object IEnumerator.Current => Current;
-
-        public int Current => position;
     }
 }
