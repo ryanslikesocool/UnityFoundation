@@ -1,11 +1,10 @@
-/*
 namespace Foundation {
-    public interface Hashable {
-        //public int GetHashCode();
+    public interface IHashable {
+        //int GetHashCode();
 
-        public void Hash(ref Hasher hasher);
+        void Hash(ref Hasher hasher);
 
-        public int hashValue {
+        int hashValue {
             get {
                 Hasher hasher = new Hasher();
                 this.Hash(ref hasher);
@@ -14,4 +13,3 @@ namespace Foundation {
         }
     }
 }
-*/

@@ -1,5 +1,5 @@
 namespace Foundation {
-    public interface CaseIterable<Value> {
+    public interface ICaseIterable<Value> {
         public static Value[] allCases { get; }
     }
 }

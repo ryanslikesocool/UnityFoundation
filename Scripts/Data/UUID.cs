@@ -8,7 +8,7 @@ namespace Foundation {
 #if ODIN_INSPECTOR_3
     [Sirenix.OdinInspector.InlineProperty]
 #endif
-    public struct UUID : IEquatable<UUID> { //Hashable
+    public struct UUID : IEquatable<UUID>, IHashable {
         public static UUID Empty = new UUID(Guid.Empty);
 
         [UnityEngine.SerializeField, UnityEngine.HideInInspector]
@@ -59,10 +59,8 @@ namespace Foundation {
         public static bool operator ==(UUID a, UUID b) => a.Equals(b);
         public static bool operator !=(UUID a, UUID b) => !a.Equals(b);
 
-        /*
         public void Hash(ref Hasher value) {
             value.Combine(this.value);
         }
-        */
     }
 }
