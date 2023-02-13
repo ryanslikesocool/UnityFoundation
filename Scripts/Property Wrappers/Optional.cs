@@ -1,41 +1,45 @@
 using System;
 using UnityEngine;
 #if UNITY_EDITOR
-   using UnityEditor;
+using UnityEditor;
 #endif
 
 namespace Foundation {
     [Serializable]
-    public struct Optional<T> where T : struct {
-        [SerializeField] private T _value;
+    public struct Optional<Value> : IPropertyWrapper<Value> where Value : struct {
+        [SerializeField] private Value _value;
         [SerializeField] private bool _hasValue;
 
-        public T Value {
+        public Value wrappedValue {
             get {
                 if (!HasValue) {
                     throw new System.InvalidOperationException("Serializable nullable object must have a value.");
                 }
                 return _value;
             }
+            set {
+                _hasValue = true;
+                _value = value;
+            }
         }
         public bool HasValue => _hasValue;
 
-        public Optional(bool hasValue, T v) {
+        public Optional(bool hasValue, Value v) {
             this._value = v;
             this._hasValue = hasValue;
         }
 
-        private Optional(T v) {
+        private Optional(Value v) {
             this._value = v;
             this._hasValue = true;
         }
 
-        public bool TryGetValue(out T value) {
+        public bool TryGetValue(out Value value) {
             value = this._value;
             return HasValue;
         }
 
-        public T? System {
+        public Value? System {
             get {
                 if (!HasValue) {
                     return null;
@@ -45,14 +49,14 @@ namespace Foundation {
             }
         }
 
-        public static implicit operator Optional<T>(T value)
-            => new Optional<T>(value);
+        public static implicit operator Optional<Value>(Value value)
+            => new Optional<Value>(value);
 
-        public static implicit operator Optional<T>(System.Nullable<T> value)
-            => value.HasValue ? new Optional<T>(value.Value) : new Optional<T>();
+        public static implicit operator Optional<Value>(System.Nullable<Value> value)
+            => value.HasValue ? new Optional<Value>(value.Value) : new Optional<Value>();
 
-        public static implicit operator System.Nullable<T>(Optional<T> value)
-            => value.HasValue ? (T?)value.Value : null;
+        public static implicit operator System.Nullable<Value>(Optional<Value> value)
+            => value.HasValue ? (Value?)value.wrappedValue : null;
     }
 
 #if UNITY_EDITOR
