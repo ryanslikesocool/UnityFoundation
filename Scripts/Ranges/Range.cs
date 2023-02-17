@@ -6,16 +6,16 @@ namespace Foundation {
     /// A half-open interval from a lower bound up to, but not including, an upper bound.
     /// </summary>
     [Serializable]
-    public readonly struct Range<Bound> : IEquatable<Range<Bound>>, ICustomStringConvertible where Bound : IComparable<Bound>, IEquatable<Bound> {
+    public struct Range<Bound> : IEquatable<Range<Bound>>, ICustomStringConvertible where Bound : IComparable<Bound>, IEquatable<Bound> {
         /// <summary>
         /// The range’s lower bound.
         /// </summary>
-        public readonly Bound lowerBound;
+        public Bound lowerBound;
 
         /// <summary>
         /// The range’s upper bound.
         /// </summary>
-        public readonly Bound upperBound;
+        public Bound upperBound;
 
         //public bool isEmpty => lowerBound.Equals(upperBound);
 

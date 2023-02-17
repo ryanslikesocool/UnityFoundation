@@ -66,7 +66,6 @@ namespace Foundation {
             Result[] result = new Result[collection.Length];
             for (int i = 0; i < collection.Length; i++) {
                 Result newElement = transform(collection[i]);
-
                 if (newElement != null) {
                     result[count] = newElement;
                     count++;
