@@ -4,6 +4,9 @@ namespace Foundation {
     /// </summary>
     /// <typeparam name="RawValue">The raw type that can be used to represent all values of the conforming type.</typeparam>
     public interface IRawRepresentable<RawValue> {
-        RawValue rawValue { get; }
+        /// <summary>
+        /// The corresponding value of the raw type.
+        /// </summary>
+        public RawValue rawValue { get; }
     }
 }

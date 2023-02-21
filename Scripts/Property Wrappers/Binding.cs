@@ -2,7 +2,7 @@ namespace Foundation {
     /// <summary>
     /// A property wrapper type that can read and write a value owned by a source of truth.
     /// </summary>
-    public readonly struct Binding<Value> : IPropertyWrapper<Value> where Value : struct {
+    public readonly struct Binding<Value> : IMutablePropertyWrapper<Value> {
         public delegate Value Get();
         public delegate void Set(Value value);
 
@@ -26,7 +26,7 @@ namespace Foundation {
         /// Creates a binding from an existing property wrapper.
         /// </summary>
         /// <param name="propertyWrapper">The existing property wrapper.</param>
-        public Binding(IPropertyWrapper<Value> propertyWrapper) {
+        public Binding(IMutablePropertyWrapper<Value> propertyWrapper) {
             this.get = () => propertyWrapper.wrappedValue;
             this.set = value => propertyWrapper.wrappedValue = value;
         }
@@ -44,15 +44,8 @@ namespace Foundation {
             this.set = set;
         }
 
-        /// <summary>
-        /// Creates a binding with an immutable value.
-        /// </summary>
-        /// <param name="constant">An immutable value.</param>
-        public Binding(Value constant) {
-            this.get = () => constant;
-            this.set = _ => { };
-        }
+        public static implicit operator Value(Binding<Value> binding) => binding.wrappedValue;
 
-        public static implicit operator Value(Binding<Value> v) => v.wrappedValue;
+        public static implicit operator ImmutableBinding<Value>(Binding<Value> binding) => new ImmutableBinding<Value>(binding);
     }
 }

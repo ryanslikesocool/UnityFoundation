@@ -2,8 +2,11 @@ using System;
 using UnityEngine;
 
 namespace Foundation {
+    /// <summary>
+    /// A type that represents either a wrapped value or the absence of a value.
+    /// </summary>
     [Serializable]
-    public struct Optional<Value> : IPropertyWrapper<Value> where Value : struct {
+    public struct Optional<Value> : IMutablePropertyWrapper<Value> where Value : struct {
         [SerializeField] private Value _value;
         [SerializeField] private bool _hasValue;
 

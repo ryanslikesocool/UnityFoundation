@@ -9,7 +9,7 @@ namespace Foundation {
     /// Use State as the single source of truth for a given value.
     /// </remarks>
     [Serializable]
-    public sealed class State<Value> : IPropertyWrapper<Value> where Value : struct {
+    public sealed class State<Value> : IMutablePropertyWrapper<Value> where Value : struct {
         [SerializeField, Tooltip("The underlying property value.")] private Value _value;
 
         /// <summary>

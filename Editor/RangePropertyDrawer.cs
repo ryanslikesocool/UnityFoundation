@@ -1,6 +1,5 @@
-#if UNITY_EDITOR
-using UnityEngine;
 using UnityEditor;
+using UnityEngine;
 
 namespace Foundation.Editors {
     [CustomPropertyDrawer(typeof(Range<>))]
@@ -42,13 +41,10 @@ namespace Foundation.Editors {
 
             Rect upperBoundRect = new Rect(position.x + consumed, position.y, fieldWidth, position.height);
 
+            // Draw
             EditorGUI.PropertyField(lowerBoundRect, lowerBoundProperty, GUIContent.none);
             EditorGUI.LabelField(infixRect, ". . <", EditorStyles.boldLabel);
             EditorGUI.PropertyField(upperBoundRect, upperBoundProperty, GUIContent.none);
-
-            // ------------
-            // --- Draw ---
-            // ------------
 
             // Restore indent
             EditorGUI.indentLevel = indent;
@@ -57,4 +53,3 @@ namespace Foundation.Editors {
         }
     }
 }
-#endif

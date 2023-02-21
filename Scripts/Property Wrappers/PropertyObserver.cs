@@ -9,7 +9,7 @@ namespace Foundation {
     /// Use PropertyObserver as the single source of truth for a given value.
     /// </remarks>
     [Serializable]
-    public sealed class PropertyObserver<Value> : IPropertyWrapper<Value> where Value : struct {
+    public sealed class PropertyObserver<Value> : IMutablePropertyWrapper<Value> where Value : struct {
         [SerializeField, Tooltip("The underlying property value.  Changes made to this value will not invoke callbacks.")] private Value _value;
 
         /// <summary>
@@ -19,9 +19,9 @@ namespace Foundation {
             get => _value;
             set {
                 Value oldValue = _value;
-                willSetFunction?.Invoke(_value, ref value);
+                _willSetFunction?.Invoke(_value, ref value);
                 _value = value;
-                didSetFunction?.Invoke(oldValue, _value);
+                _didSetFunction?.Invoke(oldValue, _value);
             }
         }
 
@@ -51,8 +51,8 @@ namespace Foundation {
         /// <param name="newValue">The new (current) wrapped value.</param>
         public delegate void DidSetCallback(Value oldValue, Value newValue);
 
-        private DidSetCallback didSetFunction = default;
-        private WillSetCallback willSetFunction = default;
+        private DidSetCallback _didSetFunction = default;
+        private WillSetCallback _willSetFunction = default;
 
         /// <summary>
         /// Create a new property wrapper with no callbacks.
@@ -108,11 +108,11 @@ namespace Foundation {
         /// <param name="callback">The new immutable `willSet` callback.</param>
         public void SetWillSetCallback(ImmutableWillSetCallback callback) {
             if (callback != null) {
-                this.willSetFunction = (Value oldValue, ref Value newValue) => {
+                this._willSetFunction = (Value oldValue, ref Value newValue) => {
                     callback(oldValue, newValue);
                 };
             } else {
-                willSetFunction = null;
+                _willSetFunction = null;
             }
         }
 
@@ -121,7 +121,7 @@ namespace Foundation {
         /// </summary>
         /// <param name="callback">The new mutable `willSet` callback.</param>
         public void SetWillSetCallback(WillSetCallback callback) {
-            willSetFunction = callback;
+            _willSetFunction = callback;
         }
 
         /// <summary>
@@ -129,8 +129,11 @@ namespace Foundation {
         /// </summary>
         /// <param name="callback">The new `willSet` callback.</param>
         public void SetDidSetCallback(DidSetCallback callback) {
-            didSetFunction = callback;
+            _didSetFunction = callback;
         }
+
+        public bool HasWillSetFunction => _willSetFunction != null;
+        public bool HasDidSetFunction => _didSetFunction != null;
 
         public static implicit operator Value(PropertyObserver<Value> v) => v.wrappedValue;
     }

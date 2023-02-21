@@ -7,5 +7,7 @@ namespace Foundation {
         /// A textual representation of this instance.
         /// </summary>
         public string description { get; }
+
+        public string ToString() => description;
     }
 }

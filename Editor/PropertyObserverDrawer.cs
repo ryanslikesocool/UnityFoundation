@@ -1,19 +1,21 @@
+using Foundation;
 using UnityEditor;
 using UnityEngine;
 
 namespace Foundation.Editors {
-    [CustomPropertyDrawer(typeof(Optional<>))]
-    internal sealed class OptionalPropertyDrawer : PropertyDrawer {
-        private SerializedProperty hasValueProperty = null;
+    [CustomPropertyDrawer(typeof(PropertyObserver<>))]
+    internal sealed class PropertyObserverDrawer : PropertyDrawer {
         private SerializedProperty valueProperty = null;
+        //private bool hasWillSet = default;
+        //private bool hasDidSet = default;
 
         public override float GetPropertyHeight(SerializedProperty property, GUIContent label) {
-            if (hasValueProperty == null) {
-                hasValueProperty = property.FindPropertyRelative("_hasValue");
-            }
             if (valueProperty == null) {
                 valueProperty = property.FindPropertyRelative("_value");
             }
+            //hasWillSet = propertyObserver.HasWillSetFunction;
+            //hasDidSet = propertyObserver.HasDidSetFunction;
+
             return base.GetPropertyHeight(property, label);
         }
 
@@ -28,17 +30,25 @@ namespace Foundation.Editors {
             EditorGUI.indentLevel = 0;
 
             // Calculate rects
-            Rect toggleRect = new Rect(position.x, position.y, 15, position.height);
-            float consumed = toggleRect.width + 5;
+            float consumed = 0;
+            //Rect willSetRect = new Rect(position.x, position.y, 8, position.height);
+            //if (hasWillSet) {
+            //    consumed += willSetRect.width;
+            //}
+            //Rect didSetRect = new Rect(position.x + consumed, position.y, 8, position.height);
+            //if (hasDidSet) {
+            //    consumed += didSetRect.width;
+            //}
             Rect valueRect = new Rect(position.x + consumed, position.y, position.width - consumed, position.height);
 
-            // Draw fields - pass GUIContent.none to each so they are drawn without labels
-            EditorGUI.PropertyField(toggleRect, hasValueProperty, GUIContent.none);
-            bool guiEnabled = GUI.enabled;
-
-            GUI.enabled = guiEnabled && hasValueProperty.boolValue;
+            // Draw
+            //if (hasWillSet) {
+            //    EditorGUI.LabelField(willSetRect, "W", EditorStyles.boldLabel);
+            //}
+            //if (hasDidSet) {
+            //    EditorGUI.LabelField(didSetRect, "D", EditorStyles.boldLabel);
+            //}
             EditorGUI.PropertyField(valueRect, valueProperty, GUIContent.none);
-            GUI.enabled = guiEnabled;
 
             // Restore indent
             EditorGUI.indentLevel = indent;
