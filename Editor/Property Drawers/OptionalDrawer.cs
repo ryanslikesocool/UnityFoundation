@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Foundation.Editors {
     [CustomPropertyDrawer(typeof(Optional<>))]
-    internal sealed class OptionalPropertyDrawer : PropertyDrawer {
+    internal sealed class OptionalDrawer : PropertyDrawer {
         private SerializedProperty hasValueProperty = null;
         private SerializedProperty valueProperty = null;
 

@@ -21,6 +21,7 @@ namespace Foundation {
             }
             set => _value = value;
         }
+        public bool isInitialized => isInitialized;
 
         private readonly Initializer initializer;
 

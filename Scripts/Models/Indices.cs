@@ -50,6 +50,15 @@ namespace Foundation {
 
         public IEnumerator GetEnumerator()
             => new IndicesEnumerator(this);
+
+        public int[] ToArray() {
+            int[] result = new int[count];
+            int counter = 0;
+            foreach (int i in this) {
+                result[counter++] = i;
+            }
+            return result;
+        }
     }
 
     internal class IndicesEnumerator : IEnumerator {

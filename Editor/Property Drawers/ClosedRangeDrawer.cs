@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Foundation.Editors {
     [CustomPropertyDrawer(typeof(ClosedRange<>))]
-    internal sealed class ClosedRangePropertyDrawer : PropertyDrawer {
+    internal sealed class ClosedRangeDrawer : PropertyDrawer {
         private const float INFIX_WIDTH = 25;
         private const float SPACING = 5;
 
