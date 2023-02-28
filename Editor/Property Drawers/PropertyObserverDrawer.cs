@@ -5,21 +5,19 @@ using UnityEngine;
 namespace Foundation.Editors {
     [CustomPropertyDrawer(typeof(PropertyObserver<>))]
     internal sealed class PropertyObserverDrawer : PropertyDrawer {
-        private SerializedProperty valueProperty = null;
         //private bool hasWillSet = default;
         //private bool hasDidSet = default;
 
-        public override float GetPropertyHeight(SerializedProperty property, GUIContent label) {
-            if (valueProperty == null) {
-                valueProperty = property.FindPropertyRelative("_value");
-            }
-            //hasWillSet = propertyObserver.HasWillSetFunction;
-            //hasDidSet = propertyObserver.HasDidSetFunction;
-
-            return base.GetPropertyHeight(property, label);
-        }
+        // public override float GetPropertyHeight(SerializedProperty property, GUIContent label) {
+        //     //hasWillSet = propertyObserver.HasWillSetFunction;
+        //     //hasDidSet = propertyObserver.HasDidSetFunction;
+        //
+        //     return base.GetPropertyHeight(property, label);
+        // }
 
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label) {
+            SerializedProperty valueProperty = property.FindPropertyRelative("_value");
+
             EditorGUI.BeginProperty(position, label, property);
 
             // Draw label

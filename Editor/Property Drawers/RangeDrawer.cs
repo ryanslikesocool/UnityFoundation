@@ -7,20 +7,10 @@ namespace Foundation.Editors {
         private const float INFIX_WIDTH = 25;
         private const float SPACING = 5;
 
-        private SerializedProperty lowerBoundProperty = null;
-        private SerializedProperty upperBoundProperty = null;
-
-        public override float GetPropertyHeight(SerializedProperty property, GUIContent label) {
-            if (lowerBoundProperty == null) {
-                lowerBoundProperty = property.FindPropertyRelative("lowerBound");
-            }
-            if (upperBoundProperty == null) {
-                upperBoundProperty = property.FindPropertyRelative("upperBound");
-            }
-            return base.GetPropertyHeight(property, label);
-        }
-
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label) {
+            SerializedProperty lowerBoundProperty = property.FindPropertyRelative("lowerBound");
+            SerializedProperty upperBoundProperty = property.FindPropertyRelative("upperBound");
+
             EditorGUI.BeginProperty(position, label, property);
 
             // Draw label

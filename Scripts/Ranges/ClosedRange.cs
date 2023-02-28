@@ -1,5 +1,7 @@
 using System;
 using System.Collections;
+using Unity.Mathematics;
+using UnityEngine;
 
 namespace Foundation {
     /// <summary>
@@ -79,5 +81,14 @@ namespace Foundation {
 
     public static partial class Extensions {
         public static System.Range ConvertToSystemRange(this ClosedRange<int> range) => new System.Range(new Index(range.lowerBound), new Index(range.upperBound + 1));
+
+        public static float Lerp(this ClosedRange<float> range, float t) => math.lerp(range.lowerBound, range.upperBound, t);
+        public static double Lerp(this ClosedRange<double> range, double t) => math.lerp(range.lowerBound, range.upperBound, t);
+
+        // unity.mathematics types do not implement IComparable
+        // public static float2 Lerp(this ClosedRange<float2> range, float t) => math.lerp(range.lowerBound, range.upperBound, t);
+        // public static float3 Lerp(this ClosedRange<float3> range, float t) => math.lerp(range.lowerBound, range.upperBound, t);
+        // public static float4 Lerp(this ClosedRange<float4> range, float t) => math.lerp(range.lowerBound, range.upperBound, t);
+        // public static quaternion Slerp(this ClosedRange<quaternion> range, float t) => math.lerp(range.lowerBound, range.upperBound, t);
     }
 }

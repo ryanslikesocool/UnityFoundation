@@ -4,20 +4,10 @@ using UnityEngine;
 namespace Foundation.Editors {
     [CustomPropertyDrawer(typeof(Optional<>))]
     internal sealed class OptionalDrawer : PropertyDrawer {
-        private SerializedProperty hasValueProperty = null;
-        private SerializedProperty valueProperty = null;
-
-        public override float GetPropertyHeight(SerializedProperty property, GUIContent label) {
-            if (hasValueProperty == null) {
-                hasValueProperty = property.FindPropertyRelative("_hasValue");
-            }
-            if (valueProperty == null) {
-                valueProperty = property.FindPropertyRelative("_value");
-            }
-            return base.GetPropertyHeight(property, label);
-        }
-
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label) {
+            SerializedProperty hasValueProperty = property.FindPropertyRelative("_hasValue");
+            SerializedProperty valueProperty = property.FindPropertyRelative("_value");
+
             EditorGUI.BeginProperty(position, label, property);
 
             // Draw label
