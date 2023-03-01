@@ -9,7 +9,7 @@ namespace Foundation {
     /// Use State as the single source of truth for a given value.
     /// </remarks>
     [Serializable]
-    public sealed class State<Value> : IMutablePropertyWrapper<Value> where Value : struct {
+    public sealed class State<Value> : IMutablePropertyWrapper<Value> {
         [SerializeField, Tooltip("The underlying property value.")] private Value _value;
 
         /// <summary>
@@ -23,18 +23,16 @@ namespace Foundation {
         /// <summary>
         /// A binding to the state value.
         /// </summary>
-        public readonly Binding<Value> projectedValue;
+        public Binding<Value> projectedValue => new Binding<Value>(propertyWrapper: this);
 
         /// <summary>
         /// Creates the state with an initial value.
         /// </summary>
         /// <param name="initialValue">An initial value of the state.</param>
-        public State(Value initialValue) {
+        public State(Value initialValue = default) {
             this._value = initialValue;
-
-            this.projectedValue = new Binding<Value>(propertyWrapper: this);
         }
 
-        public static implicit operator Value(State<Value> v) => v.wrappedValue;
+        public static implicit operator Value(State<Value> wrapper) => wrapper.wrappedValue;
     }
 }
