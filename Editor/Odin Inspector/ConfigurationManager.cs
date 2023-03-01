@@ -11,7 +11,8 @@ namespace Foundation.Editors {
 
         protected override OdinMenuTree BuildMenuTree() {
             OdinMenuTree tree = new OdinMenuTree();
-            tree.AddAllAssetsAtPath("Configuration", "Assets/_Scriptable Objects/Configuration", typeof(AnyConfiguration), true, true);
+            tree.AddAllAssetsAtPath("Configuration", "Assets/_Scriptable Objects/Configuration", typeof(AnyConfiguration), true, false);
+            tree.SortMenuItemsByName();
             return tree;
         }
     }
