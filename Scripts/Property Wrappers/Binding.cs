@@ -32,6 +32,15 @@ namespace Foundation {
         }
 
         /// <summary>
+        /// Creates a binding from a reference value.
+        /// </summary>
+        /// <param name="value">The reference value.</param>
+        //public Binding(ref Value value) {
+        //    this.get = () => value;
+        //    this.set = newValue => value = newValue;
+        //}
+
+        /// <summary>
         /// Creates a binding with closures that read and write the binding value.
         /// </summary>
         /// <param name="get">A closure that retrieves the binding value. The closure has no parameters, and returns a value.</param>
