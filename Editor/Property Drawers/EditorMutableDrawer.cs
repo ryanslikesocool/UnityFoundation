@@ -1,3 +1,4 @@
+#if !ODIN_INSPECTOR
 using UnityEditor;
 using UnityEngine;
 
@@ -15,3 +16,4 @@ namespace Foundation.Editors {
         }
     }
 }
+#endif

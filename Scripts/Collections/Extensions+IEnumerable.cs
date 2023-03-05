@@ -51,5 +51,14 @@ namespace Foundation {
             }
             return result;
         }
+
+        public static bool Contains<Element>(this IEnumerable<Element> collection, Func<Element, bool> condition) {
+            foreach (Element element in collection) {
+                if (condition(element)) {
+                    return true;
+                }
+            }
+            return false;
+        }
     }
 }
