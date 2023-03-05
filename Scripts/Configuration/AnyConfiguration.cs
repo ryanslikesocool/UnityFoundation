@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Foundation {
 #if ODIN_INSPECTOR
-    [InlineEditor, ConfigurationData]
+    [InlineEditor, Searchable, ConfigurationData]
 #endif
     public abstract class AnyConfiguration : ScriptableObject, IConfiguration { }
 }

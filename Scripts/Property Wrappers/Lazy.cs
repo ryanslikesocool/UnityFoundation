@@ -8,9 +8,6 @@ namespace Foundation {
         private bool _isInitialized = false;
         private Value _value = default;
 
-        /// <summary>
-        /// The underlying value.
-        /// </summary>
         public Value wrappedValue {
             get {
                 if (!_isInitialized) {
@@ -21,14 +18,13 @@ namespace Foundation {
             }
             set => _value = value;
         }
+
+        /// <summary>
+        /// Has the underlying value been initialized?
+        /// </summary>
         public bool isInitialized => isInitialized;
 
         private readonly Initializer initializer;
-
-        /// <summary>
-        /// A projection of the lazy value that returns a binding.
-        /// </summary>
-        public readonly Binding<Value> projectedValue;
 
         /// <summary>
         /// Create a new lazy property.
@@ -39,7 +35,6 @@ namespace Foundation {
                 throw new System.NullReferenceException("initializer");
             }
             this.initializer = initializer;
-            projectedValue = new Binding<Value>(this);
         }
 
         public static implicit operator Value(Lazy<Value> v) => v.wrappedValue;

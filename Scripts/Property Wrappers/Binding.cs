@@ -9,36 +9,10 @@ namespace Foundation {
         private readonly Get get;
         private readonly Set set;
 
-        /// <summary>
-        /// The underlying value referenced by the binding variable.
-        /// </summary>
         public Value wrappedValue {
             get => get();
             set => set(value);
         }
-
-        /// <summary>
-        /// A projection of the binding value that returns a binding.
-        /// </summary>
-        public Binding<Value> projectedValue => this;
-
-        /// <summary>
-        /// Creates a binding from an existing property wrapper.
-        /// </summary>
-        /// <param name="propertyWrapper">The existing property wrapper.</param>
-        public Binding(IMutablePropertyWrapper<Value> propertyWrapper) {
-            this.get = () => propertyWrapper.wrappedValue;
-            this.set = value => propertyWrapper.wrappedValue = value;
-        }
-
-        /// <summary>
-        /// Creates a binding from a reference value.
-        /// </summary>
-        /// <param name="value">The reference value.</param>
-        //public Binding(ref Value value) {
-        //    this.get = () => value;
-        //    this.set = newValue => value = newValue;
-        //}
 
         /// <summary>
         /// Creates a binding with closures that read and write the binding value.
@@ -49,11 +23,26 @@ namespace Foundation {
         /// - newValue: The new value of the binding value.
         /// </param>
         public Binding(Get get, Set set) {
+            if (get == null) {
+                throw new System.ArgumentNullException("get");
+            }
+            if (set == null) {
+                throw new System.ArgumentNullException("set");
+            }
+
             this.get = get;
             this.set = set;
         }
 
+        /// <summary>
+        /// Creates a binding from an existing property wrapper.
+        /// </summary>
+        /// <param name="propertyWrapper">The existing property wrapper.</param>
+        public Binding(IMutablePropertyWrapper<Value> propertyWrapper) : this(() => propertyWrapper.wrappedValue, value => propertyWrapper.wrappedValue = value) { }
+
         public static implicit operator Value(Binding<Value> binding) => binding.wrappedValue;
+
+        //public static implicit operator Binding<Value>(IMutablePropertyWrapper<Value> wrapper) => wrapper.projectedValue;
 
         public static implicit operator ImmutableBinding<Value>(Binding<Value> binding) => new ImmutableBinding<Value>(binding);
     }

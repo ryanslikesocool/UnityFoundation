@@ -12,18 +12,10 @@ namespace Foundation {
     public sealed class State<Value> : IMutablePropertyWrapper<Value> {
         [SerializeField, Tooltip("The underlying property value.")] private Value _value;
 
-        /// <summary>
-        /// The underlying value referenced by the state variable.
-        /// </summary>
         public Value wrappedValue {
             get => _value;
             set => _value = value;
         }
-
-        /// <summary>
-        /// A binding to the state value.
-        /// </summary>
-        public Binding<Value> projectedValue => new Binding<Value>(propertyWrapper: this);
 
         /// <summary>
         /// Creates the state with an initial value.

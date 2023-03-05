@@ -7,15 +7,7 @@ namespace Foundation {
 
         private readonly Get get;
 
-        /// <summary>
-        /// The underlying value referenced by the binding variable.
-        /// </summary>
         public Value wrappedValue => get();
-
-        /// <summary>
-        /// A projection of the immutable binding value that returns a binding.
-        /// </summary>
-        public ImmutableBinding<Value> projectedValue => this;
 
         /// <summary>
         /// Creates a binding from an existing property wrapper.
@@ -34,5 +26,7 @@ namespace Foundation {
         }
 
         public static implicit operator Value(ImmutableBinding<Value> v) => v.wrappedValue;
+
+        //public static implicit operator ImmutableBinding<Value>(IImutablePropertyWrapper<Value> wrapper) => wrapper.projectedValue;
     }
 }

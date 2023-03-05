@@ -10,9 +10,6 @@ namespace Foundation {
     public struct EditorMutable<Value> : IImmutablePropertyWrapper<Value> {
         [SerializeField] private Value _value;
 
-        /// <summary>
-        /// Read the underlying wrapped value.
-        /// </summary>
         public Value wrappedValue => _value;
 
         public static implicit operator Value(EditorMutable<Value> wrapper) => wrapper.wrappedValue;
