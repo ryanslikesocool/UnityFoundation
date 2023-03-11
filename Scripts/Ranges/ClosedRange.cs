@@ -85,6 +85,9 @@ namespace Foundation {
         public static float Lerp(this ClosedRange<float> range, float t) => math.lerp(range.lowerBound, range.upperBound, t);
         public static double Lerp(this ClosedRange<double> range, double t) => math.lerp(range.lowerBound, range.upperBound, t);
 
+        public static float Unlerp(this ClosedRange<float> range, float t) => math.unlerp(range.lowerBound, range.upperBound, t);
+        public static double Unlerp(this ClosedRange<double> range, double t) => math.unlerp(range.lowerBound, range.upperBound, t);
+
         // unity.mathematics types do not implement IComparable
         // public static float2 Lerp(this ClosedRange<float2> range, float t) => math.lerp(range.lowerBound, range.upperBound, t);
         // public static float3 Lerp(this ClosedRange<float3> range, float t) => math.lerp(range.lowerBound, range.upperBound, t);
