@@ -1,20 +1,12 @@
 using UnityEngine;
-#if UNITY_EDITOR
-using UnityEditor;
-#endif
 
 namespace Foundation {
     public static partial class Extensions {
-        public static void DestroySafe(this Object _, Object obj) {
-#if UNITY_EDITOR
-            if (Application.isPlaying) {
-                Object.Destroy(obj);
-            } else {
-                Object.DestroyImmediate(obj);
+        public static void StopCoroutineSafe(this MonoBehaviour mb, Coroutine coroutine) {
+            if (coroutine != null) {
+                mb.StopCoroutine(coroutine);
+                coroutine = null;
             }
-#else
-            Object.Destroy(obj);
-#endif
         }
     }
 }
