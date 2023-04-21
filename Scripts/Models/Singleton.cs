@@ -6,6 +6,11 @@ namespace Foundation {
 
         public static T Shared {
             get {
+#if UNITY_EDITOR
+                if (!Application.isPlaying) {
+                    return null;
+                }
+#endif
                 if (_shared == null) {
                     _shared = FindObjectOfType<T>();
                 }

@@ -31,7 +31,10 @@ namespace Foundation {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float Wrap(this float input, float min, float max) {
-            Guard.RequireThrow(min < max, "'min' is equal or greater than 'max'");
+            if (min >= max) {
+                throw new System.ArgumentOutOfRangeException("'min' is equal to or greater than 'max'");
+            }
+
             float delta = max - min;
 
             while (input < min) {
