@@ -2,22 +2,12 @@ using UnityEngine;
 
 namespace Foundation {
     public abstract class Singleton<T> : MonoBehaviour where T : MonoBehaviour {
-        private static T _shared = null;
+        internal static T _shared = null;
 
         public static T Shared {
             get {
-#if UNITY_EDITOR
-                if (!Application.isPlaying) {
-                    return null;
-                }
-#endif
                 if (_shared == null) {
                     _shared = FindObjectOfType<T>();
-                }
-                if (_shared == null) {
-                    GameObject singletonObject = new GameObject();
-                    singletonObject.name = string.Format("Singleton<{0}>", typeof(T));
-                    _shared = singletonObject.AddComponent<T>();
                 }
                 return _shared;
             }
