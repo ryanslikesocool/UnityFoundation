@@ -29,7 +29,6 @@ namespace Foundation {
         public static float Wrap(this float input, float max)
             => Wrap(input, 0, max);
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float Wrap(this float input, float min, float max) {
             if (min >= max) {
                 throw new System.ArgumentOutOfRangeException("'min' is equal to or greater than 'max'");
