@@ -23,7 +23,7 @@ namespace Foundation {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool Approximately(this float input, float other, float epsilon = EPSILON4)
-            => math.abs(input - other) < epsilon;
+            => math.abs(input - other) < (epsilon * epsilon);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float Wrap(this float input, float max)

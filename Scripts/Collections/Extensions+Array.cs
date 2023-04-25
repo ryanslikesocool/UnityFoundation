@@ -191,11 +191,9 @@ namespace Foundation {
         public static Element[] DropLast<Element>(this Element[] collection)
             => collection.RemoveAt(collection.Length - 1);
 
-        public static Element[] ShallowCopy<Element>(this Element[] collection) where Element : struct {
+        public static Element[] ShallowCopy<Element>(this Element[] collection) {
             Element[] result = new Element[collection.Length];
-            for (int i = 0; i < collection.Length; i++) {
-                result[i] = collection[i];
-            }
+            Array.Copy(collection, result, collection.Length);
             return result;
         }
     }

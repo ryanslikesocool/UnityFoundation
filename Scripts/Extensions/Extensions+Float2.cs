@@ -10,7 +10,19 @@ namespace Foundation {
         );
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float2 RoundToNearest(this float2 input, float2 nearest)
+            => math.round(input / nearest) * nearest;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float2 FloorToNearest(this float2 input, float2 nearest)
+            => math.floor(input / nearest) * nearest;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float2 CeilToNearest(this float2 input, float2 nearest)
+            => math.ceil(input / nearest) * nearest;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool Approximately(this float2 a, float2 b, float epsilon = EPSILON4)
-            => math.distancesq(a, b) < math.abs(epsilon);
+            => math.distancesq(a, b) < epsilon * epsilon;
     }
 }

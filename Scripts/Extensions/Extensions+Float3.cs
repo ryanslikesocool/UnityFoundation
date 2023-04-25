@@ -11,8 +11,20 @@ namespace Foundation {
         );
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float3 RoundToNearest(this float3 input, float3 nearest)
+            => math.round(input / nearest) * nearest;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float3 FloorToNearest(this float3 input, float3 nearest)
+            => math.floor(input / nearest) * nearest;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float3 CeilToNearest(this float3 input, float3 nearest)
+            => math.ceil(input / nearest) * nearest;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool Approximately(this float3 a, float3 b, float epsilon = EPSILON4)
-            => math.distancesq(a, b) < math.abs(epsilon);
+            => math.distancesq(a, b) < epsilon * epsilon;
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float3 RotateAround(this float3 point, float3 pivot, quaternion rotation)
