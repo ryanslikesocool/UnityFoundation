@@ -1,4 +1,5 @@
 using System.Runtime.CompilerServices;
+using Unity.Mathematics;
 using UnityEngine;
 
 namespace Foundation {
@@ -16,5 +17,9 @@ namespace Foundation {
             color.b *= hdr;
             return color;
         }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool Approximately(this Color color, Color other, float epsilon = EPSILON4)
+            => color.ToFloat4().Approximately(other.ToFloat4(), epsilon);
     }
 }
