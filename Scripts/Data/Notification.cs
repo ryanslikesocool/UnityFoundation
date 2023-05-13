@@ -55,6 +55,10 @@ namespace Foundation {
                 return false;
             }
 
+            private const string DESCRIPTION_FORMAT = "Notification.Name({0})";
+            public override string ToString()
+                => string.Format(DESCRIPTION_FORMAT, value);
+
             public override int GetHashCode() => value.GetHashCode();
 
             public static bool operator ==(Name lhs, Name rhs) => lhs.value == rhs.value;

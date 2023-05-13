@@ -1,12 +1,13 @@
 using System;
 using System.Collections;
+using System.Runtime.CompilerServices;
 
 namespace Foundation {
     /// <summary>
     /// A half-open interval from a lower bound up to, but not including, an upper bound.
     /// </summary>
     [Serializable]
-    public struct Range<Bound> : IEquatable<Range<Bound>>, ICustomStringConvertible where Bound : IComparable<Bound>, IEquatable<Bound> {
+    public struct Range<Bound> : IEquatable<Range<Bound>>, ICustomStringConvertible where Bound : IComparable<Bound> {//, IEquatable<Bound> {
         /// <summary>
         /// The range’s lower bound.
         /// </summary>
@@ -34,15 +35,18 @@ namespace Foundation {
         /// </remarks>
         /// <param name="value">The element to check for containment.</param>
         /// <returns><see langword="true"/> if <paramref name="element"/> is contained in the range; otherwise, <see langword="false"/>.</returns>
-        public bool Contains(in Bound element) => (element.CompareTo(lowerBound) >= 0) && (element.CompareTo(upperBound) < 0);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public bool Contains(in Bound element) => lowerBound.CompareTo(element) <= 0 && upperBound.CompareTo(element) > 0;
 
-        public bool Contains(in Range<Bound> other) => (other.lowerBound.CompareTo(lowerBound) >= 0) && (other.upperBound.CompareTo(upperBound) <= 0);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public bool Contains(in Range<Bound> other) => lowerBound.CompareTo(other.lowerBound) <= 0 && upperBound.CompareTo(other.upperBound) >= 0;
 
         /// <summary>
         /// Returns a <see langword="bool"/> value indicating whether this range and the given range contain an element in common.
         /// </summary>
         /// <param name="other">A range to check for elements in common.</param>
         /// <returns><see langword="true"/> if this range and <paramref name="other"/> have at least one element in common; otherwise, <see langword="false"/>.</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool Overlaps(in Range<Bound> other) {
             bool lower = Contains(other.lowerBound) || other.Contains(lowerBound);
             bool upper = Contains(other.upperBound) || other.Contains(upperBound);
@@ -60,13 +64,17 @@ namespace Foundation {
             return new Range<Bound>(lower, upper);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Range<int> Create(in System.Range range) => new Range<int>(
             range.Start.Value,
             range.End.Value
         );
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool Equals(Range<Bound> other) => lowerBound.Equals(other.lowerBound) && upperBound.Equals(other.upperBound);
         //public static Range<Bound> operator ..<(Bound lowerBound, Bound upperBound) => new Range(lowerBound, upperBound);
+
+        public override string ToString() => description;
     }
 
     public static partial class Extensions {
