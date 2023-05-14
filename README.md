@@ -1,3 +1,11 @@
-# Foundation
-Access essential data types and collections to define the base layer of functionality for apps and games.\
-Inspired by Swift's [Foundation](https://developer.apple.com/documentation/foundation) framework.
+# Unity Foundation
+Access essential data types and collections to define the base layer of functionality for apps and games.
+
+### Submodules
+Foundation provides multiple submodules.  These are optional, but live under the Foundation umbrella.
+
+| Name | Description | Status |
+| - | - | - |
+| [NotificationCenter](https://github.com/ryanslikesocool/UnityFoundation-NotificationCenter) | Simple event system | Available |
+| [PropertyWrappers](https://github.com/ryanslikesocool/UnityFoundation-PropertyWrappers) | Property wrappers and bindings | Coming Soon |
+| [Safety](https://github.com/ryanslikesocool/UnityFoundation-Safety) | Simple safety features | Coming Soon |
