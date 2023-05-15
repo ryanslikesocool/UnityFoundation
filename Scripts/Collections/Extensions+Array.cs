@@ -56,6 +56,8 @@ namespace Foundation {
             return result;
         }
 
+        // MARK: - CompactMap
+
         /// <summary>
         /// Returns an array containing the non-nil results of calling the given transformation with each element of this sequence.
         /// </summary>
@@ -65,8 +67,25 @@ namespace Foundation {
             int count = 0;
             Result[] result = new Result[collection.Length];
             for (int i = 0; i < collection.Length; i++) {
-                Result newElement = transform(collection[i]);
-                if (newElement != null) {
+                if (transform(collection[i]).TryGetValue(out Result newElement)) {
+                    result[count] = newElement;
+                    count++;
+                }
+            }
+            Array.Resize(ref result, count);
+            return result;
+        }
+
+        /// <summary>
+        /// Returns an array containing the non-nil results of calling the given transformation with each element of this sequence.
+        /// </summary>
+        /// <param name="transform">A closure that accepts an element of this sequence as its argument and returns an optional value.</param>
+        /// <returns>An array of the non-nil results of calling transform with each element of the sequence.</returns>
+        public static Result[] CompactMap<Element, Result>(this Element[] collection, Func<Element, Result?> transform) where Result : struct {
+            int count = 0;
+            Result[] result = new Result[collection.Length];
+            for (int i = 0; i < collection.Length; i++) {
+                if (transform(collection[i]).TryGetValue(out Result newElement)) {
                     result[count] = newElement;
                     count++;
                 }
@@ -79,14 +98,29 @@ namespace Foundation {
             int count = 0;
             Element[] result = new Element[collection.Length];
             for (int i = 0; i < collection.Length; i++) {
-                if (collection[i] != null) {
-                    result[count] = collection[i];
+                if (collection[i].TryGetValue(out Element element)) {
+                    result[count] = element;
                     count++;
                 }
             }
             Array.Resize(ref result, count);
             return result;
         }
+
+        public static Element[] CompactMap<Element>(this Element?[] collection) where Element : struct {
+            int count = 0;
+            Element[] result = new Element[collection.Length];
+            for (int i = 0; i < collection.Length; i++) {
+                if (collection[i].TryGetValue(out Element element)) {
+                    result[count] = element;
+                    count++;
+                }
+            }
+            Array.Resize(ref result, count);
+            return result;
+        }
+
+        // MARK: - Filter
 
         /// <summary>
         /// Returns an array containing, in order, the elements of the sequence that satisfy the given predicate.

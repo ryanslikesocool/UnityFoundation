@@ -1,16 +1,17 @@
+using System;
 using UnityEngine;
 
 namespace Foundation {
     public static partial class Extensions {
-        public static void DestroySafe(Object obj) {
+        public static void DestroySafe(UnityEngine.Object obj) {
 #if UNITY_EDITOR
-        if(Application.isPlaying) {
-            Object.Destroy(obj);
-        } else {
-            Object.DestroyImmediate(obj);
-        }
+            if (Application.isPlaying) {
+                UnityEngine.Object.Destroy(obj);
+            } else {
+                UnityEngine.Object.DestroyImmediate(obj);
+            }
 #else
-            Object.Destroy(obj);
+            UnityEngine.Object.Destroy(obj);
 #endif
         }
     }
