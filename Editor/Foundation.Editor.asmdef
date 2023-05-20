@@ -2,6 +2,7 @@
     "name": "Foundation.Editors",
     "rootNamespace": "Foundation.Editors",
     "references": [
+        "GUID:d8b63aba1907145bea998dd612889d6b",
         "GUID:d9366e63b425d409b97e07a533ec79d9"
     ],
     "includePlatforms": [

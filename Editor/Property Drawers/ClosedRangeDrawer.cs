@@ -5,7 +5,7 @@ namespace Foundation.Editors {
     [CustomPropertyDrawer(typeof(ClosedRange<>))]
     internal sealed class ClosedRangeDrawer : PropertyDrawer {
         private const float INFIX_WIDTH = 25;
-        private const float SPACING = 5;
+        private const float SPACING = 4;
 
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label) {
             SerializedProperty lowerBoundProperty = property.FindPropertyRelative("lowerBound");
