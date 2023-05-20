@@ -3,6 +3,12 @@ using System.Collections.Generic;
 
 namespace Foundation {
     public static partial class Extensions {
+        public static void ForEach<Element>(this IEnumerable<Element> collection, Action<Element> body) {
+            foreach (Element element in collection) {
+                body(element);
+            }
+        }
+
         /// <summary>
         /// Returns true if any element in a collection meets the condition, false otherwise.
         /// </summary>

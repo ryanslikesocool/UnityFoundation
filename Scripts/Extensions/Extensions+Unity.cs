@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace Foundation {
     public static partial class Extensions {
-        public static void DestroySafe(this Object _, Object obj) {
+        public static void DestroySafe(this Object obj) {
 #if UNITY_EDITOR
             if (Application.isPlaying) {
                 Object.Destroy(obj);

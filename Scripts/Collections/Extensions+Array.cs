@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 
 namespace Foundation {
     public static partial class Extensions {
@@ -140,6 +141,11 @@ namespace Foundation {
             return result;
         }
 
+        /// <summary>
+        /// Fills all elements in an array with the provided value.
+        /// </summary>
+        /// <param name="collection">The collection to mutate.</param>
+        /// <param name="value">The value that will be assigned to all indices in the collection.</param>
         public static Element[] Fill<Element>(this Element[] collection, Element value) {
             for (int i = 0; i < collection.Length; i++) {
                 collection[i] = value;
@@ -200,6 +206,20 @@ namespace Foundation {
             return collection;
         }
 
+        /// <summary>
+        /// Reverses an array inline.
+        /// </summary>
+        /// <param name="collection">The array to reverse</param>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void Reverse<Element>(this Element[] collection)
+            => Array.Reverse(collection);
+
+        /// <summary>
+        /// Inserts an element into an array at an index.
+        /// </summary>
+        /// <param name="collection">The collection to mutate.</param>
+        /// <param name="newElement">The element to insert into the collection.</param>
+        /// <param name="index">The new element's index.</param>
         public static Element[] Insert<Element>(this Element[] collection, Element newElement, int index) {
             Array.Resize(ref collection, collection.Length + 1);
 
@@ -211,6 +231,11 @@ namespace Foundation {
             return collection;
         }
 
+        /// <summary>
+        /// Removes an element from an array at an index.
+        /// </summary>
+        /// <param name="collection">The collection to mutate.</param>
+        /// <param name="index">The index of the element to remove.</param>
         public static Element[] RemoveAt<Element>(this Element[] collection, int index) {
             for (int i = index + 1; i < collection.Length; i++) {
                 collection[i - 1] = collection[i];
@@ -219,12 +244,23 @@ namespace Foundation {
             return collection;
         }
 
+        /// <summary>
+        /// Removes the first element in an array.
+        /// </summary>
+        /// <param name="collection">The collection to mutate.</param>
         public static Element[] DropFirst<Element>(this Element[] collection)
             => collection.RemoveAt(0);
 
+        /// <summary>
+        /// Removes the last element in an array.
+        /// </summary>
         public static Element[] DropLast<Element>(this Element[] collection)
             => collection.RemoveAt(collection.Length - 1);
 
+        /// <summary>
+        /// Performs a shallow copy of an array.
+        /// </summary>
+        /// <param name="collection">The collection to perform a shallow copy on.</param>
         public static Element[] ShallowCopy<Element>(this Element[] collection) {
             Element[] result = new Element[collection.Length];
             Array.Copy(collection, result, collection.Length);

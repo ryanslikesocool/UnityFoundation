@@ -1,9 +1,10 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using Unity.Mathematics;
 
 namespace Foundation {
-    public readonly struct Indices : IEnumerable {
+    public readonly struct Indices : IEnumerable<int> {
         public readonly int start;
         public readonly int end;
         public readonly Direction direction;
@@ -48,8 +49,11 @@ namespace Foundation {
                 direction == Direction.Forwards ? Direction.Backwards : Direction.Forwards
             );
 
-        public IEnumerator GetEnumerator()
+        public IEnumerator<int> GetEnumerator()
             => new IndicesEnumerator(this);
+
+        IEnumerator IEnumerable.GetEnumerator()
+            => this.GetEnumerator();
 
         public int[] ToArray() {
             int[] result = new int[count];
@@ -61,7 +65,7 @@ namespace Foundation {
         }
     }
 
-    internal class IndicesEnumerator : IEnumerator {
+    internal class IndicesEnumerator : IEnumerator<int> {
         private Indices _indices;
 
         private int position;
@@ -80,6 +84,8 @@ namespace Foundation {
         public void Reset() {
             position = _indices.start - (int)_indices.direction;
         }
+
+        public void Dispose() { }
 
         object IEnumerator.Current => Current;
 
