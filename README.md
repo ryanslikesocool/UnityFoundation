@@ -2,7 +2,7 @@
 Access essential data types and collections to define the base layer of functionality for apps and games.
 
 ## Notice
-Unity Foundation and its submodules are not considered production-ready.
+Unity Foundation and its submodules are not considered production-ready.  Breaking changes are common and support is limited.
 
 ### Submodules
 Foundation provides multiple submodules.  These are optional, but live under the Foundation umbrella.
