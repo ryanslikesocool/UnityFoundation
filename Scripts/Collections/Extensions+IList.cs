@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Random = Unity.Mathematics.Random;
 
 namespace Foundation {
     public static partial class Extensions {
@@ -55,6 +56,14 @@ namespace Foundation {
                 return default(Element?);
             }
             int index = UnityEngine.Random.Range(0, collection.Count);
+            return collection[index];
+        }
+
+        public static Element? Random<Element>(this IList<Element> collection, ref Random rng) {
+            if (collection.IsEmpty()) {
+                return default(Element?);
+            }
+            int index = rng.NextInt(collection.Count);
             return collection[index];
         }
 #nullable disable

@@ -117,6 +117,9 @@ namespace Foundation {
             return false;
         }
 
+        // System.Linq passthrough
+        public static Element[] ToArray<Element>(this IEnumerable<Element> collection) => System.Linq.Enumerable.ToArray(collection);
+
 #nullable enable
         /// <summary>
         /// Returns the first element in a collection that matches the condition, null otherwise.
