@@ -37,6 +37,12 @@ namespace Foundation {
 
         public static bool IsEmpty<_>(this IList<_> collection) => collection.Count == 0;
 
+        public static IEnumerable<Element> Reversed<Element>(this IList<Element> collection) {
+            for (int i = collection.Count - 1; i >= 0; i--) {
+                yield return collection[i];
+            }
+        }
+
 #nullable enable
         /// <summary>
         /// Returns the first element in a collection.
