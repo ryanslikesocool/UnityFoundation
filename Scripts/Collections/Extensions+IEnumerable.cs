@@ -146,5 +146,8 @@ namespace Foundation {
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool Any<Element>(this IEnumerable<Element> collection, Func<Element, bool> condition) => System.Linq.Enumerable.Any(collection, condition);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static IEnumerable<System.Linq.IGrouping<Key, Element>> Chunked<Element, Key>(this IEnumerable<Element> collection, Func<Element, Key> function) => System.Linq.Enumerable.GroupBy(collection, function);
     }
 }
