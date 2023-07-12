@@ -149,5 +149,8 @@ namespace Foundation {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static IEnumerable<System.Linq.IGrouping<Key, Element>> Chunked<Element, Key>(this IEnumerable<Element> collection, Func<Element, Key> function) => System.Linq.Enumerable.GroupBy(collection, function);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static List<Element> ToList<Element>(this IEnumerable<Element> collection) => System.Linq.Enumerable.ToList(collection);
     }
 }
