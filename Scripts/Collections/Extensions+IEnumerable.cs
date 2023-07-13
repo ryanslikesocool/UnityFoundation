@@ -152,5 +152,8 @@ namespace Foundation {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static List<Element> ToList<Element>(this IEnumerable<Element> collection) => System.Linq.Enumerable.ToList(collection);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool Contains<Element>(this IEnumerable<Element> collection, Element item) => System.Linq.Enumerable.Contains(collection, item);
     }
 }
