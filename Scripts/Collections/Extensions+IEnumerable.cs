@@ -71,6 +71,26 @@ namespace Foundation {
 			}
 		}
 
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
+		public static bool All(this IEnumerable<bool> collection) {
+			foreach (bool element in collection) {
+				if (!element) {
+					return false;
+				}
+			}
+			return true;
+		}
+
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
+		public static bool Any(this IEnumerable<bool> collection) {
+			foreach (bool element in collection) {
+				if (element) {
+					return true;
+				}
+			}
+			return false;
+		}
+
 #nullable enable
 		/// <summary>
 		/// Returns the first element in a collection that matches the condition, <see langword="null"/> otherwise.
@@ -82,7 +102,7 @@ namespace Foundation {
 					return element;
 				}
 			}
-			return default(Element?);
+			return default;
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -90,7 +110,7 @@ namespace Foundation {
 			foreach (Element element in collection) {
 				return element;
 			}
-			return default(Element?);
+			return default;
 		}
 #nullable disable
 
