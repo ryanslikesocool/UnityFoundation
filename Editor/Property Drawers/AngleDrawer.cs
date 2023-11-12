@@ -1,3 +1,4 @@
+#if UNITY_EDITOR
 using System;
 using Unity.Mathematics;
 using UnityEditor;
@@ -55,3 +56,4 @@ namespace Foundation.Editors {
 		}
 	}
 }
+#endif
