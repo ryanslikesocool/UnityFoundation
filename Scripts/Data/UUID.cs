@@ -2,25 +2,14 @@ using System;
 using UnityEngine;
 using System.Runtime.InteropServices;
 
-//#if ODIN_INSPECTOR_3
-//using Sirenix.OdinInspector;
-//#endif
-
 namespace Foundation {
 	/// <summary>
 	/// A universally unique value to identify types, interfaces, and other items.
 	/// </summary>
 	[Serializable, StructLayout(LayoutKind.Sequential)]
-	//#if ODIN_INSPECTOR_3
-	//	[InlineProperty]
-	//#endif
 	public struct UUID : IEquatable<UUID>, IHashable {
-		[SerializeField, HideInInspector]
-		private byte a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p;
+		[SerializeField, HideInInspector] private byte a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p;
 
-		//#if ODIN_INSPECTOR_3
-		//		[ShowInInspector, ReadOnly, HideLabel]
-		//#endif
 		public readonly string uuidString => String.Format(UUID.STRING_FORMAT, a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p);
 
 		public UUID(byte a, byte b, byte c, byte d, byte e, byte f, byte g, byte h, byte i, byte j, byte k, byte l, byte m, byte n, byte o, byte p) {
@@ -59,7 +48,7 @@ namespace Foundation {
 		/// <param name="uuidString">The <see langword="string"/> representation of a <see cref="UUID"/>, such as <c>E621E1F8-C36C-495A-93FC-0C247A3E6E5F</c>.</param>
 		public UUID(in string uuidString) : this(new Guid(uuidString)) { }
 
-		public byte[] ToByteArray() => new byte[16] { a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p };
+		public readonly byte[] ToByteArray() => new byte[16] { a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p };
 
 		// MARK: - Override
 
@@ -114,7 +103,7 @@ namespace Foundation {
 
 		// MARK: - Constants
 
-		public static UUID Empty = new UUID(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+		public static readonly UUID Empty = new UUID(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
 		private const string STRING_FORMAT = "{0:X02}{1:X02}{2:X02}{3:X02}-{4:X02}{5:X02}-{6:X02}{7:X02}-{8:X02}{9:X02}-{10:X02}{11:X02}{12:X02}{13:X02}{14:X02}{15:X02}";
 	}
 }
