@@ -15,6 +15,18 @@ namespace Foundation {
 			=> new Indices(collection.Bounds());
 
 		/// <summary>
+		/// Fills all elements in an array with the provided value.
+		/// </summary>
+		/// <param name="collection">The collection to mutate.</param>
+		/// <param name="value">The value that will be assigned to all indices in the collection.</param>
+		public static List Fill<List, Element>(this List collection, Element value) where List : IList<Element> {
+			for (int i = 0; i < collection.Count; i++) {
+				collection[i] = value;
+			}
+			return collection;
+		}
+
+		/// <summary>
 		/// Returns the index of the first element in a collection that meets the condition.
 		/// </summary>
 		public static int? FirstIndex<Element>(this IList<Element> collection, Func<Element, bool> condition) {
