@@ -3,7 +3,7 @@
   "displayName": "Unity Foundation",
   "version": "0.1.0-pre.1",
   "unity": "2021.3",
-  "description": "Access essential data types and collections to define the base layer of functionality for apps and games.",
+  "description": "Essential data types and collections to define the base layer of functionality for apps and games.",
   "documentationUrl": "https://github.com/ryanslikesocool/Foundation",
   "author": {
     "name": "Ryan Boyer",

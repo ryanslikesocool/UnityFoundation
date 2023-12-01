@@ -1,5 +1,5 @@
 # Unity Foundation
-Access essential data types and collections to define the base layer of functionality for apps and games.
+Essential data types and collections to define the base layer of functionality for apps and games.
 
 ## NOTICE
 UnityFoundation is not considered production-ready.  Breaking changes are common and support is limited.  Use at your own risk.
@@ -13,12 +13,12 @@ UnityFoundation is not considered production-ready.  Breaking changes are common
 - Get the latest [release](https://github.com/ryanslikesocool/UnityFoundation/releases)
 - Import into your project's Plugins folder
 
-### Submodules
+## Submodules
 Foundation provides multiple submodules.  These are optional, but live under the Foundation umbrella.
 
-| Name | Description | Status |
-| - | - | - |
-| [Notification Center](https://github.com/ryanslikesocool/UnityFoundation-NotificationCenter) | Simple event system | Available |
-| [Property Wrappers](https://github.com/ryanslikesocool/UnityFoundation-PropertyWrappers) | Property wrappers and bindings | Available |
-| [Safety](https://github.com/ryanslikesocool/UnityFoundation-Safety) | Simple safety features | Available |
-
+| Name | Description |
+| - | - |
+| [Notification Center](https://github.com/ryanslikesocool/UnityFoundation-NotificationCenter) | Simple event system |
+| [Property Wrappers](https://github.com/ryanslikesocool/UnityFoundation-PropertyWrappers) | Property wrappers and bindings |
+| [Safety](https://github.com/ryanslikesocool/UnityFoundation-Safety) | Simple safety features |
+| [Generators](https://github.com/ryanslikesocool/UnityFoundation-Generators) | Code generation attributes |
