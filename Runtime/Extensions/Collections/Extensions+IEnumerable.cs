@@ -42,7 +42,7 @@ namespace Foundation {
 		/// Counts the number of elements in a collection where the condition is true.
 		/// </summary>
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static int Count<Element>(this IEnumerable<Element> collection, Func<Element, bool> condition) {
+		public static int Count<Element>(this IEnumerable<Element> collection, Predicate<Element> condition) {
 			int result = 0;
 			foreach (Element element in collection) {
 				if (condition(element)) {
@@ -53,7 +53,7 @@ namespace Foundation {
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static bool Contains<Element>(this IEnumerable<Element> collection, Func<Element, bool> condition) {
+		public static bool Contains<Element>(this IEnumerable<Element> collection, Predicate<Element> condition) {
 			foreach (Element element in collection) {
 				if (condition(element)) {
 					return true;
@@ -96,7 +96,7 @@ namespace Foundation {
 		/// Returns the first element in a collection that matches the condition, <see langword="null"/> otherwise.
 		/// </summary>
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static Element? First<Element>(this IEnumerable<Element> collection, Func<Element, bool> condition) {
+		public static Element? First<Element>(this IEnumerable<Element> collection, Predicate<Element> condition) {
 			foreach (Element element in collection) {
 				if (condition(element)) {
 					return element;
@@ -145,7 +145,13 @@ namespace Foundation {
 		/// <param name="isIncluded">A closure that takes an element of the sequence as its argument and returns a Boolean value indicating whether the element should be included in the returned array.</param>
 		/// <returns>A collection of the elements that isIncluded allowed.</returns>
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static IEnumerable<Element> Filter<Element>(this IEnumerable<Element> collection, Func<Element, bool> isIncluded) => System.Linq.Enumerable.Where(collection, isIncluded);
+		public static IEnumerable<Element> Filter<Element>(this IEnumerable<Element> collection, Predicate<Element> isIncluded) {
+			foreach (Element element in collection) {
+				if (isIncluded(element)) {
+					yield return element;
+				}
+			}
+		}
 
 		/// <summary>
 		/// Returns a collection containing the concatenated results of calling the given transformation with each element of this sequence.
@@ -159,19 +165,33 @@ namespace Foundation {
 		/// Returns <see langword="true"/> if all elements in a collection meet the condition; <see langword="false"/> otherwise.
 		/// </summary>
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static bool All<Element>(this IEnumerable<Element> collection, Func<Element, bool> condition) => System.Linq.Enumerable.All(collection, condition);
+		public static bool All<Element>(this IEnumerable<Element> collection, Predicate<Element> predicate) {
+			foreach (Element element in collection) {
+				if (!predicate(element)) {
+					return false;
+				}
+			}
+			return true;
+		}
 
 		/// <summary>
 		/// Returns <see langword="true"/> if any element in a collection meets the condition; <see langword="false"/> otherwise.
 		/// </summary>
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static bool Any<Element>(this IEnumerable<Element> collection, Func<Element, bool> condition) => System.Linq.Enumerable.Any(collection, condition);
+		public static bool Any<Element>(this IEnumerable<Element> collection, Predicate<Element> predicate) {
+			foreach (Element element in collection) {
+				if (predicate(element)) {
+					return true;
+				}
+			}
+			return false;
+		}
 
 		/// <summary>
 		/// Returns <see langword="false"/> if any element in a collection meets the condition; <see langword="true"/> otherwise.
 		/// </summary>
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static bool None<Element>(this IEnumerable<Element> collection, Func<Element, bool> condition) => !Any(collection, condition);
+		public static bool None<Element>(this IEnumerable<Element> collection, Predicate<Element> condition) => !Any(collection, condition);
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static IEnumerable<System.Linq.IGrouping<Key, Element>> Chunked<Element, Key>(this IEnumerable<Element> collection, Func<Element, Key> function) => System.Linq.Enumerable.GroupBy(collection, function);

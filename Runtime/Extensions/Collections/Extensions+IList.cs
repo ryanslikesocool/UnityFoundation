@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Random = Unity.Mathematics.Random;
 using System.Runtime.CompilerServices;
+using System.Linq.Expressions;
 
 namespace Foundation {
 	public static partial class Extensions {
@@ -29,7 +30,7 @@ namespace Foundation {
 		/// <summary>
 		/// Returns the index of the first element in a collection that meets the condition.
 		/// </summary>
-		public static int? FirstIndex<Element>(this IList<Element> collection, Func<Element, bool> condition) {
+		public static int? FirstIndex<Element>(this IList<Element> collection, Predicate<Element> condition) {
 			for (int i = 0; i < collection.Count; i++) {
 				if (condition(collection[i])) {
 					return i;
@@ -41,7 +42,7 @@ namespace Foundation {
 		/// <summary>
 		/// Returns the index of the last element in a collection that meets the condition.
 		/// </summary>
-		public static int? LastIndex<Element>(this IList<Element> collection, Func<Element, bool> condition) {
+		public static int? LastIndex<Element>(this IList<Element> collection, Predicate<Element> condition) {
 			for (int i = collection.Count - 1; i >= 0; i--) {
 				if (condition(collection[i])) {
 					return i;
@@ -67,10 +68,36 @@ namespace Foundation {
 		public static Element? First<Element>(this IList<Element> collection) => collection.IsEmpty() ? default : collection[0];
 
 		/// <summary>
+		/// Returns the first element in a collection that matches the given predicate.
+		/// </summary>
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
+		public static Element? First<Element>(this IList<Element> collection, Predicate<Element> predicate) {
+			for (int i = 0; i < collection.Count; i++) {
+				if (predicate(collection[i])) {
+					return collection[i];
+				}
+			}
+			return default;
+		}
+
+		/// <summary>
 		/// Returns the last element in a collection.
 		/// </summary>
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static Element? Last<Element>(this IList<Element> collection) => collection.IsEmpty() ? default : collection[^1];
+
+		/// <summary>
+		/// Returns the last element in a collection that matches the given predicate.
+		/// </summary>
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
+		public static Element? Last<Element>(this IList<Element> collection, Predicate<Element> predicate) {
+			for (int i = collection.Count - 1; i >= 0; i--) {
+				if (predicate(collection[i])) {
+					return collection[i];
+				}
+			}
+			return default;
+		}
 
 		/// <summary>
 		/// Returns a random element in a collection.
