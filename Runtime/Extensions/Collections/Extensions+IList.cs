@@ -28,8 +28,9 @@ namespace Foundation {
 		}
 
 		/// <summary>
-		/// Returns the index of the first element in a collection that meets the condition.
+		/// Returns the index of the first element in a collection that matches the given predicate.
 		/// </summary>
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static int? FirstIndex<Element>(this IList<Element> collection, Predicate<Element> condition) {
 			for (int i = 0; i < collection.Count; i++) {
 				if (condition(collection[i])) {
@@ -40,8 +41,9 @@ namespace Foundation {
 		}
 
 		/// <summary>
-		/// Returns the index of the last element in a collection that meets the condition.
+		/// Returns the index of the last element in a collection that matches the given predicate.
 		/// </summary>
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static int? LastIndex<Element>(this IList<Element> collection, Predicate<Element> condition) {
 			for (int i = collection.Count - 1; i >= 0; i--) {
 				if (condition(collection[i])) {
@@ -72,10 +74,8 @@ namespace Foundation {
 		/// </summary>
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static Element? First<Element>(this IList<Element> collection, Predicate<Element> predicate) {
-			for (int i = 0; i < collection.Count; i++) {
-				if (predicate(collection[i])) {
-					return collection[i];
-				}
+			if (collection.FirstIndex(predicate) is int index) {
+				return collection[index];
 			}
 			return default;
 		}
@@ -91,10 +91,8 @@ namespace Foundation {
 		/// </summary>
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static Element? Last<Element>(this IList<Element> collection, Predicate<Element> predicate) {
-			for (int i = collection.Count - 1; i >= 0; i--) {
-				if (predicate(collection[i])) {
-					return collection[i];
-				}
+			if (collection.LastIndex(predicate) is int index) {
+				return collection[index];
 			}
 			return default;
 		}
