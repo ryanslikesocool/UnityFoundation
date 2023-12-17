@@ -31,5 +31,15 @@ namespace Foundation {
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static bool Approximately(this float4 a, float4 b, float epsilon = EPSILON4)
 			=> math.distancesq(a, b) < epsilon * epsilon;
+
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
+		public static float4 Negate(this float4 value, bool4 condition) {
+			for (int i = 0; i < 4; i++) {
+				if (condition[i]) {
+					value[i] *= -1;
+				}
+			}
+			return value;
+		}
 	}
 }

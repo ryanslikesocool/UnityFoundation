@@ -28,31 +28,25 @@ namespace Foundation.Editors {
 		public override void OnGUI(Rect position, SerializedProperty property, GUIContent label) {
 			SerializedProperty storageProperty = property.FindPropertyRelative("_storage");
 
-			EditorGUI.BeginProperty(position, label, property);
+			using (var scope = new EditorGUI.PropertyScope(position, label, property)) {
+				// Draw label
+				label = scope.content;
+				position = EditorGUI.PrefixLabel(position, GUIUtility.GetControlID(FocusType.Passive), label);
 
-			// Draw label
-			position = EditorGUI.PrefixLabel(position, GUIUtility.GetControlID(FocusType.Passive), label);
+				using (new EditorGUI.IndentLevelScope(-EditorGUI.indentLevel)) {
+					// Calculate rects
+					Rect valueRect = new Rect(position.x, position.y, position.width - (PICKER_WIDTH + SPACING), position.height);
+					float consumed = valueRect.width + SPACING;
+					Rect pickerRect = new Rect(position.x + consumed, position.y, PICKER_WIDTH, position.height);
 
-			// Clear indent
-			int indent = EditorGUI.indentLevel;
-			EditorGUI.indentLevel = 0;
+					// Draw fields - pass GUIContent.none to each so they are drawn without labels
+					float intermediate = convertIn(storageProperty.floatValue);
+					intermediate = EditorGUI.FloatField(valueRect, intermediate);
+					storageProperty.floatValue = convertOut(intermediate);
 
-			// Calculate rects
-			Rect valueRect = new Rect(position.x, position.y, position.width - (PICKER_WIDTH + SPACING), position.height);
-			float consumed = valueRect.width + SPACING;
-			Rect pickerRect = new Rect(position.x + consumed, position.y, PICKER_WIDTH, position.height);
-
-			// Draw fields - pass GUIContent.none to each so they are drawn without labels
-			float intermediate = convertIn(storageProperty.floatValue);
-			intermediate = EditorGUI.FloatField(valueRect, intermediate);
-			storageProperty.floatValue = convertOut(intermediate);
-
-			mode = (Angle.Mode)EditorGUI.EnumPopup(pickerRect, mode);
-
-			// Restore indent
-			EditorGUI.indentLevel = indent;
-
-			EditorGUI.EndProperty();
+					mode = (Angle.Mode)EditorGUI.EnumPopup(pickerRect, mode);
+				}
+			}
 		}
 	}
 }

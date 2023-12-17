@@ -24,35 +24,29 @@ namespace Foundation.Editors {
 				isCreated = true;
 			}
 
-			EditorGUI.BeginProperty(position, label, property);
+			using (var scope = new EditorGUI.PropertyScope(position, label, property)) {
+				// Draw label
+				label = scope.content;
+				position = EditorGUI.PrefixLabel(position, GUIUtility.GetControlID(FocusType.Passive), label);
 
-			// Draw label
-			position = EditorGUI.PrefixLabel(position, GUIUtility.GetControlID(FocusType.Passive), label);
+				using (new EditorGUI.IndentLevelScope(-EditorGUI.indentLevel)) {
+					// Calculate rects
+					Rect colorRect = new Rect(position.x, position.y, position.width - (OPTIONS_WIDTH + SPACING), position.height);
+					float consumed = colorRect.width + SPACING;
+					Rect optionsRect = new Rect(position.x + consumed, position.y, OPTIONS_WIDTH, position.height);
 
-			// Clear indent
-			int indent = EditorGUI.indentLevel;
-			EditorGUI.indentLevel = 0;
-
-			// Calculate rects
-			Rect colorRect = new Rect(position.x, position.y, position.width - (OPTIONS_WIDTH + SPACING), position.height);
-			float consumed = colorRect.width + SPACING;
-			Rect optionsRect = new Rect(position.x + consumed, position.y, OPTIONS_WIDTH, position.height);
-
-			// Draw
-			property.colorValue = EditorGUI.ColorField(
-				colorRect,
-				GUIContent.none,
-				property.colorValue,
-				showEyedropper: options.HasFlag(ConfigurableColorAttribute.Options.Eyedropper),
-				showAlpha: options.HasFlag(ConfigurableColorAttribute.Options.Alpha),
-				hdr: options.HasFlag(ConfigurableColorAttribute.Options.HDR)
-			);
-			options = (ConfigurableColorAttribute.Options)EditorGUI.EnumFlagsField(optionsRect, options);
-
-			// Restore indent
-			EditorGUI.indentLevel = indent;
-
-			EditorGUI.EndProperty();
+					// Draw
+					property.colorValue = EditorGUI.ColorField(
+						colorRect,
+						GUIContent.none,
+						property.colorValue,
+						showEyedropper: options.HasFlag(ConfigurableColorAttribute.Options.Eyedropper),
+						showAlpha: options.HasFlag(ConfigurableColorAttribute.Options.Alpha),
+						hdr: options.HasFlag(ConfigurableColorAttribute.Options.HDR)
+					);
+					options = (ConfigurableColorAttribute.Options)EditorGUI.EnumFlagsField(optionsRect, options);
+				}
+			}
 		}
 	}
 }

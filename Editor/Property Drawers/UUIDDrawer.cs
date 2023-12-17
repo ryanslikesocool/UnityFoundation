@@ -13,39 +13,33 @@ namespace Foundation.Editors {
 				return;
 			}
 
-			EditorGUI.BeginProperty(position, label, property);
+			using (var scope = new EditorGUI.PropertyScope(position, label, property)) {
+				// Draw label
+				label = scope.content;
+				position = EditorGUI.PrefixLabel(position, GUIUtility.GetControlID(FocusType.Passive), label);
 
-			// Draw label
-			position = EditorGUI.PrefixLabel(position, GUIUtility.GetControlID(FocusType.Passive), label);
+				using (new EditorGUI.IndentLevelScope(-EditorGUI.indentLevel)) {
+					// Calculate rects
+					Rect stringRect = new Rect(position.x, position.y, position.width - (MINI_BUTTON_WIDTH + SPACING) * 2, position.height);
+					float consumed = stringRect.width + SPACING;
+					Rect clipboardButtonRect = new Rect(position.x + consumed, position.y, MINI_BUTTON_WIDTH, position.height);
+					consumed += MINI_BUTTON_WIDTH + SPACING;
+					Rect refreshButtonRect = new Rect(position.x + consumed, position.y, MINI_BUTTON_WIDTH, position.height);
 
-			// Clear indent
-			int indent = EditorGUI.indentLevel;
-			EditorGUI.indentLevel = 0;
+					// Draw
+					using (new EditorGUI.DisabledGroupScope(true)) {
+						EditorGUI.TextField(stringRect, uuid.uuidString);
+					}
 
-			// Calculate rects
-			Rect stringRect = new Rect(position.x, position.y, position.width - (MINI_BUTTON_WIDTH + SPACING) * 2, position.height);
-			float consumed = stringRect.width + SPACING;
-			Rect clipboardButtonRect = new Rect(position.x + consumed, position.y, MINI_BUTTON_WIDTH, position.height);
-			consumed += MINI_BUTTON_WIDTH + SPACING;
-			Rect refreshButtonRect = new Rect(position.x + consumed, position.y, MINI_BUTTON_WIDTH, position.height);
+					if (GUI.Button(clipboardButtonRect, new GUIContent(EditorGUIUtility.FindTexture("Clipboard"), "Copy"))) {
+						EditorGUIUtility.systemCopyBuffer = uuid.uuidString;
+					}
 
-			// Draw
-			EditorGUI.BeginDisabledGroup(true);
-			EditorGUI.TextField(stringRect, uuid.uuidString);
-			EditorGUI.EndDisabledGroup();
-
-			if (GUI.Button(clipboardButtonRect, new GUIContent(EditorGUIUtility.FindTexture("Clipboard"), "Copy"))) {
-				EditorGUIUtility.systemCopyBuffer = uuid.uuidString;
+					if (GUI.Button(refreshButtonRect, new GUIContent(EditorGUIUtility.FindTexture("Refresh"), "Recreate"))) {
+						property.boxedValue = UUID.Create();
+					}
+				}
 			}
-
-			if (GUI.Button(refreshButtonRect, new GUIContent(EditorGUIUtility.FindTexture("Refresh"), "Recreate"))) {
-				property.boxedValue = UUID.Create();
-			}
-
-			// Restore indent
-			EditorGUI.indentLevel = indent;
-
-			EditorGUI.EndProperty();
 		}
 	}
 }
