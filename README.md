@@ -22,3 +22,4 @@ Foundation provides multiple submodules.  These are optional, but live under the
 | [Property Wrappers](https://github.com/ryanslikesocool/UnityFoundation-PropertyWrappers) | Property wrappers and bindings |
 | [Safety](https://github.com/ryanslikesocool/UnityFoundation-Safety) | Simple safety features |
 | [Generators](https://github.com/ryanslikesocool/UnityFoundation-Generators) | Code generation attributes |
+| [Configuration](https://github.com/ryanslikesocool/UnityFoundation-Configuration) | ScriptableObject-based configuration model |
