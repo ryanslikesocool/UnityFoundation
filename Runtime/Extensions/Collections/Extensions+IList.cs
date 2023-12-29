@@ -67,7 +67,7 @@ namespace Foundation {
 		/// Returns the first element in a collection.
 		/// </summary>
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static Element? First<Element>(this IList<Element> collection) => collection.IsEmpty() ? default : collection[0];
+		public static Element? First<Element>(this IList<Element> collection) => collection.IsEmpty() ? default(Element?) : collection[0];
 
 		/// <summary>
 		/// Returns the first element in a collection that matches the given predicate.
@@ -77,14 +77,14 @@ namespace Foundation {
 			if (collection.FirstIndex(predicate) is int index) {
 				return collection[index];
 			}
-			return default;
+			return default(Element?);
 		}
 
 		/// <summary>
 		/// Returns the last element in a collection.
 		/// </summary>
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static Element? Last<Element>(this IList<Element> collection) => collection.IsEmpty() ? default : collection[^1];
+		public static Element? Last<Element>(this IList<Element> collection) => collection.IsEmpty() ? default(Element?) : collection[^1];
 
 		/// <summary>
 		/// Returns the last element in a collection that matches the given predicate.
@@ -94,7 +94,7 @@ namespace Foundation {
 			if (collection.LastIndex(predicate) is int index) {
 				return collection[index];
 			}
-			return default;
+			return default(Element?);
 		}
 
 		/// <summary>
@@ -102,7 +102,7 @@ namespace Foundation {
 		/// </summary>
 		public static Element? Random<Element>(this IList<Element> collection) {
 			if (collection.IsEmpty()) {
-				return default;
+				return default(Element?);
 			}
 			int index = UnityEngine.Random.Range(0, collection.Count);
 			return collection[index];
@@ -110,7 +110,7 @@ namespace Foundation {
 
 		public static Element? Random<Element>(this IList<Element> collection, ref Random rng) {
 			if (collection.IsEmpty()) {
-				return default;
+				return default(Element?);
 			}
 			int index = rng.NextInt(collection.Count);
 			return collection[index];
