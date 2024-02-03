@@ -3,95 +3,94 @@ using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 
 namespace Foundation {
-    [Serializable]
-    public struct Bitmask : IEquatable<Bitmask> {
-        public uint backing;
+	[Serializable]
+	public struct Bitmask : IEquatable<Bitmask> {
+		public uint rawValue;
 
-        public bool this[int index] {
-            get => Contains((uint)(1 << index));
-            set {
-                uint flag = (uint)(1 << index);
-                switch ((value: value, flag: Contains(flag))) {
-                    case { value: true, flag: false }:
-                        Insert(flag);
-                        break;
-                    case { value: false, flag: true }:
-                        Remove(flag);
-                        break;
-                    default: // no change
-                        break;
-                }
-            }
-        }
+		public bool this[int index] {
+			readonly get => Contains((uint)(1 << index));
+			set {
+				uint flag = (uint)(1 << index);
+				switch ((value: value, flag: Contains(flag))) {
+					case { value: true, flag: false }:
+						Insert(flag);
+						break;
+					case { value: false, flag: true }:
+						Remove(flag);
+						break;
+					default: // no change
+						break;
+				}
+			}
+		}
 
-        public Bitmask(uint backing) {
-            this.backing = backing;
-        }
+		public Bitmask(uint rawValue) {
+			this.rawValue = rawValue;
+		}
 
-        public Bitmask(IEnumerable<bool> collection) {
-            backing = 0;
+		public Bitmask(in IEnumerable<bool> collection) {
+			rawValue = 0;
 
-            int counter = 0;
-            foreach (bool item in collection) {
-                if (item) {
-                    backing |= (uint)(1 << counter);
-                }
-                counter++;
-            }
-        }
+			int counter = 0;
+			foreach (bool item in collection) {
+				if (item) {
+					rawValue |= (uint)(1 << counter);
+				}
+				counter++;
+			}
+		}
 
-        public static readonly Bitmask Zero = new Bitmask(0);
+		public static readonly Bitmask None = new Bitmask(0);
 
+		[MethodImpl(MethodImplOptions.AggressiveInlining)] public readonly bool Contains(Bitmask flag) => this.Contains(flag.rawValue);
+		[MethodImpl(MethodImplOptions.AggressiveInlining)] public void Insert(Bitmask flag) => this.Insert(flag.rawValue);
+		[MethodImpl(MethodImplOptions.AggressiveInlining)] public void Remove(Bitmask flag) => this.Remove(flag.rawValue);
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public bool Contains(Bitmask flag) => this.Contains(flag.backing);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public void Insert(Bitmask flag) => this.Insert(flag.backing);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public void Remove(Bitmask flag) => this.Remove(flag.backing);
+		[MethodImpl(MethodImplOptions.AggressiveInlining)] public readonly bool Contains(uint flag) => (rawValue & flag) != 0u;
+		[MethodImpl(MethodImplOptions.AggressiveInlining)] public void Insert(uint flag) => rawValue |= flag;
+		[MethodImpl(MethodImplOptions.AggressiveInlining)] public void Remove(uint flag) => rawValue &= ~flag;
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public bool Contains(uint flag) => (backing & flag) != 0u;
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public void Insert(uint flag) => backing |= flag;
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public void Remove(uint flag) => backing &= ~flag;
+		public static explicit operator uint(Bitmask mask) => mask.rawValue;
+		public static explicit operator Bitmask(uint rawValue) => new Bitmask(rawValue);
 
-        public static explicit operator uint(Bitmask mask) => mask.backing;
-        public static explicit operator Bitmask(uint backing) => new Bitmask(backing);
+		[MethodImpl(MethodImplOptions.AggressiveInlining)] public readonly bool Equals(Bitmask other) => rawValue == other.rawValue;
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public bool Equals(Bitmask other) => backing == other.backing;
+		[MethodImpl(MethodImplOptions.AggressiveInlining)] public static bool operator ==(Bitmask lhs, Bitmask rhs) => lhs.Equals(rhs);
+		[MethodImpl(MethodImplOptions.AggressiveInlining)] public static bool operator !=(Bitmask lhs, Bitmask rhs) => !lhs.Equals(rhs);
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static bool operator ==(Bitmask lhs, Bitmask rhs) => lhs.Equals(rhs);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static bool operator !=(Bitmask lhs, Bitmask rhs) => !lhs.Equals(rhs);
+		public readonly IEnumerable<uint> AsActiveFlags() {
+			for (int i = 0; i < (sizeof(uint) * 8); i++) {
+				uint flag = (uint)(1 << i);
+				if (Contains(flag)) {
+					yield return flag;
+				}
+			}
+		}
 
-        public IEnumerable<uint> AsActiveFlags() {
-            for (int i = 0; i < (sizeof(uint) * 8); i++) {
-                uint flag = (uint)(1 << i);
-                if (Contains(flag)) {
-                    yield return flag;
-                }
-            }
-        }
+		public readonly IEnumerable<int> AsActiveIndices() {
+			for (int i = 0; i < (sizeof(uint) * 8); i++) {
+				if (this[i]) {
+					yield return i;
+				}
+			}
+		}
 
-        public IEnumerable<int> AsActiveIndices() {
-            for (int i = 0; i < (sizeof(uint) * 8); i++) {
-                if (this[i]) {
-                    yield return i;
-                }
-            }
-        }
+		public readonly IEnumerable<bool> AsBools() {
+			for (int i = 0; i < (sizeof(uint) * 8); i++) {
+				yield return this[i];
+			}
+		}
 
-        public IEnumerable<bool> AsBools() {
-            for (int i = 0; i < (sizeof(uint) * 8); i++) {
-                yield return this[i];
-            }
-        }
+		// MARK: - Override
 
-        // MARK: - Override
+		public readonly override int GetHashCode() {
+			return base.GetHashCode();
+		}
 
-        public override int GetHashCode() {
-            return base.GetHashCode();
-        }
-
-        public override bool Equals(object obj) => obj switch {
-            Bitmask other => this.Equals(other),
-            uint otherBacking => this.backing == otherBacking,
-            _ => false
-        };
-    }
+		public readonly override bool Equals(object obj) => obj switch {
+			Bitmask other => this.Equals(other),
+			uint otherRawValue => this.rawValue == otherRawValue,
+			_ => false
+		};
+	}
 }
