@@ -10,18 +10,6 @@ namespace Foundation {
 		);
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static float3 RoundToNearest(this float3 input, float3 nearest)
-			=> math.round(input / nearest) * nearest;
-
-		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static float3 FloorToNearest(this float3 input, float3 nearest)
-			=> math.floor(input / nearest) * nearest;
-
-		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static float3 CeilToNearest(this float3 input, float3 nearest)
-			=> math.ceil(input / nearest) * nearest;
-
-		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static bool Approximately(this float3 a, float3 b, float epsilon = EPSILON4)
 			=> math.distancesq(a, b) < epsilon * epsilon;
 
@@ -52,16 +40,6 @@ namespace Foundation {
 				angle = -angle;
 			}
 			return angle;
-		}
-
-		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static float3 Negate(this float3 value, bool3 condition) {
-			for (int i = 0; i < 3; i++) {
-				if (condition[i]) {
-					value[i] *= -1;
-				}
-			}
-			return value;
 		}
 	}
 }

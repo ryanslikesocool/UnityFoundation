@@ -4,10 +4,12 @@ Essential data types and collections to define the base layer of functionality f
 ## NOTICE
 This package is not considered production-ready.  Breaking changes are common and support is limited.  Use at your own risk.
 
-## Installation
-**Recommended Installation** (Unity Package Manager)
-- "Add package from git URL..."
-- `https://github.com/ryanslikesocool/UnityFoundation.git`
+## Installation (Unity Package Manager)
+- Select "Add package from git URL..." from the plus menu in the package manager window.
+- Paste the package's git url.
+```
+https://github.com/ryanslikesocool/UnityFoundation.git
+```
 
 ## Submodules
 Foundation provides multiple submodules.  These are optional, but live under the Foundation umbrella.
@@ -19,3 +21,4 @@ Foundation provides multiple submodules.  These are optional, but live under the
 | [Safety](https://github.com/ryanslikesocool/UnityFoundation-Safety) | Simple safety features |
 | [Generators](https://github.com/ryanslikesocool/UnityFoundation-Generators) | Code generation attributes |
 | [Configuration](https://github.com/ryanslikesocool/UnityFoundation-Configuration) | ScriptableObject-based configuration model |
+| [Mathematics](https://github.com/ryanslikesocool/UnityFoundation-Mathematics) | Additional functions for the [Unity.Mathematics](https://github.com/Unity-Technologies/Unity.Mathematics) library |

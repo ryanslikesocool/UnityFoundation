@@ -13,18 +13,6 @@ namespace Foundation {
 		public const float EPSILON7 = 0.0000001f;
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static float RoundToNearest(this float input, float nearest)
-			=> math.round(input / nearest) * nearest;
-
-		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static float FloorToNearest(this float input, float nearest)
-			=> math.floor(input / nearest) * nearest;
-
-		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static float CeilToNearest(this float input, float nearest)
-			=> math.ceil(input / nearest) * nearest;
-
-		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static bool Approximately(this float input, float other, float epsilon = EPSILON4)
 			=> math.abs(input - other) < (epsilon * epsilon);
 
@@ -52,13 +40,5 @@ namespace Foundation {
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static float DerivativeOf(Func<float, float> fn, float x, float epsilon = EPSILON7)
 			=> (fn(x + epsilon) - fn(x)) / epsilon;
-
-		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static float Negate(this float value, bool condition) {
-			if (condition) {
-				value *= -1;
-			}
-			return value;
-		}
 	}
 }
