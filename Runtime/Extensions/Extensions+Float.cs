@@ -1,6 +1,5 @@
 using System;
 using System.Runtime.CompilerServices;
-using Unity.Mathematics;
 
 namespace Foundation {
 	public static partial class Extensions {
@@ -11,10 +10,6 @@ namespace Foundation {
 		public const float EPSILON5 = 0.00001f;
 		public const float EPSILON6 = 0.000001f;
 		public const float EPSILON7 = 0.0000001f;
-
-		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static bool Approximately(this float input, float other, float epsilon = EPSILON4)
-			=> math.abs(input - other) < (epsilon * epsilon);
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static float Wrap(this float input, float max)
