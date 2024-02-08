@@ -56,8 +56,19 @@ namespace Foundation {
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static bool IsEmpty<_>(this IList<_> collection) => collection.Count == 0;
 
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static IEnumerable<Element> Reversed<Element>(this IList<Element> collection) {
 			for (int i = collection.Count - 1; i >= 0; i--) {
+				yield return collection[i];
+			}
+		}
+
+		/// <summary>
+		/// Returns a subset of the given collection in the range <c>lowerBounds ..< upperBound</c>.
+		/// </summary>
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
+		public static IEnumerable<Element> InRange<Element>(this IList<Element> collection, int lowerBound, int upperBound) {
+			for (int i = lowerBound; i < upperBound; i++) {
 				yield return collection[i];
 			}
 		}
