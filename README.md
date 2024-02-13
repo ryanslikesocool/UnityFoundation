@@ -18,7 +18,7 @@ Foundation provides multiple submodules.  These are optional, but live under the
 | - | - |
 | [Notification Center](https://github.com/ryanslikesocool/UnityFoundation-NotificationCenter) | Simple event system |
 | [Property Wrappers](https://github.com/ryanslikesocool/UnityFoundation-PropertyWrappers) | Property wrappers and bindings |
-| [Safety](https://github.com/ryanslikesocool/UnityFoundation-Safety) | Simple safety features |
 | [Generators](https://github.com/ryanslikesocool/UnityFoundation-Generators) | Code generation attributes |
 | [Configuration](https://github.com/ryanslikesocool/UnityFoundation-Configuration) | ScriptableObject-based configuration model |
 | [Mathematics](https://github.com/ryanslikesocool/UnityFoundation-Mathematics) | Additional functions for the [Unity.Mathematics](https://github.com/Unity-Technologies/Unity.Mathematics) library |
+| [Parallel](https://github.com/ryanslikesocool/UnityFoundation-Parallel) | Extensions and utilities for Unity's Job System and native collections |
