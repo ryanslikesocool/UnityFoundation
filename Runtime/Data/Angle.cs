@@ -1,91 +1,108 @@
 using System;
 using Unity.Mathematics;
 using UnityEngine;
+using System.Runtime.CompilerServices;
+using static System.Runtime.CompilerServices.MethodImplOptions;
 
 namespace Foundation {
-    [Serializable]
-    public struct Angle : IEquatable<Angle>, IComparable<Angle> {
-        private const float TAU = math.PI * 2.0f;
-        private const float TAU_RCP = 1.0f / TAU;
+	[Serializable]
+	public struct Angle : IEquatable<Angle>, IComparable<Angle> {
+		private const float TAU = math.PI * 2.0f;
+		private const float TAU_RCP = 1.0f / TAU;
 
-        [SerializeField, HideInInspector] private float _storage;
+		[SerializeField, HideInInspector] private float _storage;
 
-        public float radians {
-            get => _storage;
-            set => _storage = value;
-        }
+		/// <summary>
+		/// The angle, expressed in radians.
+		/// </summary>
+		/// <remarks>
+		/// tau (~6.28) radians is equivalent to one full rotation.
+		/// </remarks>
+		public float radians {
+			readonly get => _storage;
+			set => _storage = value;
+		}
 
-        public float degrees {
-            get => math.degrees(_storage);
-            set => _storage = math.radians(value);
-        }
+		/// <summary>
+		/// The angle, expressed in degrees.
+		/// </summary>
+		/// <remarks>
+		/// 360 degrees is equivalent to one full rotation.
+		/// </remarks>
+		public float degrees {
+			readonly get => math.degrees(_storage);
+			set => _storage = math.radians(value);
+		}
 
-        public float turns {
-            get => _storage * TAU_RCP;
-            set => _storage = value * TAU;
-        }
+		/// <summary>
+		/// The angle, expressed in turns.
+		/// </summary>
+		/// <remarks>
+		/// 1 turn is equivalent to one full rotation.
+		/// </remarks>
+		public float turns {
+			readonly get => _storage * TAU_RCP;
+			set => _storage = value * TAU;
+		}
 
-        public Angle(Mode mode, float value) {
-            _storage = 0;
-            switch (mode) {
-                case Mode.Radians:
-                    this.radians = value;
-                    break;
-                case Mode.Degrees:
-                    this.degrees = value;
-                    break;
-                case Mode.Turns:
-                    this.turns = value;
-                    break;
-            }
-        }
+		public Angle(Mode mode, float value) {
+			_storage = 0;
+			switch (mode) {
+				case Mode.Radians:
+					this.radians = value;
+					break;
+				case Mode.Degrees:
+					this.degrees = value;
+					break;
+				case Mode.Turns:
+					this.turns = value;
+					break;
+			}
+		}
 
-        public static Angle Radians(float value) {
-            Angle result = new Angle();
-            result.radians = value;
-            return result;
-        }
+		[MethodImpl(AggressiveInlining)]
+		public static Angle Radians(float value) => new Angle {
+			radians = value
+		};
 
-        public static Angle Degrees(float value) {
-            Angle result = new Angle();
-            result.degrees = value;
-            return result;
-        }
+		[MethodImpl(AggressiveInlining)]
+		public static Angle Degrees(float value) => new Angle {
+			degrees = value
+		};
 
-        public static Angle Turns(float value) {
-            Angle result = new Angle();
-            result.turns = value;
-            return result;
-        }
+		[MethodImpl(AggressiveInlining)]
+		public static Angle Turns(float value) => new Angle {
+			turns = value
+		};
 
-        public static readonly Angle zero = new Angle();
+		public static readonly Angle zero = new Angle();
 
-        public enum Mode : byte {
-            Radians = 0,
-            Degrees = 1,
-            Turns = 2
-        }
+		public enum Mode : byte {
+			Radians = 0,
+			Degrees = 1,
+			Turns = 2
+		}
 
-        // MARK: - Utility
+		// MARK: - Utility
 
-        public override string ToString() => $"Angle(radians: {radians}, degrees: {degrees}, turns: {turns})";
+		public readonly override string ToString() => $"Angle(radians: {radians}, degrees: {degrees}, turns: {turns})";
 
-        public static implicit operator float(Angle angle) => angle.radians;
-        public static implicit operator Angle(float value) => Angle.Radians(value);
+		public static implicit operator float(Angle angle) => angle.radians;
+		public static implicit operator Angle(float value) => Angle.Radians(value);
 
-        public int CompareTo(Angle other) => this._storage.CompareTo(other._storage);
+		public readonly int CompareTo(Angle other) => this._storage.CompareTo(other._storage);
 
-        public bool Equals(Angle other) => this._storage == other._storage;
+		public readonly bool Equals(Angle other) => this._storage == other._storage;
 
-        public override bool Equals(object other) => other switch {
-            Angle _angle => this.Equals(_angle),
-            float _float => this._storage == _float,
-            _ => false
-        };
+		public readonly override bool Equals(object other) => other switch {
+			Angle _angle => this.Equals(_angle),
+			float _float => this._storage == _float,
+			_ => false
+		};
 
-        public override int GetHashCode() => _storage.GetHashCode();
+		public readonly override int GetHashCode() => _storage.GetHashCode();
 
-        public static bool operator ==(Angle lhs, Angle rhs) => lhs.Equals(rhs);
-        public static bool operator !=(Angle lhs, Angle rhs) => !lhs.Equals(rhs);
-    }
+		public static bool operator ==(Angle lhs, Angle rhs) => lhs.Equals(rhs);
+		public static bool operator !=(Angle lhs, Angle rhs) => !lhs.Equals(rhs);
+	}
 }
