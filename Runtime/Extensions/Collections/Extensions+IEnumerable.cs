@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
+using static System.Runtime.CompilerServices.MethodImplOptions;
 
 namespace Foundation {
 	public static partial class Extensions {
@@ -13,14 +14,14 @@ namespace Foundation {
 		/// <br/>2. Using the return statement in the body closure will exit only from the current call to body, not from any outer scope, and won’t skip subsequent calls.
 		/// </remarks>
 		/// <param name="body">A closure that takes an element of the sequence as a parameter.</param>
-		[MethodImpl(MethodImplOptions.AggressiveInlining)]
+		[MethodImpl(AggressiveInlining)]
 		public static void ForEach<Element>(this IEnumerable<Element> collection, Action<Element> body) {
 			foreach (Element element in collection) {
 				body(element);
 			}
 		}
 
-		[MethodImpl(MethodImplOptions.AggressiveInlining)]
+		[MethodImpl(AggressiveInlining)]
 		public static IEnumerable<Element> CompactMap<Source, Element>(this IEnumerable<Source> collection, Func<Source, Element?> transform) where Element : struct {
 			foreach (Source source in collection) {
 				if (transform(source).TryGetValue(out Element element)) {
@@ -29,7 +30,7 @@ namespace Foundation {
 			}
 		}
 
-		[MethodImpl(MethodImplOptions.AggressiveInlining)]
+		[MethodImpl(AggressiveInlining)]
 		public static IEnumerable<Element> CompactMap<Source, Element>(this IEnumerable<Source> collection, Func<Source, Element> transform) where Element : class {
 			foreach (Source source in collection) {
 				if (transform(source).TryGetValue(out Element element)) {
@@ -38,64 +39,20 @@ namespace Foundation {
 			}
 		}
 
-		/// <summary>
-		/// Counts the number of elements in a collection where the condition is true.
-		/// </summary>
-		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static int Count<Element>(this IEnumerable<Element> collection, Predicate<Element> condition) {
-			int result = 0;
+		[MethodImpl(AggressiveInlining)]
+		public static T Reduce<T, Element>(this IEnumerable<Element> collection, T initialResult, Func<T, Element, T> nextPartialResult) {
+			T result = initialResult;
 			foreach (Element element in collection) {
-				if (condition(element)) {
-					result++;
-				}
+				result = nextPartialResult(result, element);
 			}
 			return result;
-		}
-
-		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static bool Contains<Element>(this IEnumerable<Element> collection, Predicate<Element> condition) {
-			foreach (Element element in collection) {
-				if (condition(element)) {
-					return true;
-				}
-			}
-			return false;
-		}
-
-		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static IEnumerable<Element> FlatMap<Element>(this IEnumerable<IEnumerable<Element>> collections) {
-			foreach (IEnumerable<Element> collection in collections) {
-				foreach (Element element in collection) {
-					yield return element;
-				}
-			}
-		}
-
-		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static bool All(this IEnumerable<bool> collection) {
-			foreach (bool element in collection) {
-				if (!element) {
-					return false;
-				}
-			}
-			return true;
-		}
-
-		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static bool Any(this IEnumerable<bool> collection) {
-			foreach (bool element in collection) {
-				if (element) {
-					return true;
-				}
-			}
-			return false;
 		}
 
 #nullable enable
 		/// <summary>
 		/// Returns the first element in a collection that matches the condition, <see langword="null"/> otherwise.
 		/// </summary>
-		[MethodImpl(MethodImplOptions.AggressiveInlining)]
+		[MethodImpl(AggressiveInlining)]
 		public static Element? First<Element>(this IEnumerable<Element> collection, Predicate<Element> condition) {
 			foreach (Element element in collection) {
 				if (condition(element)) {
@@ -105,7 +62,7 @@ namespace Foundation {
 			return default;
 		}
 
-		[MethodImpl(MethodImplOptions.AggressiveInlining)]
+		[MethodImpl(AggressiveInlining)]
 		public static Element? First<Element>(this IEnumerable<Element> collection) {
 			foreach (Element element in collection) {
 				return element;
@@ -116,90 +73,58 @@ namespace Foundation {
 
 		// MARK: - Linq Passthrough
 
-		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static Element[] ToArray<Element>(this IEnumerable<Element> collection) => System.Linq.Enumerable.ToArray(collection);
+		[MethodImpl(AggressiveInlining)]
+		public static IEnumerable<Element> Unique<Element>(this IEnumerable<Element> collection)
+			=> System.Linq.Enumerable.Distinct(collection);
 
-		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static int Count<Element>(this IEnumerable<Element> collection) => System.Linq.Enumerable.Count(collection);
-
-		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static IEnumerable<Element> Unique<Element>(this IEnumerable<Element> collection) => System.Linq.Enumerable.Distinct(collection);
-
-		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static IEnumerable<Element> Append<Element>(this IEnumerable<Element> collection, Element element) => System.Linq.Enumerable.Append(collection, element);
-
-		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static IEnumerable<Element> Join<Element>(this IEnumerable<Element> lhs, IEnumerable<Element> rhs) => System.Linq.Enumerable.Concat(lhs, rhs);
+		[MethodImpl(AggressiveInlining)]
+		public static IEnumerable<Element> Join<Element>(this IEnumerable<Element> lhs, IEnumerable<Element> rhs)
+			=> System.Linq.Enumerable.Concat(lhs, rhs);
 
 		/// <summary>
 		/// Returns a collection containing the results of mapping the given closure over the sequence’s elements.
 		/// </summary>
 		/// <param name="transform">A mapping closure. <paramref name="transform"/> accepts an element of this sequence as its parameter and returns a transformed value of the same or of a different type.</param>
 		/// <returns>A collection containing the transformed elements of this sequence.</returns>
-		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static IEnumerable<Result> Map<Element, Result>(this IEnumerable<Element> collection, Func<Element, Result> transform) => System.Linq.Enumerable.Select(collection, transform);
+		[MethodImpl(AggressiveInlining)]
+		public static IEnumerable<Result> Map<Element, Result>(this IEnumerable<Element> collection, Func<Element, Result> transform)
+			=> System.Linq.Enumerable.Select(collection, transform);
 
 		/// <summary>
 		/// Returns a collection containing, in order, the elements of the sequence that satisfy the given predicate.
 		/// </summary>
 		/// <param name="isIncluded">A closure that takes an element of the sequence as its argument and returns a Boolean value indicating whether the element should be included in the returned array.</param>
 		/// <returns>A collection of the elements that isIncluded allowed.</returns>
-		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static IEnumerable<Element> Filter<Element>(this IEnumerable<Element> collection, Predicate<Element> isIncluded) {
-			foreach (Element element in collection) {
-				if (isIncluded(element)) {
-					yield return element;
-				}
-			}
-		}
+		[MethodImpl(AggressiveInlining)]
+		public static IEnumerable<Element> Filter<Element>(this IEnumerable<Element> collection, Func<Element, bool> isIncluded)
+			=> System.Linq.Enumerable.Where(collection, isIncluded);
+
+		[MethodImpl(AggressiveInlining)]
+		public static bool Contains<Element>(this IEnumerable<Element> collection, Func<Element, bool> condition)
+			=> System.Linq.Enumerable.Any(collection, condition);
 
 		/// <summary>
 		/// Returns a collection containing the concatenated results of calling the given transformation with each element of this sequence.
 		/// </summary>
 		/// <param name="transform">A closure that accepts an element of this sequence as its argument and returns a sequence or collection.</param>
 		/// <returns>The resulting flattened collection.</returns>
-		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static IEnumerable<Element> FlatMap<Source, Element>(this IEnumerable<Source> collection, Func<Source, IEnumerable<Element>> transform) => System.Linq.Enumerable.SelectMany(collection, transform);
+		[MethodImpl(AggressiveInlining)]
+		public static IEnumerable<Element> FlatMap<Source, Element>(this IEnumerable<Source> collection, Func<Source, IEnumerable<Element>> transform)
+			=> System.Linq.Enumerable.SelectMany(collection, transform);
 
-		/// <summary>
-		/// Returns <see langword="true"/> if all elements in a collection meet the condition; <see langword="false"/> otherwise.
-		/// </summary>
-		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static bool All<Element>(this IEnumerable<Element> collection, Predicate<Element> predicate) {
-			foreach (Element element in collection) {
-				if (!predicate(element)) {
-					return false;
-				}
-			}
-			return true;
-		}
-
-		/// <summary>
-		/// Returns <see langword="true"/> if any element in a collection meets the condition; <see langword="false"/> otherwise.
-		/// </summary>
-		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static bool Any<Element>(this IEnumerable<Element> collection, Predicate<Element> predicate) {
-			foreach (Element element in collection) {
-				if (predicate(element)) {
-					return true;
-				}
-			}
-			return false;
-		}
+		[MethodImpl(AggressiveInlining)]
+		public static IEnumerable<Element> FlatMap<Element>(this IEnumerable<IEnumerable<Element>> collections)
+			=> System.Linq.Enumerable.SelectMany(collections, (e) => e);
 
 		/// <summary>
 		/// Returns <see langword="false"/> if any element in a collection meets the condition; <see langword="true"/> otherwise.
 		/// </summary>
-		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static bool None<Element>(this IEnumerable<Element> collection, Predicate<Element> condition) => !Any(collection, condition);
+		[MethodImpl(AggressiveInlining)]
+		public static bool None<Element>(this IEnumerable<Element> collection, Func<Element, bool> condition)
+			=> !System.Linq.Enumerable.Any(collection, condition);
 
-		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static IEnumerable<System.Linq.IGrouping<Key, Element>> Chunked<Element, Key>(this IEnumerable<Element> collection, Func<Element, Key> function) => System.Linq.Enumerable.GroupBy(collection, function);
-
-		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static List<Element> ToList<Element>(this IEnumerable<Element> collection) => System.Linq.Enumerable.ToList(collection);
-
-		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static bool Contains<Element>(this IEnumerable<Element> collection, Element item) => System.Linq.Enumerable.Contains(collection, item);
+		[MethodImpl(AggressiveInlining)]
+		public static IEnumerable<System.Linq.IGrouping<Key, Element>> Chunked<Element, Key>(this IEnumerable<Element> collection, Func<Element, Key> function)
+			=> System.Linq.Enumerable.GroupBy(collection, function);
 	}
 }
