@@ -13,5 +13,10 @@ namespace Foundation {
 			};
 			rectTransform.SetInsetAndSizeFromParentEdge(edge, inset, size);
 		}
+
+		public static void SetSizeWithCurrentAnchors(this RectTransform rectTransform, Vector2 size) {
+			rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, size.x);
+			rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, size.y);
+		}
 	}
 }
