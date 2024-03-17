@@ -40,6 +40,14 @@ namespace Foundation {
 		}
 
 		[MethodImpl(AggressiveInlining)]
+		public static IEnumerable<Element> CompactMap<Element>(this IEnumerable<Element?> collection) where Element : struct
+			=> collection.CompactMap(value => value);
+
+		[MethodImpl(AggressiveInlining)]
+		public static IEnumerable<Element> CompactMap<Element>(this IEnumerable<Element> collection) where Element : class
+			=> collection.CompactMap(value => value);
+
+		[MethodImpl(AggressiveInlining)]
 		public static T Reduce<T, Element>(this IEnumerable<Element> collection, T initialResult, Func<T, Element, T> nextPartialResult) {
 			T result = initialResult;
 			foreach (Element element in collection) {
