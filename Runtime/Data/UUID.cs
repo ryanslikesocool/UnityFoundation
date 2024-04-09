@@ -7,7 +7,7 @@ namespace Foundation {
 	/// A universally unique value to identify types, interfaces, and other items.
 	/// </summary>
 	[Serializable, StructLayout(LayoutKind.Sequential)]
-	public struct UUID : IEquatable<UUID>, IHashable {
+	public struct UUID : IEquatable<UUID> {
 		[SerializeField, HideInInspector] private byte a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p;
 
 		public readonly string uuidString => String.Format(UUID.STRING_FORMAT, a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p);
@@ -81,25 +81,6 @@ namespace Foundation {
 
 		public static bool operator ==(UUID a, UUID b) => a.Equals(b);
 		public static bool operator !=(UUID a, UUID b) => !a.Equals(b);
-
-		public readonly void Hash(ref Hasher value) {
-			value.Combine(this.a);
-			value.Combine(this.b);
-			value.Combine(this.c);
-			value.Combine(this.d);
-			value.Combine(this.e);
-			value.Combine(this.f);
-			value.Combine(this.g);
-			value.Combine(this.h);
-			value.Combine(this.i);
-			value.Combine(this.j);
-			value.Combine(this.k);
-			value.Combine(this.l);
-			value.Combine(this.m);
-			value.Combine(this.n);
-			value.Combine(this.o);
-			value.Combine(this.p);
-		}
 
 		// MARK: - Constants
 
