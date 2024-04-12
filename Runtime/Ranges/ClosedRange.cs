@@ -77,12 +77,26 @@ namespace Foundation {
 			}
 		}
 
+		// MARK: - IEquatable
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public readonly bool Equals(ClosedRange<Bound> other) => lowerBound.Equals(other.lowerBound) && upperBound.Equals(other.upperBound);
+
+		// MARK: - Operators
+
+		//NOTE: Bound is not IEquatable
+		//public static bool operator ==(ClosedRange<Bound> lhs, ClosedRange<Bound> rhs)
+		//	=> lhs.lowerBound == rhs.lowerBound && lhs.upperBound == rhs.upperBound;
+
+		//NOTE: no custom operators :(
 		//public static ClosedRange<Bound> operator ...(Bound lowerBound, Bound upperBound) => new ClosedRange(lowerBound, upperBound);
 
-		public override readonly string ToString() => $"ClosedRange<{typeof(Bound)}>({lowerBound.ToString()} ... {upperBound.ToString()})";
+		// MARK: - Overrides
+
+		public override readonly string ToString() => $"ClosedRange<{typeof(Bound)}>({lowerBound} ... {upperBound})";
 	}
+
+	// MARK: - Extensions
 
 	public static partial class Extensions {
 		public static System.Range ConvertToSystemRange(this ClosedRange<int> range) => new System.Range(new Index(range.lowerBound), new Index(range.upperBound + 1));
@@ -93,7 +107,7 @@ namespace Foundation {
 		public static float Unlerp(this ClosedRange<float> range, float t) => math.unlerp(range.lowerBound, range.upperBound, t);
 		public static double Unlerp(this ClosedRange<double> range, double t) => math.unlerp(range.lowerBound, range.upperBound, t);
 
-		// unity.mathematics types do not implement IComparable
+		// unity.mathematics types do not implement IComparable...
 		// public static float2 Lerp(this ClosedRange<float2> range, float t) => math.lerp(range.lowerBound, range.upperBound, t);
 		// public static float3 Lerp(this ClosedRange<float3> range, float t) => math.lerp(range.lowerBound, range.upperBound, t);
 		// public static float4 Lerp(this ClosedRange<float4> range, float t) => math.lerp(range.lowerBound, range.upperBound, t);
