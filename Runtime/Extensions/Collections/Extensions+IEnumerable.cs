@@ -24,7 +24,7 @@ namespace Foundation {
 		[MethodImpl(AggressiveInlining)]
 		public static IEnumerable<Element> CompactMap<Source, Element>(this IEnumerable<Source> collection, Func<Source, Element?> transform) where Element : struct {
 			foreach (Source source in collection) {
-				if (transform(source).TryGetValue(out Element element)) {
+				if (transform(source) is Element element) {
 					yield return element;
 				}
 			}
@@ -33,7 +33,7 @@ namespace Foundation {
 		[MethodImpl(AggressiveInlining)]
 		public static IEnumerable<Element> CompactMap<Source, Element>(this IEnumerable<Source> collection, Func<Source, Element> transform) where Element : class {
 			foreach (Source source in collection) {
-				if (transform(source).TryGetValue(out Element element)) {
+				if (transform(source) is Element element) {
 					yield return element;
 				}
 			}
