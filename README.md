@@ -22,3 +22,4 @@ Foundation provides multiple submodules.  These are optional, but live under the
 | [Generators](https://github.com/ryanslikesocool/UnityFoundation-Generators) | Code generation attributes. |
 | [Configuration](https://github.com/ryanslikesocool/UnityFoundation-Configuration) | ScriptableObject-based configuration model. |
 | [Parallel](https://github.com/ryanslikesocool/UnityFoundation-Parallel) | Extensions and utilities for Unity's Job System and native collections. |
+| [Safety](https://github.com/ryanslikesocool/UnityFoundation-Safety) | Safety functions. |
