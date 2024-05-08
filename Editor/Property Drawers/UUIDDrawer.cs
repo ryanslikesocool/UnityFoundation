@@ -5,8 +5,7 @@ using UnityEngine;
 namespace Foundation.Editors {
 	[CustomPropertyDrawer(typeof(UUID))]
 	internal sealed class UUIDDrawer : PropertyDrawer {
-		private const float SPACING = 4;
-		private const float MINI_BUTTON_WIDTH = 20;
+		// MARK: - IMGUI
 
 		public override void OnGUI(Rect position, SerializedProperty property, GUIContent label) {
 			if (property.boxedValue is not UUID uuid) {
@@ -31,16 +30,27 @@ namespace Foundation.Editors {
 						EditorGUI.TextField(stringRect, uuid.uuidString);
 					}
 
-					if (GUI.Button(clipboardButtonRect, new GUIContent(EditorGUIUtility.FindTexture("Clipboard"), "Copy"))) {
+					if (GUI.Button(clipboardButtonRect, new GUIContent(EditorGUIUtility.FindTexture(COPY_TEXTURE), COPY_LABEL))) {
 						EditorGUIUtility.systemCopyBuffer = uuid.uuidString;
 					}
 
-					if (GUI.Button(refreshButtonRect, new GUIContent(EditorGUIUtility.FindTexture("Refresh"), "Recreate"))) {
+					if (GUI.Button(refreshButtonRect, new GUIContent(EditorGUIUtility.FindTexture(RECREATE_TEXTURE), RECREATE_LABEL))) {
 						property.boxedValue = UUID.Create();
 					}
 				}
 			}
 		}
+
+		// MARK: - Constants
+
+		private const float SPACING = 4;
+		private const float MINI_BUTTON_WIDTH = 20;
+
+		private const string COPY_LABEL = "Copy";
+		private const string RECREATE_LABEL = "Recreate";
+
+		private const string COPY_TEXTURE = "Clipboard";
+		private const string RECREATE_TEXTURE = "Refresh";
 	}
 }
 #endif
