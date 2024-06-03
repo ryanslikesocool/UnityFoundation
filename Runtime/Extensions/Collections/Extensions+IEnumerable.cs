@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
 using System.Runtime.CompilerServices;
 using static System.Runtime.CompilerServices.MethodImplOptions;
 
@@ -54,6 +56,16 @@ namespace Foundation {
 				result = nextPartialResult(result, element);
 			}
 			return result;
+		}
+
+		[MethodImpl(AggressiveInlining)]
+		public static bool Contains<Element>(this IEnumerable<Element> collection, Element element) where Element : IEquatable<Element> {
+			foreach (Element other in collection) {
+				if (element.Equals(other)) {
+					return true;
+				}
+			}
+			return false;
 		}
 
 #nullable enable

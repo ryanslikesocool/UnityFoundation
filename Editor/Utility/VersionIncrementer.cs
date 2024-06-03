@@ -1,3 +1,5 @@
+// Developed With Love by Ryan Boyer https://ryanjboyer.com <3
+
 #if UNITY_EDITOR
 using System.IO;
 using UnityEngine;
@@ -9,7 +11,6 @@ using UnityEditor.iOS.Xcode;
 #endif
 
 namespace SHC.Editors {
-	[InitializeOnLoad]
 	public sealed class VersionIncrementor : IPreprocessBuildWithReport {
 		public int callbackOrder => 0;
 

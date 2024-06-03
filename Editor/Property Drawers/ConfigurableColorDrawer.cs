@@ -1,3 +1,5 @@
+// Developed With Love by Ryan Boyer https://ryanjboyer.com <3
+
 #if UNITY_EDITOR
 using Unity.Mathematics;
 using UnityEditor;

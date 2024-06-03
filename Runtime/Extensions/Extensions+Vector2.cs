@@ -41,5 +41,9 @@ namespace Foundation {
 			Mathf.Abs(input.x),
 			Mathf.Abs(input.y)
 		);
+
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
+		public static bool Approximately(this Vector2 lhs, Vector2 rhs)
+			=> Mathf.Approximately(lhs.x, rhs.x) && Mathf.Approximately(lhs.y, rhs.y);
 	}
 }

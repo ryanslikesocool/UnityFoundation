@@ -1,3 +1,6 @@
+// Developed With Love by Ryan Boyer https://ryanjboyer.com <3
+
+#if UNITY_EDITOR
 using UnityEditor;
 using UnityEngine;
 //using UnityEditor.UIElements;
@@ -78,3 +81,4 @@ namespace Foundation.Editors {
 		private const string PROPERTY_UPPER_BOUND = "upperBound";
 	}
 }
+#endif
