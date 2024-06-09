@@ -1,6 +1,7 @@
 using System;
 using Unity.Mathematics;
 using System.Runtime.CompilerServices;
+using static System.Runtime.CompilerServices.MethodImplOptions;
 
 namespace Foundation {
 	/// <summary>
@@ -33,10 +34,10 @@ namespace Foundation {
 		/// </remarks>
 		/// <param name="element">The element to check for containment.</param>
 		/// <returns><see langword="true"/> if <paramref name="element"/> is contained in the range; otherwise, <see langword="false"/>.</returns>
-		[MethodImpl(MethodImplOptions.AggressiveInlining)]
+		[MethodImpl(AggressiveInlining)]
 		public readonly bool Contains(in Bound element) => lowerBound.CompareTo(element) <= 0 && upperBound.CompareTo(element) >= 0;
 
-		[MethodImpl(MethodImplOptions.AggressiveInlining)]
+		[MethodImpl(AggressiveInlining)]
 		public readonly bool Contains(in ClosedRange<Bound> other) => lowerBound.CompareTo(other.lowerBound) <= 0 && upperBound.CompareTo(other.upperBound) >= 0;
 
 		/// <summary>
@@ -44,7 +45,7 @@ namespace Foundation {
 		/// </summary>
 		/// <param name="other">A range to check for elements in common.</param>
 		/// <returns><see langword="true"/> if this range and <paramref name="other"/> have at least one element in common; otherwise, <see langword="false"/>.</returns>
-		[MethodImpl(MethodImplOptions.AggressiveInlining)]
+		[MethodImpl(AggressiveInlining)]
 		public readonly bool Overlaps(in ClosedRange<Bound> other) {
 			bool lower = Contains(other.lowerBound) || other.Contains(lowerBound);
 			bool upper = Contains(other.upperBound) || other.Contains(upperBound);
@@ -56,7 +57,7 @@ namespace Foundation {
 		/// </summary>
 		/// <param name="limits">The range to clamp the bounds of this range.</param>
 		/// <returns>A new range clamped to the bounds of <paramref name="limits"/>.</returns>
-		[MethodImpl(MethodImplOptions.AggressiveInlining)]
+		[MethodImpl(AggressiveInlining)]
 		public readonly ClosedRange<Bound> ClampedTo(in ClosedRange<Bound> limits) {
 			Bound lower = lowerBound.CompareTo(limits.lowerBound) >= 0 ? lowerBound : limits.lowerBound;
 			Bound upper = upperBound.CompareTo(limits.upperBound) <= 0 ? upperBound : limits.upperBound;
@@ -66,7 +67,7 @@ namespace Foundation {
 		/// <summary>
 		/// Returns the given element clamped to this range.
 		/// </summary>
-		[MethodImpl(MethodImplOptions.AggressiveInlining)]
+		[MethodImpl(AggressiveInlining)]
 		public readonly Bound Clamping(in Bound element) {
 			if (element.CompareTo(lowerBound) < 0) {
 				return lowerBound;
@@ -79,33 +80,65 @@ namespace Foundation {
 
 		// MARK: - IEquatable
 
-		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public readonly bool Equals(ClosedRange<Bound> other) => lowerBound.Equals(other.lowerBound) && upperBound.Equals(other.upperBound);
+		[MethodImpl(AggressiveInlining)]
+		public readonly bool Equals(ClosedRange<Bound> other)
+			=> lowerBound.Equals(other.lowerBound) && upperBound.Equals(other.upperBound);
 
 		// MARK: - Operators
 
-		//NOTE: Bound is not IEquatable
-		//public static bool operator ==(ClosedRange<Bound> lhs, ClosedRange<Bound> rhs)
-		//	=> lhs.lowerBound == rhs.lowerBound && lhs.upperBound == rhs.upperBound;
+		[MethodImpl(AggressiveInlining)]
+		public static bool operator ==(ClosedRange<Bound> lhs, ClosedRange<Bound> rhs)
+			=> lhs.Equals(rhs);
+
+		[MethodImpl(AggressiveInlining)]
+		public static bool operator !=(ClosedRange<Bound> lhs, ClosedRange<Bound> rhs)
+			=> !lhs.Equals(rhs);
 
 		//NOTE: no custom operators :(
 		//public static ClosedRange<Bound> operator ...(Bound lowerBound, Bound upperBound) => new ClosedRange(lowerBound, upperBound);
 
 		// MARK: - Overrides
 
-		public override readonly string ToString() => $"ClosedRange<{typeof(Bound)}>({lowerBound} ... {upperBound})";
+		[MethodImpl(AggressiveInlining)]
+		public override readonly bool Equals(object obj) => obj switch {
+			ClosedRange<Bound> other => this.Equals(other),
+			_ => throw new ArgumentException()
+		};
+
+		[MethodImpl(AggressiveInlining)]
+		public override readonly int GetHashCode()
+			=> (typeof(ClosedRange<Bound>), lowerBound, upperBound).GetHashCode();
+
+		[MethodImpl(AggressiveInlining)]
+		public override readonly string ToString()
+			=> string.Format(STRING_FORMAT, typeof(Bound), lowerBound, upperBound);
+
+		// MARK: - Constants
+
+		private const string STRING_FORMAT = "ClosedRange<{0}>({1} ... {2})";
 	}
 
 	// MARK: - Extensions
 
 	public static partial class Extensions {
-		public static System.Range ConvertToSystemRange(this ClosedRange<int> range) => new System.Range(new Index(range.lowerBound), new Index(range.upperBound + 1));
+		public static System.Range ConvertToSystemRange(this ClosedRange<int> range)
+			=> new System.Range(new Index(range.lowerBound), new Index(range.upperBound + 1));
 
-		public static float Lerp(this ClosedRange<float> range, float t) => math.lerp(range.lowerBound, range.upperBound, t);
-		public static double Lerp(this ClosedRange<double> range, double t) => math.lerp(range.lowerBound, range.upperBound, t);
+		[MethodImpl(AggressiveInlining)]
+		public static float Lerp(this ClosedRange<float> range, float t)
+			=> math.lerp(range.lowerBound, range.upperBound, t);
 
-		public static float Unlerp(this ClosedRange<float> range, float t) => math.unlerp(range.lowerBound, range.upperBound, t);
-		public static double Unlerp(this ClosedRange<double> range, double t) => math.unlerp(range.lowerBound, range.upperBound, t);
+		[MethodImpl(AggressiveInlining)]
+		public static double Lerp(this ClosedRange<double> range, double t)
+			=> math.lerp(range.lowerBound, range.upperBound, t);
+
+		[MethodImpl(AggressiveInlining)]
+		public static float Unlerp(this ClosedRange<float> range, float t)
+			=> math.unlerp(range.lowerBound, range.upperBound, t);
+
+		[MethodImpl(AggressiveInlining)]
+		public static double Unlerp(this ClosedRange<double> range, double t)
+			=> math.unlerp(range.lowerBound, range.upperBound, t);
 
 		// unity.mathematics types do not implement IComparable...
 		// public static float2 Lerp(this ClosedRange<float2> range, float t) => math.lerp(range.lowerBound, range.upperBound, t);

@@ -7,9 +7,6 @@ using static System.Runtime.CompilerServices.MethodImplOptions;
 namespace Foundation {
 	[Serializable]
 	public struct Angle : IEquatable<Angle>, IComparable<Angle> {
-		private const float TAU = math.PI * 2.0f;
-		private const float TAU_RCP = 1.0f / TAU;
-
 		[SerializeField, HideInInspector] private float _storage;
 
 		/// <summary>
@@ -42,8 +39,10 @@ namespace Foundation {
 		/// </remarks>
 		public float turns {
 			readonly get => _storage * TAU_RCP;
-			set => _storage = value * TAU;
+			set => _storage = value * math.TAU;
 		}
+
+		// MARK: - Lifecycle
 
 		public Angle(Mode mode, float value) {
 			_storage = 0;
@@ -75,7 +74,7 @@ namespace Foundation {
 			turns = value
 		};
 
-		public static readonly Angle zero = new Angle();
+		// MARK: - Supporting Data
 
 		public enum Mode : byte {
 			Radians = 0,
@@ -83,26 +82,76 @@ namespace Foundation {
 			Turns = 2
 		}
 
-		// MARK: - Utility
+		// MARK: - Operators
 
-		public readonly override string ToString() => $"Angle(radians: {radians}, degrees: {degrees}, turns: {turns})";
+		[MethodImpl(AggressiveInlining)]
+		public static implicit operator float(Angle angle)
+			=> angle.radians;
 
-		public static implicit operator float(Angle angle) => angle.radians;
-		public static implicit operator Angle(float value) => Angle.Radians(value);
+		[MethodImpl(AggressiveInlining)]
+		public static implicit operator Angle(float value)
+			=> Angle.Radians(value);
 
-		public readonly int CompareTo(Angle other) => this._storage.CompareTo(other._storage);
+		[MethodImpl(AggressiveInlining)]
+		public static bool operator ==(Angle lhs, Angle rhs)
+			=> lhs.Equals(rhs);
 
-		public readonly bool Equals(Angle other) => this._storage == other._storage;
+		[MethodImpl(AggressiveInlining)]
+		public static bool operator !=(Angle lhs, Angle rhs)
+			=> !lhs.Equals(rhs);
 
+		[MethodImpl(AggressiveInlining)]
+		public static bool operator <(Angle lhs, Angle rhs)
+			=> lhs._storage < rhs._storage;
+
+		[MethodImpl(AggressiveInlining)]
+		public static bool operator >(Angle lhs, Angle rhs)
+			=> lhs._storage > rhs._storage;
+
+		[MethodImpl(AggressiveInlining)]
+		public static bool operator <=(Angle lhs, Angle rhs)
+			=> lhs._storage <= rhs._storage;
+
+		[MethodImpl(AggressiveInlining)]
+		public static bool operator >=(Angle lhs, Angle rhs)
+			=> lhs._storage >= rhs._storage;
+
+		// MARK: - IEquatable<Angle>
+
+		[MethodImpl(AggressiveInlining)]
+		public readonly bool Equals(Angle other)
+			=> this._storage == other._storage;
+
+		// MARK: - IComparable<Angle>
+
+		[MethodImpl(AggressiveInlining)]
+		public readonly int CompareTo(Angle other)
+			=> this._storage.CompareTo(other._storage);
+
+		// MARK: - Override
+
+		[MethodImpl(AggressiveInlining)]
+		public readonly override string ToString()
+			=> string.Format(DEBUG_FORMAT, radians, degrees, turns);
+
+		[MethodImpl(AggressiveInlining)]
 		public readonly override bool Equals(object other) => other switch {
 			Angle _angle => this.Equals(_angle),
 			float _float => this._storage == _float,
 			_ => false
 		};
 
-		public readonly override int GetHashCode() => _storage.GetHashCode();
+		[MethodImpl(AggressiveInlining)]
+		public readonly override int GetHashCode()
+			=> _storage.GetHashCode();
 
-		public static bool operator ==(Angle lhs, Angle rhs) => lhs.Equals(rhs);
-		public static bool operator !=(Angle lhs, Angle rhs) => !lhs.Equals(rhs);
+		// MARK: - Constants
+
+		private const float TAU_RCP = 1.0f / math.TAU;
+
+		private const string DEBUG_FORMAT = "Angle(radians: {0}, degrees: {1}, turns: {2})";
+
+		public readonly Angle Zero
+			=> new Angle();
 	}
 }
