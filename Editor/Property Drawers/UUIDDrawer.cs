@@ -1,6 +1,5 @@
 // Developed With Love by Ryan Boyer https://ryanjboyer.com <3
 
-#if UNITY_EDITOR
 using UnityEditor;
 using UnityEngine;
 
@@ -55,4 +54,3 @@ namespace Foundation.Editors {
 		private const string RECREATE_TEXTURE = "Refresh";
 	}
 }
-#endif

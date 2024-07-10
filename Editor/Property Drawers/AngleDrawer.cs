@@ -1,6 +1,5 @@
 // Developed With Love by Ryan Boyer https://ryanjboyer.com <3
 
-#if UNITY_EDITOR
 using System;
 using Unity.Mathematics;
 using UnityEditor;
@@ -52,4 +51,3 @@ namespace Foundation.Editors {
 		}
 	}
 }
-#endif

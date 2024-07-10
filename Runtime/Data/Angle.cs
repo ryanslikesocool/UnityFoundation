@@ -132,7 +132,7 @@ namespace Foundation {
 
 		[MethodImpl(AggressiveInlining)]
 		public readonly override string ToString()
-			=> string.Format(DEBUG_FORMAT, radians, degrees, turns);
+			=> string.Format(STRING_FORMAT, radians, degrees, turns);
 
 		[MethodImpl(AggressiveInlining)]
 		public readonly override bool Equals(object other) => other switch {
@@ -149,7 +149,7 @@ namespace Foundation {
 
 		private const float TAU_RCP = 1.0f / math.TAU;
 
-		private const string DEBUG_FORMAT = "Angle(radians: {0}, degrees: {1}, turns: {2})";
+		private const string STRING_FORMAT = "Angle(radians: {0}, degrees: {1}, turns: {2})";
 
 		public readonly Angle Zero
 			=> new Angle();

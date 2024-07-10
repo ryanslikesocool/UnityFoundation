@@ -1,22 +1,26 @@
 // Developed With Love by Ryan Boyer https://ryanjboyer.com <3
 
-#if UNITY_EDITOR
 using UnityEditor;
+using UnityEngine;
 
 namespace Foundation.Editors {
-	public class BoxGroupScope : EditorGUILayout.VerticalScope {
-		public BoxGroupScope(string title = null) : base("HelpBox") {
-			if (!string.IsNullOrEmpty(title)) {
-				EditorGUILayout.LabelField(title, EditorStyles.boldLabel);
+	public static partial class FoundationEditorGUI {
+		public class BoxGroupScope : EditorGUILayout.VerticalScope {
+			public BoxGroupScope(GUIContent title = null) : base("HelpBox") {
+				if (title != null) {
+					EditorGUILayout.LabelField(title, EditorStyles.boldLabel);
+				}
+				HorizontalLine();
+
+				EditorGUI.indentLevel += 1;
 			}
 
-			EditorGUI.indentLevel += 1;
-		}
+			public BoxGroupScope(string title) : this(new GUIContent(title)) { }
 
-		protected override void CloseScope() {
-			EditorGUI.indentLevel -= 1;
-			base.CloseScope();
+			protected override void CloseScope() {
+				EditorGUI.indentLevel -= 1;
+				base.CloseScope();
+			}
 		}
 	}
 }
-#endif

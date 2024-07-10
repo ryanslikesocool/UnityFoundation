@@ -14,5 +14,14 @@ namespace Foundation {
 			this.success = default;
 			this.failure = failure;
 		}
+
+		// MARK: - Overrides
+
+		public override readonly string ToString()
+			=> string.Format(STRING_FORMAT, typeof(Success), typeof(Failure), success, failure);
+
+		// MARK: - Constants
+
+		private const string STRING_FORMAT = "Result<{0}, {1}>(success: {2}, failure: {3})";
 	}
 }

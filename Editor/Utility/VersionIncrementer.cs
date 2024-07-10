@@ -1,6 +1,5 @@
 // Developed With Love by Ryan Boyer https://ryanjboyer.com <3
 
-#if UNITY_EDITOR
 using System.IO;
 using UnityEngine;
 using UnityEditor;
@@ -82,4 +81,3 @@ namespace SHC.Editors {
 		}
 	}
 }
-#endif

@@ -1,14 +1,13 @@
 // Developed With Love by Ryan Boyer https://ryanjboyer.com <3
 
-#if UNITY_EDITOR
 using System;
 using UnityEditor;
 using UnityEngine;
 
 namespace Foundation.Editors {
-	// based on https://discussions.unity.com/t/how-to-show-the-standard-script-line-with-a-custom-editor/170088/5
-	public static class ScriptField {
-		public static void DrawGUI<T>(T target, bool disabled = true) where T : UnityEngine.Object {
+	public static partial class FoundationEditorGUI {
+		// based on https://discussions.unity.com/t/how-to-show-the-standard-script-line-with-a-custom-editor/170088/5
+		public static void ScriptField<T>(T target, bool disabled = true) where T : UnityEngine.Object {
 			MonoScript targetScript = target switch {
 				MonoBehaviour monoBehaviour => MonoScript.FromMonoBehaviour(monoBehaviour),
 				ScriptableObject scriptableObject => MonoScript.FromScriptableObject(scriptableObject),
@@ -21,4 +20,3 @@ namespace Foundation.Editors {
 		}
 	}
 }
-#endif

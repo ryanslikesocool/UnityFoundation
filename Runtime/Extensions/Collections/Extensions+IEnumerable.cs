@@ -68,12 +68,11 @@ namespace Foundation {
 			return false;
 		}
 
-#nullable enable
 		/// <summary>
 		/// Returns the first element in a collection that matches the condition, <see langword="null"/> otherwise.
 		/// </summary>
 		[MethodImpl(AggressiveInlining)]
-		public static Element? First<Element>(this IEnumerable<Element> collection, Predicate<Element> condition) {
+		public static Element? First<Element>(this IEnumerable<Element> collection, Predicate<Element> condition) where Element : struct {
 			foreach (Element element in collection) {
 				if (condition(element)) {
 					return element;
@@ -83,13 +82,12 @@ namespace Foundation {
 		}
 
 		[MethodImpl(AggressiveInlining)]
-		public static Element? First<Element>(this IEnumerable<Element> collection) {
+		public static Element? First<Element>(this IEnumerable<Element> collection) where Element : struct {
 			foreach (Element element in collection) {
 				return element;
 			}
 			return default;
 		}
-#nullable disable
 
 		// MARK: - Linq Passthrough
 
