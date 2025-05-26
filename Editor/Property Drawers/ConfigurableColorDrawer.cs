@@ -7,9 +7,6 @@ using UnityEngine;
 namespace Foundation.Editors {
 	[CustomPropertyDrawer(typeof(ConfigurableColorAttribute))]
 	internal sealed class ConfigurableColorDrawer : PropertyDrawer {
-		private const float SPACING = 4;
-		private const float OPTIONS_WIDTH = 20;
-
 		private bool isCreated = false;
 		private ConfigurableColorAttribute.Options options = ConfigurableColorAttribute.Options.Eyedropper;
 
@@ -30,11 +27,13 @@ namespace Foundation.Editors {
 				label = scope.content;
 				position = EditorGUI.PrefixLabel(position, GUIUtility.GetControlID(FocusType.Passive), label);
 
+				float spacing = EditorGUIUtility.standardVerticalSpacing;
+
 				using (new EditorGUI.IndentLevelScope(-EditorGUI.indentLevel)) {
 					// Calculate rects
-					Rect colorRect = new Rect(position.x, position.y, position.width - (OPTIONS_WIDTH + SPACING), position.height);
-					float consumed = colorRect.width + SPACING;
-					Rect optionsRect = new Rect(position.x + consumed, position.y, OPTIONS_WIDTH, position.height);
+					Rect colorRect = new Rect(position.x, position.y, position.width - (OPTIONS_FIELD_WIDTH + spacing), position.height);
+					float consumed = colorRect.width + spacing;
+					Rect optionsRect = new Rect(position.x + consumed, position.y, OPTIONS_FIELD_WIDTH, position.height);
 
 					// Draw
 					property.colorValue = EditorGUI.ColorField(
@@ -49,5 +48,9 @@ namespace Foundation.Editors {
 				}
 			}
 		}
+
+		// MARK: - Constants
+
+		private const float OPTIONS_FIELD_WIDTH = 20;
 	}
 }

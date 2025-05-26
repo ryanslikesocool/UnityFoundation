@@ -2,7 +2,7 @@ using UnityEditor;
 using System.IO;
 
 namespace Foundation.Editors {
-	public static class FoundationEditorUtility {
+	public static partial class FoundationEditorUtility {
 		/// <summary>
 		/// Create a new directory in the project, including any intermediate folders.
 		/// </summary>

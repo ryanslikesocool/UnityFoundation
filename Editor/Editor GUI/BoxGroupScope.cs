@@ -6,11 +6,11 @@ using UnityEngine;
 namespace Foundation.Editors {
 	public static partial class FoundationEditorGUI {
 		public class BoxGroupScope : EditorGUILayout.VerticalScope {
-			public BoxGroupScope(GUIContent title = null) : base("HelpBox") {
+			public BoxGroupScope(GUIContent title = null) : base(EditorStyles.helpBox) {
 				if (title != null) {
 					EditorGUILayout.LabelField(title, EditorStyles.boldLabel);
+					HorizontalLine();
 				}
-				HorizontalLine();
 
 				EditorGUI.indentLevel += 1;
 			}

@@ -2,81 +2,33 @@
 
 using UnityEditor;
 using UnityEngine;
-//using UnityEditor.UIElements;
-//using UnityEngine.UIElements;
 
 namespace Foundation.Editors {
 	[CustomPropertyDrawer(typeof(ClosedRange<>))]
-	internal sealed class ClosedRangeDrawer : PropertyDrawer {
-		// MARK: - IMGUI
+	internal sealed class ClosedRangeDrawer : Root_RangeDrawer {
+		protected override GUIContent InfixLabel => InfixLabelContent;
+		protected override string LowerBoundPropertyName => LOWER_BOUND_PROPERTY_NAME;
+		protected override string UpperBoundPropertyName => UPPER_BOUND_PROPERTY_NAME;
 
-		public override void OnGUI(Rect position, SerializedProperty property, GUIContent label) {
-			SerializedProperty lowerBoundProperty = property.FindPropertyRelative(PROPERTY_LOWER_BOUND);
-			SerializedProperty upperBoundProperty = property.FindPropertyRelative(PROPERTY_UPPER_BOUND);
+		// MARK: - Utility
 
-			using (var scope = new EditorGUI.PropertyScope(position, label, property)) {
-				// Draw label
-				label = scope.content;
-				position = EditorGUI.PrefixLabel(position, GUIUtility.GetControlID(FocusType.Passive), label);
+		public static void DrawInfixLabel(Rect position, GUIStyle style)
+			=> EditorGUI.LabelField(position, InfixLabelContent, style);
 
-				using (new EditorGUI.IndentLevelScope(-EditorGUI.indentLevel)) {
-					// Calculate rects
-					float fieldWidth = (position.width - INFIX_WIDTH) * 0.5f - SPACING;
+		public static void DrawInfixLabel(Rect position)
+			=> DrawInfixLabel(position, InfixLabelStyle);
 
-					Rect lowerBoundRect = new Rect(position.x, position.y, fieldWidth, position.height);
-					float consumed = fieldWidth + SPACING;
+		public static float CalcInfixLabelWidth(GUIStyle style)
+			=> style.CalcSize(InfixLabelContent).x;
 
-					Rect infixRect = new Rect(position.x + consumed, position.y, INFIX_WIDTH, position.height);
-					consumed += INFIX_WIDTH + SPACING;
-
-					Rect upperBoundRect = new Rect(position.x + consumed, position.y, fieldWidth, position.height);
-
-					// Draw
-					EditorGUI.PropertyField(lowerBoundRect, lowerBoundProperty, GUIContent.none);
-					EditorGUI.LabelField(infixRect, ". . .");
-					EditorGUI.PropertyField(upperBoundRect, upperBoundProperty, GUIContent.none);
-				}
-			}
-		}
-
-		// MARK: - UITK
-
-		//		public override VisualElement CreatePropertyGUI(SerializedProperty property) {
-		//			VisualElement container = new VisualElement();
-		//			container.style.flexDirection = FlexDirection.Row;
-		//			container.style.alignItems = Align.Stretch;
-		//
-		//			Label label = new Label(property.displayName);
-		//			label.style.flexGrow = 1f;
-		//
-		//			VisualElement fieldContent = new VisualElement();
-		//			fieldContent.style.flexDirection = FlexDirection.Row;
-		//			fieldContent.style.flexGrow = 1f;
-		//
-		//			PropertyField lowerBoundField = new PropertyField(property.FindPropertyRelative(PROPERTY_LOWER_BOUND), string.Empty);
-		//			lowerBoundField.style.flexGrow = 1f;
-		//
-		//			PropertyField upperBoundField = new PropertyField(property.FindPropertyRelative(PROPERTY_UPPER_BOUND), string.Empty);
-		//			upperBoundField.style.flexGrow = 1f;
-		//
-		//			Label infix = new Label(". . <");
-		//
-		//			fieldContent.Add(lowerBoundField);
-		//			fieldContent.Add(infix);
-		//			fieldContent.Add(upperBoundField);
-		//
-		//			container.Add(label);
-		//			container.Add(fieldContent);
-		//
-		//			return container;
-		//		}
+		public static float CalcInfixLabelWidth()
+			=> CalcInfixLabelWidth(InfixLabelStyle);
 
 		// MARK: - Constants
 
-		private const float INFIX_WIDTH = 25;
-		private const float SPACING = 4;
+		public static readonly GUIContent InfixLabelContent = new GUIContent(". . .");
 
-		private const string PROPERTY_LOWER_BOUND = "lowerBound";
-		private const string PROPERTY_UPPER_BOUND = "upperBound";
+		public const string LOWER_BOUND_PROPERTY_NAME = nameof(ClosedRange<byte>.lowerBound);
+		public const string UPPER_BOUND_PROPERTY_NAME = nameof(ClosedRange<byte>.upperBound);
 	}
 }

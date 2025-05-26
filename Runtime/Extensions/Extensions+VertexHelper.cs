@@ -1,8 +1,9 @@
-using UnityEngine.UI;
-using UnityEngine;
-using System.Runtime.CompilerServices;
-using static System.Runtime.CompilerServices.MethodImplOptions;
 using System.Collections.Generic;
+using System.Linq;
+using System.Runtime.CompilerServices;
+using UnityEngine;
+using UnityEngine.UI;
+using static System.Runtime.CompilerServices.MethodImplOptions;
 
 namespace Foundation {
 	public static partial class Extensions {
@@ -108,7 +109,7 @@ namespace Foundation {
 
 		[MethodImpl(AggressiveInlining)]
 		public static void AddVerts(this VertexHelper vertexHelper, in IEnumerable<Vector3> vertices, Vector3 offset, Color color, Vector4 texcoord = default)
-			=> vertexHelper.AddVerts(vertices.Map(vertex => vertex + offset), color: color, texcoord: texcoord);
+			=> vertexHelper.AddVerts(vertices.Select(vertex => vertex + offset), color: color, texcoord: texcoord);
 
 		[MethodImpl(AggressiveInlining)]
 		public static void AddVerts(this VertexHelper vertexHelper, in IEnumerable<Vector2> vertices, Color color, Vector4 texcoord = default) {
@@ -119,10 +120,33 @@ namespace Foundation {
 
 		[MethodImpl(AggressiveInlining)]
 		public static void AddVerts(this VertexHelper vertexHelper, in IEnumerable<Vector2> vertices, Vector2 offset, Color color, Vector4 texcoord = default)
-			=> vertexHelper.AddVerts(vertices.Map(vertex => vertex + offset), color: color, texcoord: texcoord);
+			=> vertexHelper.AddVerts(vertices.Select(vertex => vertex + offset), color: color, texcoord: texcoord);
 
 		[MethodImpl(AggressiveInlining)]
 		public static void AddVerts(this VertexHelper vertexHelper, in IEnumerable<Vector2> vertices, Vector3 offset, Color color, Vector4 texcoord = default)
-			=> vertexHelper.AddVerts(vertices.Map(vertex => new Vector3(vertex.x, vertex.y, 0) + offset), color: color, texcoord: texcoord);
+			=> vertexHelper.AddVerts(vertices.Select(vertex => new Vector3(vertex.x, vertex.y, 0) + offset), color: color, texcoord: texcoord);
+
+		public static Bounds ComputeBounds(this VertexHelper vertexHelper) {
+			int vertexCount = vertexHelper.currentVertCount;
+
+			if (vertexCount == 0) {
+				return default;
+			}
+
+			Vector3 lowerBound = Vector3.positiveInfinity;
+			Vector3 upperBound = Vector3.negativeInfinity;
+
+			UIVertex vertex = default;
+			for (int i = 0; i < vertexCount; i++) {
+				vertexHelper.PopulateUIVertex(ref vertex, i);
+				lowerBound = Vector3.Min(lowerBound, vertex.position);
+				upperBound = Vector3.Max(upperBound, vertex.position);
+			}
+
+			Vector3 center = (lowerBound + upperBound) * 0.5f;
+			Vector3 size = upperBound - lowerBound;
+
+			return new Bounds(center: center, size: size);
+		}
 	}
 }

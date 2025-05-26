@@ -1,14 +1,12 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using Random = Unity.Mathematics.Random;
 using System.Runtime.CompilerServices;
 using static System.Runtime.CompilerServices.MethodImplOptions;
-using System.Linq.Expressions;
-using UnityEngine;
+using System.Collections.ObjectModel;
 
 namespace Foundation {
-	public static partial class Extensions {
+	public static partial class IListExtensions {
 		[MethodImpl(AggressiveInlining)]
 		public static Range<int> Bounds<_>(this IList<_> collection)
 			=> new Range<int>(0, collection.Count);
@@ -77,10 +75,22 @@ namespace Foundation {
 		}
 
 		[MethodImpl(AggressiveInlining)]
-		public static IEnumerable<(int, Element)> Enumerated<Element>(this IList<Element> collection) {
+		public static IEnumerable<(int offset, Element element)> Enumerated<Element>(this IList<Element> collection) {
 			for (int i = 0; i < collection.Count; i++) {
 				yield return (i, collection[i]);
 			}
+		}
+
+		/// <summary>
+		/// Transforms the contents of the given collection in-place.
+		/// </summary>
+		/// <returns>The input collection after calling <paramref name="body"/> on each element.</returns>
+		[MethodImpl(AggressiveInlining)]
+		public static Collection Transform<Collection, Element>(this Collection collection, Func<Element, Element> body) where Collection : IList<Element> {
+			for (int i = 0; i < collection.Count; i++) {
+				collection[i] = body(collection[i]);
+			}
+			return collection;
 		}
 
 #nullable enable

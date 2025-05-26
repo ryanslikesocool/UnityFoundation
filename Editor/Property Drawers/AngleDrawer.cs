@@ -1,30 +1,15 @@
 // Developed With Love by Ryan Boyer https://ryanjboyer.com <3
 
 using System;
-using Unity.Mathematics;
 using UnityEditor;
 using UnityEngine;
 
 namespace Foundation.Editors {
 	[CustomPropertyDrawer(typeof(Angle))]
 	internal sealed class AngleDrawer : PropertyDrawer {
-		private const float SPACING = 4;
-		private const float PICKER_WIDTH = 70;
-
 		private Angle.Mode mode = Angle.Mode.Degrees;
 
-		private Func<float, float> convertIn => mode switch {
-			Angle.Mode.Radians => (v) => v,
-			Angle.Mode.Degrees => (v) => math.degrees(v),
-			Angle.Mode.Turns => (v) => v / (math.PI * 2.0f),
-			_ => null
-		};
-		private Func<float, float> convertOut => mode switch {
-			Angle.Mode.Radians => (v) => v,
-			Angle.Mode.Degrees => (v) => math.radians(v),
-			Angle.Mode.Turns => (v) => v * (math.PI * 2.0f),
-			_ => null
-		};
+		// MARK: - GUI
 
 		public override void OnGUI(Rect position, SerializedProperty property, GUIContent label) {
 			SerializedProperty storageProperty = property.FindPropertyRelative("_storage");
@@ -35,19 +20,34 @@ namespace Foundation.Editors {
 				position = EditorGUI.PrefixLabel(position, GUIUtility.GetControlID(FocusType.Passive), label);
 
 				using (new EditorGUI.IndentLevelScope(-EditorGUI.indentLevel)) {
-					// Calculate rects
-					Rect valueRect = new Rect(position.x, position.y, position.width - (PICKER_WIDTH + SPACING), position.height);
-					float consumed = valueRect.width + SPACING;
+					float spacing = EditorGUIUtility.standardVerticalSpacing;
+
+					Rect valueRect = new Rect(position.x, position.y, position.width - (PICKER_WIDTH + spacing), position.height);
+					float consumed = valueRect.width + spacing;
 					Rect pickerRect = new Rect(position.x + consumed, position.y, PICKER_WIDTH, position.height);
 
-					// Draw fields - pass GUIContent.none to each so they are drawn without labels
-					float intermediate = convertIn(storageProperty.floatValue);
-					intermediate = EditorGUI.FloatField(valueRect, intermediate);
-					storageProperty.floatValue = convertOut(intermediate);
+					OnAngleFieldGUI(valueRect, storageProperty, mode);
 
-					mode = (Angle.Mode)EditorGUI.EnumPopup(pickerRect, mode);
+					OnAngleModePickerGUI(pickerRect, ref mode);
 				}
 			}
 		}
+
+		public static void OnAngleFieldGUI(Rect position, SerializedProperty property, Angle.Mode mode) {
+			Func<float, float> convertIn = Angle.ConversionFunction(Angle.Mode.Radians, mode);
+			Func<float, float> convertOut = Angle.ConversionFunction(mode, Angle.Mode.Radians);
+
+			float intermediate = convertIn(property.floatValue);
+			intermediate = EditorGUI.FloatField(position, intermediate);
+			property.floatValue = convertOut(intermediate);
+		}
+
+		public static void OnAngleModePickerGUI(Rect position, ref Angle.Mode mode) {
+			mode = (Angle.Mode)EditorGUI.EnumPopup(position, mode);
+		}
+
+		// MARK: - Constants
+
+		public const float PICKER_WIDTH = 70;
 	}
 }

@@ -6,7 +6,7 @@ using System.Runtime.CompilerServices;
 using static System.Runtime.CompilerServices.MethodImplOptions;
 
 namespace Foundation {
-	public static partial class Extensions {
+	public static partial class IEnumerableExtensions {
 		/// <summary>
 		/// Calls the given closure on each element in the sequence in the same order as a foreach loop.
 		/// </summary>
@@ -68,6 +68,17 @@ namespace Foundation {
 			return false;
 		}
 
+		[MethodImpl(AggressiveInlining)]
+		public static bool TryFirst<Element>(this IEnumerable<Element> collection, Predicate<Element> predicate, out Element result) where Element : struct {
+			if (First(collection, predicate) is Element value) {
+				result = value;
+				return true;
+			} else {
+				result = default;
+				return false;
+			}
+		}
+
 		/// <summary>
 		/// Returns the first element in a collection that matches the condition, <see langword="null"/> otherwise.
 		/// </summary>
@@ -91,10 +102,12 @@ namespace Foundation {
 
 		// MARK: - Linq Passthrough
 
+		[Obsolete("Use `System.Linq.Enumerable.Distinct` instead.")]
 		[MethodImpl(AggressiveInlining)]
 		public static IEnumerable<Element> Unique<Element>(this IEnumerable<Element> collection)
 			=> System.Linq.Enumerable.Distinct(collection);
 
+		[Obsolete("Use `System.Linq.Enumerable.Concat` instead.")]
 		[MethodImpl(AggressiveInlining)]
 		public static IEnumerable<Element> Join<Element>(this IEnumerable<Element> lhs, IEnumerable<Element> rhs)
 			=> System.Linq.Enumerable.Concat(lhs, rhs);
@@ -104,6 +117,7 @@ namespace Foundation {
 		/// </summary>
 		/// <param name="transform">A mapping closure. <paramref name="transform"/> accepts an element of this sequence as its parameter and returns a transformed value of the same or of a different type.</param>
 		/// <returns>A collection containing the transformed elements of this sequence.</returns>
+		[Obsolete("Use `System.Linq.Enumerable.Select` instead.")]
 		[MethodImpl(AggressiveInlining)]
 		public static IEnumerable<Result> Map<Element, Result>(this IEnumerable<Element> collection, Func<Element, Result> transform)
 			=> System.Linq.Enumerable.Select(collection, transform);
@@ -113,10 +127,12 @@ namespace Foundation {
 		/// </summary>
 		/// <param name="isIncluded">A closure that takes an element of the sequence as its argument and returns a Boolean value indicating whether the element should be included in the returned array.</param>
 		/// <returns>A collection of the elements that isIncluded allowed.</returns>
+		[Obsolete("Use `System.Linq.Enumerable.Where` instead.")]
 		[MethodImpl(AggressiveInlining)]
 		public static IEnumerable<Element> Filter<Element>(this IEnumerable<Element> collection, Func<Element, bool> isIncluded)
 			=> System.Linq.Enumerable.Where(collection, isIncluded);
 
+		[Obsolete("Use `System.Linq.Enumerable.Any` instead.")]
 		[MethodImpl(AggressiveInlining)]
 		public static bool Contains<Element>(this IEnumerable<Element> collection, Func<Element, bool> condition)
 			=> System.Linq.Enumerable.Any(collection, condition);
@@ -126,10 +142,12 @@ namespace Foundation {
 		/// </summary>
 		/// <param name="transform">A closure that accepts an element of this sequence as its argument and returns a sequence or collection.</param>
 		/// <returns>The resulting flattened collection.</returns>
+		[Obsolete("Use `System.Linq.Enumerable.SelectMany` instead.")]
 		[MethodImpl(AggressiveInlining)]
 		public static IEnumerable<Element> FlatMap<Source, Element>(this IEnumerable<Source> collection, Func<Source, IEnumerable<Element>> transform)
 			=> System.Linq.Enumerable.SelectMany(collection, transform);
 
+		[Obsolete("Use `System.Linq.Enumerable.SelectMany` instead.")]
 		[MethodImpl(AggressiveInlining)]
 		public static IEnumerable<Element> FlatMap<Element>(this IEnumerable<IEnumerable<Element>> collections)
 			=> System.Linq.Enumerable.SelectMany(collections, (e) => e);
@@ -137,10 +155,12 @@ namespace Foundation {
 		/// <summary>
 		/// Returns <see langword="false"/> if any element in a collection meets the condition; <see langword="true"/> otherwise.
 		/// </summary>
+		[Obsolete("Use `System.Linq.Enumerable.Any` instead.")]
 		[MethodImpl(AggressiveInlining)]
 		public static bool None<Element>(this IEnumerable<Element> collection, Func<Element, bool> condition)
 			=> !System.Linq.Enumerable.Any(collection, condition);
 
+		[Obsolete("Use `System.Linq.Enumerable.GroupBy` instead.")]
 		[MethodImpl(AggressiveInlining)]
 		public static IEnumerable<System.Linq.IGrouping<Key, Element>> Chunked<Element, Key>(this IEnumerable<Element> collection, Func<Element, Key> function)
 			=> System.Linq.Enumerable.GroupBy(collection, function);

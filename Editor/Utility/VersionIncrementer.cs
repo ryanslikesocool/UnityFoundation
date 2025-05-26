@@ -10,7 +10,7 @@ using UnityEditor.iOS.Xcode;
 #endif
 
 namespace SHC.Editors {
-	public sealed class VersionIncrementor : IPreprocessBuildWithReport {
+	public sealed class VersionIncrementer : IPreprocessBuildWithReport {
 		public int callbackOrder => 0;
 
 		[MenuItem("Tools/Version/Increment Build", priority = 1)]

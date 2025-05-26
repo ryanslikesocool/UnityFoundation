@@ -1,18 +1,17 @@
 {
-  "name": "com.developedwithlove.foundation",
-  "displayName": "Unity Foundation",
-  "version": "0.1.0-pre.1",
-  "unity": "2021.3",
-  "description": "Essential data types and collections to define the base layer of functionality for apps and games.",
-  "documentationUrl": "https://github.com/ryanslikesocool/Foundation",
-  "author": {
-    "name": "Ryan Boyer",
-    "email": "ryanjboyer@gmail.com",
-    "url": "http://ryanjboyer.com/"
-  },
-  "license": "MIT",
-  "type": "library",
-  "dependencies": {
-    "com.unity.mathematics": "1.2.6"
-  }
+	"name": "com.developedwithlove.foundation",
+	"displayName": "Unity Foundation",
+	"version": "0.1.0-pre.1",
+	"unity": "2021.3",
+	"description": "Essential data types and collections to define the base layer of functionality for apps and games.",
+	"documentationUrl": "https://github.com/ryanslikesocool/Foundation",
+	"author": {
+		"name": "Ryan Boyer",
+		"url": "https://ryanjboyer.com/"
+	},
+	"license": "MIT",
+	"type": "library",
+	"dependencies": {
+		"com.unity.mathematics": "1.2.6"
+	}
 }

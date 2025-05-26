@@ -145,6 +145,19 @@ namespace Foundation {
 		public readonly override int GetHashCode()
 			=> _storage.GetHashCode();
 
+		// MARK: - Utility
+
+		public static Func<float, float> ConversionFunction(Mode input, Mode output) => (input, output) switch {
+			(Mode lhs, Mode rhs) when lhs == rhs => (v) => v,
+			(Mode.Radians, Mode.Degrees) => (v) => v * Mathf.Rad2Deg,
+			(Mode.Degrees, Mode.Radians) => (v) => v * Mathf.Deg2Rad,
+			(Mode.Radians, Mode.Turns) => (v) => v / (Mathf.PI * 2.0f),
+			(Mode.Turns, Mode.Radians) => (v) => v * (Mathf.PI * 2.0f),
+			(Mode.Degrees, Mode.Turns) => (v) => v * 0.0027777778f, // v * (1 / 360)
+			(Mode.Turns, Mode.Degrees) => (v) => v * 360.0f,
+			_ => throw new InvalidOperationException()
+		};
+
 		// MARK: - Constants
 
 		private const float TAU_RCP = 1.0f / math.TAU;
