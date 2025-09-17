@@ -3,7 +3,7 @@
 using UnityEditor;
 using UnityEngine;
 
-namespace Foundation.Editors {
+namespace Foundation.Editor {
 	public static partial class FoundationEditorGUI {
 		public class BoxGroupScope : EditorGUILayout.VerticalScope {
 			public BoxGroupScope(GUIContent title = null) : base(EditorStyles.helpBox) {

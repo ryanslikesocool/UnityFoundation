@@ -1,0 +1,19 @@
+.vstack {
+	flex-direction: column;
+}
+
+.hstack {
+	flex-direction: row;
+}
+
+.control-medium {
+	height: 25px;
+}
+
+.control-large {
+	height: 30px;
+}
+
+.control-flexible {
+	flex-grow: 1;
+}

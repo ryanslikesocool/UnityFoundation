@@ -4,7 +4,7 @@ using System;
 using UnityEditor;
 using UnityEngine;
 
-namespace Foundation.Editors {
+namespace Foundation.Editor {
 	public static partial class FoundationEditorGUI {
 		// based on https://discussions.unity.com/t/how-to-show-the-standard-script-line-with-a-custom-editor/170088/5
 		public static void ScriptField<T>(T target, bool disabled = true) where T : UnityEngine.Object {
@@ -15,7 +15,7 @@ namespace Foundation.Editors {
 			};
 
 			using (new EditorGUI.DisabledScope(disabled)) {
-				EditorGUILayout.ObjectField("Script", targetScript, typeof(T), false);
+				EditorGUILayout.ObjectField("Script", targetScript, typeof(T), allowSceneObjects: false);
 			}
 		}
 	}

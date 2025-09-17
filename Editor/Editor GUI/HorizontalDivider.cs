@@ -2,7 +2,7 @@
 
 using UnityEngine;
 
-namespace Foundation.Editors {
+namespace Foundation.Editor {
 	public static partial class FoundationEditorGUI {
 		public static void HorizontalLineShape() {
 			GUILayout.Box(GUIContent.none, FoundationEditorStyles.horizontalLine);

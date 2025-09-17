@@ -1,7 +1,9 @@
-using UnityEditor;
-using System.IO;
+// Developed With Love by Ryan Boyer https://ryanjboyer.com <3
 
-namespace Foundation.Editors {
+using System.IO;
+using UnityEditor;
+
+namespace Foundation.Editor {
 	public static partial class FoundationEditorUtility {
 		/// <summary>
 		/// Create a new directory in the project, including any intermediate folders.

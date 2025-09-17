@@ -1,11 +1,11 @@
 // Developed With Love by Ryan Boyer https://ryanjboyer.com <3
 
-using UnityEngine;
 using UnityEditor;
+using UnityEngine;
 //using UnityEngine.UIElements;
 //using UnityEditor.UIElements;
 
-namespace Foundation.Editors {
+namespace Foundation.Editor {
 	internal abstract class Root_RangeDrawer : PropertyDrawer {
 		protected abstract GUIContent InfixLabel { get; }
 		protected abstract string LowerBoundPropertyName { get; }

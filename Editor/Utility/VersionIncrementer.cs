@@ -1,7 +1,5 @@
 // Developed With Love by Ryan Boyer https://ryanjboyer.com <3
 
-using System.IO;
-using UnityEngine;
 using UnityEditor;
 using UnityEditor.Build;
 using UnityEditor.Build.Reporting;
@@ -9,7 +7,7 @@ using UnityEditor.Build.Reporting;
 using UnityEditor.iOS.Xcode;
 #endif
 
-namespace SHC.Editors {
+namespace SHC.Editor {
 	public sealed class VersionIncrementer : IPreprocessBuildWithReport {
 		public int callbackOrder => 0;
 

@@ -1,11 +1,9 @@
-// Developed With Love by Ryan Boyer https://ryanjboyer.com <3
-
+using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
-using System.Collections.Generic;
 using Type = System.Type;
 
-namespace Foundation.Editors {
+namespace Foundation.Editor {
 	public static class SubObjectUtility {
 		public static T CreateSubObject<T>(Object parent, string name) where T : ScriptableObject {
 			if (parent == null) {

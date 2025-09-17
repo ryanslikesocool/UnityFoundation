@@ -49,6 +49,7 @@ namespace Foundation {
 		public static IEnumerable<Element> CompactMap<Element>(this IEnumerable<Element> collection) where Element : class
 			=> collection.CompactMap(value => value);
 
+		[Obsolete("Use `System.Linq.Enumerable.Aggregate` instead.")]
 		[MethodImpl(AggressiveInlining)]
 		public static T Reduce<T, Element>(this IEnumerable<Element> collection, T initialResult, Func<T, Element, T> nextPartialResult) {
 			T result = initialResult;

@@ -4,7 +4,7 @@ using Unity.Mathematics;
 using UnityEditor;
 using UnityEngine;
 
-namespace Foundation.Editors {
+namespace Foundation.Editor {
 	[CustomPropertyDrawer(typeof(ConfigurableColorAttribute))]
 	internal sealed class ConfigurableColorDrawer : PropertyDrawer {
 		private bool isCreated = false;

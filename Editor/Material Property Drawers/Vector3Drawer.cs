@@ -2,15 +2,24 @@
 
 using UnityEditor;
 using UnityEngine;
+#if UNITY_6000_2_OR_NEWER
+using UnityEngine.Rendering;
+#endif
 
-namespace Foundation.Editors {
+namespace Foundation.Editor {
 	/// <summary>
 	/// Draws a Vector3 field for vector properties.
 	/// Usage: [Vector3] _Vector3("Vector 3", Vector) = (1, 1, 1, 0)
 	/// </summary>
 	internal sealed class Vector3Drawer : MaterialPropertyDrawer {
 		public override void OnGUI(Rect position, MaterialProperty prop, GUIContent label, MaterialEditor editor) {
-			if (prop.type == MaterialProperty.PropType.Vector) {
+			if (
+#if UNITY_6000_2_OR_NEWER
+				prop.propertyType == ShaderPropertyType.Vector
+#else
+				prop.type == MaterialProperty.PropType.Vector
+#endif
+			) {
 				EditorGUIUtility.labelWidth = 0f;
 				EditorGUIUtility.fieldWidth = 0f;
 

@@ -4,7 +4,7 @@ using System;
 using UnityEditor;
 using UnityEngine;
 
-namespace Foundation.Editors {
+namespace Foundation.Editor {
 	[CustomPropertyDrawer(typeof(Angle))]
 	internal sealed class AngleDrawer : PropertyDrawer {
 		private Angle.Mode mode = Angle.Mode.Degrees;

@@ -3,7 +3,7 @@
 using System;
 using UnityEditor;
 
-namespace Foundation.Editors {
+namespace Foundation.Editor {
 	public static partial class FoundationEditorGUI {
 		public readonly struct LabelWidthScope : IDisposable {
 			private readonly float initialLabelWidth;

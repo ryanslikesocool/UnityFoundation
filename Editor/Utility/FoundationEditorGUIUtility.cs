@@ -1,7 +1,9 @@
+// Developed With Love by Ryan Boyer https://ryanjboyer.com <3
+
 using UnityEditor;
 using UnityEngine;
 
-namespace Foundation.Editors {
+namespace Foundation.Editor {
 	public static partial class FoundationEditorGUIUtility {
 		/// <summary>
 		/// Calculate the height required to accomodate property spanning a number of lines.

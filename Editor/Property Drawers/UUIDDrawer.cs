@@ -3,7 +3,7 @@
 using UnityEditor;
 using UnityEngine;
 
-namespace Foundation.Editors {
+namespace Foundation.Editor {
 	[CustomPropertyDrawer(typeof(UUID))]
 	internal sealed class UUIDDrawer : PropertyDrawer {
 		// MARK: - IMGUI

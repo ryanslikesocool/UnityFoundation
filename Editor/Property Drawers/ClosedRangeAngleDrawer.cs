@@ -3,7 +3,7 @@
 using UnityEditor;
 using UnityEngine;
 
-namespace Foundation.Editors {
+namespace Foundation.Editor {
 	[CustomPropertyDrawer(typeof(ClosedRange<Angle>))]
 	internal sealed class ClosedRangeAngleDrawer : PropertyDrawer {
 		private Angle.Mode mode = Angle.Mode.Degrees;

@@ -3,8 +3,11 @@
 using System;
 using UnityEditor;
 using UnityEngine;
+#if UNITY_6000_2_OR_NEWER
+using UnityEngine.Rendering;
+#endif
 
-namespace Foundation.Editors {
+namespace Foundation.Editor {
 	/// <summary>
 	/// Draws a ColorMask enum field.
 	/// Usage: [ColorMask] _ColorMask("Color Mask", Int) = 15
@@ -22,9 +25,15 @@ namespace Foundation.Editors {
 
 		public override void OnGUI(Rect position, MaterialProperty prop, GUIContent label, MaterialEditor editor) {
 			if (
-				prop.type == MaterialProperty.PropType.Float
-				|| prop.type == MaterialProperty.PropType.Range
-				|| prop.type == MaterialProperty.PropType.Int
+#if UNITY_6000_2_OR_NEWER
+			prop.propertyType == ShaderPropertyType.Float
+			|| prop.propertyType == ShaderPropertyType.Range
+			|| prop.propertyType == ShaderPropertyType.Int
+#else
+			prop.type == MaterialProperty.PropType.Float
+			|| prop.type == MaterialProperty.PropType.Range
+			|| prop.type == MaterialProperty.PropType.Int
+#endif
 			) {
 				EditorGUIUtility.labelWidth = 0f;
 				EditorGUIUtility.fieldWidth = 0f;

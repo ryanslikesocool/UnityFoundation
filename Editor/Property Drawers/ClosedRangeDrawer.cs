@@ -3,7 +3,7 @@
 using UnityEditor;
 using UnityEngine;
 
-namespace Foundation.Editors {
+namespace Foundation.Editor {
 	[CustomPropertyDrawer(typeof(ClosedRange<>))]
 	internal sealed class ClosedRangeDrawer : Root_RangeDrawer {
 		protected override GUIContent InfixLabel => InfixLabelContent;
